@@ -14,3 +14,4 @@ UPlan es una aplicación movil, desarrollada en Android, que tiene como objetivo
 # Requisitos no funcionales
 - La aplicación debe tener navegación intuitiva 
 - La aplicación soporta los idiomas español, inglés y francés
+- La aplicación debe tener interfaces gráficas bien formadas
