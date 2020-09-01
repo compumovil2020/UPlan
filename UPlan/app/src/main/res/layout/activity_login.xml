@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blanco"
+    android:padding="@dimen/box_inset_layout_padding"
+    tools:context=".Login"
+    tools:deviceIds="wear">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/inner_frame_layout_padding">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/inisesion"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="53dp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            tools:layout_editor_absoluteX="171dp"
+            tools:layout_editor_absoluteY="213dp" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name"
+            tools:layout_editor_absoluteX="90dp"
+            tools:layout_editor_absoluteY="283dp" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name"
+            tools:layout_editor_absoluteX="97dp"
+            tools:layout_editor_absoluteY="370dp" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            tools:layout_editor_absoluteX="190dp"
+            tools:layout_editor_absoluteY="505dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.wear.widget.BoxInsetLayout>
