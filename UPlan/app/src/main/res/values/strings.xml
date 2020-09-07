@@ -8,16 +8,6 @@
     <string name="hello_world">Hello Square World!</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="slogan">La app de tus eventos favoritos</string>
-    <string name="botonmain">Comencemos ></string>
+    <string name="botonmain">!Comencemos¡ ></string>
     <string name="inisesion">Iniciar sesión </string>
-    <string name="contraseña">Contraseña</string>
-    <string name="user">Usuario</string>
-    <string name="login">Log in ></string>
-    <string name="register">Registrate</string>
-    <string name="registrar"><u>Registrarse</u></string>
-    <string name="nombre">Pepito Perez</string>
-    <string name="evento"> Fiesta en Armando hoy para todos </string>
-    <string name="email">E-mail</string>
-    <string name="registrate">Si no estas registrado, registrate ahora</string>
-    <string name="action_settings">Settings</string>
 </resources>

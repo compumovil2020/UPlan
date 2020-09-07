@@ -1,115 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blanco"
     android:padding="@dimen/box_inset_layout_padding"
-    tools:context=".Login">
+    tools:context=".Login"
+    tools:deviceIds="wear">
 
-    <TextView
-        android:id="@+id/top"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:background="@color/morado"
-        android:text=""
-        />
+        android:layout_height="match_parent"
+        android:padding="@dimen/inner_frame_layout_padding">
 
-    <TextView
-        android:id="@+id/tittle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="150dp"
-        android:fontFamily="@font/pacifico"
-        android:textSize="40sp"
-        android:textColor="@color/negro"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/top"
-        android:text="@string/app_name" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/inisesion"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="53dp" />
 
-    <EditText
-        android:id= "@+id/userText"
-        android:layout_below="@id/usr"
-        android:layout_width="300dp"
-        android:layout_marginStart="50dp"
-        android:layout_height="35dp"
-        android:autofillHints=""
-        android:inputType="text"
-        tools:ignore="LabelFor" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            tools:layout_editor_absoluteX="171dp"
+            tools:layout_editor_absoluteY="213dp" />
 
-    <TextView
-        android:id="@+id/cont"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="45dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_below="@id/userText"
-        android:text="@string/contraseña"
-        tools:ignore="RtlSymmetry" />
+        <EditText
+            android:id="@+id/editTextTextPersonName2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name"
+            tools:layout_editor_absoluteX="90dp"
+            tools:layout_editor_absoluteY="283dp" />
 
-    <TextView
-        android:id="@+id/usr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingStart="45dp"
-        android:paddingBottom="10dp"
-        android:layout_below="@id/tittle"
-        android:text="@string/user"
-        tools:ignore="RtlSymmetry" />
+        <EditText
+            android:id="@+id/editTextTextPersonName3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name"
+            tools:layout_editor_absoluteX="97dp"
+            tools:layout_editor_absoluteY="370dp" />
 
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            tools:layout_editor_absoluteX="190dp"
+            tools:layout_editor_absoluteY="505dp" />
 
-    <EditText
-        android:id="@+id/passwordText"
-        android:layout_width="300dp"
-        android:layout_marginStart="50dp"
-        android:layout_height="35dp"
-        android:ems="10"
-        android:layout_below="@id/cont"
-        android:inputType="textPassword"
-        android:autofillHints=""
-        tools:ignore="LabelFor" />
-
-
-    <Button
-        android:id="@+id/boton_login"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/passwordText"
-        android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/botlogin"
-        android:textColor="@color/morado"
-        android:textAllCaps="false"
-        android:text="@string/login" />
-
-    <TextView
-        android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:background="@color/morado"
-        android:text=""
-        android:layout_alignParentBottom="true" />
-
-    <TextView
-        android:id="@+id/registrarse"
-        android:layout_below="@id/boton_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="75dp"
-        android:text="@string/registrate" />
-
-    <TextView
-        android:id="@+id/link_registro"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/registrarse"
-        android:layout_width="wrap_content"
-        android:clickable="true"
-        android:textColor="@color/morado"
-        android:layout_height="wrap_content"
-        android:text="@string/registrar"
-        android:focusable="true" />
-
-</RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.wear.widget.BoxInsetLayout>
