@@ -140,6 +140,15 @@
             android:text="inicio" />
 
         <Button
+            android:id="@+id/encuentros"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/morado"
+            android:textColor="@color/blanco"
+            android:text="encuentros" />
+
+        <Button
             android:id="@+id/opciones"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

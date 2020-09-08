@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EncuentrosActivity">
+
+    <LinearLayout
+        android:id="@+id/Ejemplo"
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/morado"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/lista"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/encuentrosfeed">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/NombreEncuentro"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Nombre del Encuentro: El PRE de la fiesta!!!"
+                android:textColor="@color/blanco" />
+
+            <TextView
+                android:id="@+id/FechaEncuentro"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Fecha del Encuentro: 20/09/2020"
+                android:textColor="@color/blanco" />
+
+            <TextView
+                android:id="@+id/NombreEvento"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Nombre del Evento: Fiesta en la Candelaria"
+                android:textColor="@color/blanco" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.2"
+                android:background="@color/moradoOscuro"
+                android:text="Visualizar en mapa"
+                android:textColor="@color/blanco"></Button>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_input_add" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_delete" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/encuentrosfeed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/attending"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:background="@color/morado"
+            android:text="Puntos de Encuentro"
+            android:textColor="@color/blanco" />
+
+        <Button
+            android:id="@+id/invitations"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@color/moradoOscuro"
+            android:text="Invitaciones"
+            android:textColor="@color/blanco" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lista"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/Navegacion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Ejemplo"/>
+
+    <LinearLayout
+        android:id="@+id/Navegacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/perfil"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/morado"
+            android:text="Perfil"
+            android:textColor="@color/blanco" />
+
+        <Button
+            android:id="@+id/feed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/morado"
+            android:text="inicio"
+            android:textColor="@color/blanco" />
+
+        <Button
+            android:id="@+id/encuentros"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/morado"
+            android:text="encuentros"
+            android:textColor="@color/blanco" />
+
+        <Button
+            android:id="@+id/opciones"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/morado"
+            android:text="opciones"
+            android:textColor="@color/blanco" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+

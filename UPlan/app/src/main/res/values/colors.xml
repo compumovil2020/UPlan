@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="morado">#A31CD3</color>
+    <color name="moradoOscuro">#7A0B95</color>
     <color name="blanco">#FFFFFF</color>
     <color name="negro">#000000</color>
     <color name="azulface">#3B5998</color>
