@@ -70,8 +70,8 @@
         <Button
             android:id="@+id/attending"
             android:layout_width="0dp"
-            android:layout_weight="0.5"
             android:layout_height="wrap_content"
+            android:layout_weight="0.5"
             android:background="@color/moradoOscuro"
             android:text="Puntos de Encuentro"
             android:textColor="@color/blanco" />
