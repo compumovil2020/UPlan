@@ -26,6 +26,14 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/Anfitrion"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Te invita: Tu amigo Nicolas"
+                android:textColor="@color/blanco" />
+
+            <TextView
                 android:id="@+id/NombreEncuentro"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
