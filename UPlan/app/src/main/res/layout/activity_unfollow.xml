@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/perfilUnfollow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        >
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_weight="1"
+            android:textAlignment="viewEnd"
+            android:layout_margin="20dp"
+            android:layout_width="0dp"
+            android:layout_height="75dp"
+            android:text="Nombre de Usuario" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:srcCompat="@tools:sample/avatars" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_below="@id/perfilUnfollow"
+        android:id="@+id/textView4"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Biografia" />
+    <LinearLayout
+        android:layout_below="@id/textView4"
+        android:id="@+id/unfollow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+
+        >
+        <Button
+            android:id="@+id/unfollowUsuario"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Dejar de seguir"
+            android:background="@color/morado"
+            android:textColor="@color/blanco"
+            android:textStyle="bold"
+            ></Button>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/unfollow"
+        android:id="@+id/misEventos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="35dp"
+        >
+        <Button
+            android:id="@+id/post"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Posts"
+            ></Button>
+        <Button
+            android:id="@+id/myEvents"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Mis Eventos"></Button>
+    </LinearLayout>
+
+    <!--   Esperar para decidir como hacer la barra de navegacion -->
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:background="@color/morado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
+        <Button
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/usuario">
+        </Button>
+        <Button
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/home">
+        </Button>
+        <Button
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/garrapata">
+        </Button>
+        <Button
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/menu">
+        </Button>
+    </LinearLayout>
+
+</RelativeLayout>
