@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Te invita: Tu amigo Nicolas"
+                android:text="Te invita: Nicolas Rodriguez"
                 android:textColor="@color/blanco" />
 
             <TextView
