@@ -22,7 +22,7 @@
             android:background="@color/morado"
             android:textColor="@color/blanco"
             android:text="Perfil"
-            android:drawableTop=""/>
+            />
 
         <Button
             android:id="@+id/feed"
@@ -55,16 +55,14 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=""
             android:layout_marginTop="20dp"
-            android:text="Nombre del evento" />
+            android:text="@string/nomevento" />
 
         <EditText
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=""
-            android:text="" />
+            />
 
         <TextView
             android:id="@+id/textView5"

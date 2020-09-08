@@ -112,13 +112,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:background="@color/morado"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_below="@id/linearLayout1">
+        android:layout_marginTop="50dp">
 
 
 
@@ -127,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/morado"
+            android:background="@drawable/bot_barra"
             android:textColor="@color/blanco"
             android:text="Perfil"
             />
@@ -137,7 +135,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/morado"
+            android:background="@drawable/bot_barra"
             android:textColor="@color/blanco"
             android:text="inicio" />
 
@@ -146,7 +144,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/morado"
+            android:background="@drawable/bot_barra"
             android:textColor="@color/blanco"
             android:text="opciones" />
     </LinearLayout>
