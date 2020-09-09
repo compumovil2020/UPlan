@@ -130,6 +130,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
+            android:id="@+id/perfilI"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="30dp"
@@ -140,6 +141,7 @@
             android:backgroundTint="@color/blanco"></Button>
 
         <Button
+            android:id="@+id/feedI"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="30dp"
@@ -150,6 +152,7 @@
             android:backgroundTint="@color/blanco"></Button>
 
         <Button
+            android:id="@+id/encuentrosI"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="30dp"
@@ -160,6 +163,7 @@
             android:backgroundTint="@color/blanco"></Button>
 
         <Button
+            android:id="@+id/optionsI"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="30dp"

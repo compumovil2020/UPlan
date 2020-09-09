@@ -15,7 +15,7 @@ public class crearEvento extends AppCompatActivity {
     }
 
     public void Feed(View v){
-        Intent intent = new Intent(v.getContext(),Feed.class);
+        Intent intent = new Intent(v.getContext(), Feed.class);
         startActivity(intent);
     }
     /*public void Options(View v)

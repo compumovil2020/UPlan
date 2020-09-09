@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class Feed extends AppCompatActivity {
 
@@ -37,15 +35,17 @@ public class Feed extends AppCompatActivity {
             R.drawable.check,
     };
 
+    Publicacion adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
-        Publicacion adapter = new Publicacion(this, maintitle, subtitle,imgid,imgevento);
+        /*adapter = new Publicacion(this, maintitle, subtitle,imgid,imgevento);
         list=(ListView)findViewById(R.id.list);
-        list.setAdapter(adapter);
+        list.setAdapter(adapter);*/
 
 
         /*list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -85,7 +85,7 @@ public class Feed extends AppCompatActivity {
         startActivity(intent);
     }
     public void Feed(View v){
-        Intent intent = new Intent(v.getContext(),Feed.class);
+        Intent intent = new Intent(v.getContext(), Feed.class);
         startActivity(intent);
     }
     /*public void Options(View v)

@@ -16,9 +16,9 @@ public class InvitationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encuentros);
         meetings = (Button) findViewById(R.id.attending);
-        perfil = (Button) findViewById(R.id.perfil);
-        opciones = (Button) findViewById(R.id.opciones);
-        feed = (Button) findViewById(R.id.feed);
+        perfil = (Button) findViewById(R.id.perfilI);
+        opciones = (Button) findViewById(R.id.optionsI);
+        feed = (Button) findViewById(R.id.feedI);
 
     }
     public void Invitaciones(View v){
@@ -26,7 +26,7 @@ public class InvitationsActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void Feed(View v){
-        Intent intent = new Intent(v.getContext(),Feed.class);
+        Intent intent = new Intent(v.getContext(), Feed.class);
         startActivity(intent);
     }
     /*public void Options(View v)
