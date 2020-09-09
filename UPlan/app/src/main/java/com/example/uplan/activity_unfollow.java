@@ -27,4 +27,23 @@ public class activity_unfollow extends AppCompatActivity {
         Intent intent = new Intent(this,activity_seguir.class);
         startActivity(intent);
     }
+    public void Feed(View v){
+        Intent intent = new Intent(v.getContext(),Feed.class);
+        startActivity(intent);
+    }
+    /*public void Options(View v)
+    {
+        Intent intent = new Intent(v.getContext(),Options.class);
+        startActivity(intent);
+    }
+    public void Profile(View v)
+    {
+        Intent intent = new Intent(v.getContext(),Profile.class);
+        startActivity(intent);
+    }*/
+    public void Encuentros(View v)
+    {
+        Intent intent = new Intent(v.getContext(),EncuentrosActivity.class);
+        startActivity(intent);
+    }
 }
