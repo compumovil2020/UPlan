@@ -19,7 +19,6 @@ public class EncuentrosActivity extends AppCompatActivity {
         feed = (Button) findViewById(R.id.feedE);
         perfil = (Button) findViewById(R.id.perfilE);
         opciones = (Button) findViewById(R.id.optionsE);
-
     }
 
     public void Invitaciones(View v){

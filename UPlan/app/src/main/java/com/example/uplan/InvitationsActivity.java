@@ -14,11 +14,13 @@ public class InvitationsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_encuentros);
+        setContentView(R.layout.activity_invitations);
         meetings = (Button) findViewById(R.id.attending);
         perfil = (Button) findViewById(R.id.perfilI);
         opciones = (Button) findViewById(R.id.optionsI);
         feed = (Button) findViewById(R.id.feedI);
+
+
 
     }
     public void Invitaciones(View v){
