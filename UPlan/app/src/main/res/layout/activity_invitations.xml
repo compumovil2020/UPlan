@@ -119,50 +119,56 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Ejemplo"/>
 
+    <!--   Esperar para decidir como hacer la barra de navegacion -->
     <LinearLayout
-        android:id="@+id/Navegacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/morado"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/perfil"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/morado"
-            android:text="Perfil"
-            android:textColor="@color/blanco" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/usuario"
+            android:backgroundTint="@color/blanco"></Button>
 
         <Button
-            android:id="@+id/feed"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/morado"
-            android:text="inicio"
-            android:textColor="@color/blanco" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/internet"
+            android:backgroundTint="@color/blanco"></Button>
 
         <Button
-            android:id="@+id/encuentros"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/morado"
-            android:text="encuentros"
-            android:textColor="@color/blanco" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/correr"
+            android:backgroundTint="@color/blanco"></Button>
 
         <Button
-            android:id="@+id/opciones"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/morado"
-            android:text="opciones"
-            android:textColor="@color/blanco" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/diente"
+            android:backgroundTint="@color/blanco"></Button>
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

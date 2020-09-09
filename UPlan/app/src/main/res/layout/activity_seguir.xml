@@ -57,6 +57,7 @@
             android:background="@color/morado"
             android:textColor="@color/blanco"
             android:textStyle="bold"
+            android:onClick="seguirUnfollow"
             ></Button>
 
     </LinearLayout>
@@ -91,34 +92,50 @@
         android:background="@color/morado"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="70dp">
         <Button
+            android:id="@+id/perfilS"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/Perfil">
+            android:background="@drawable/usuario"
+            android:backgroundTint="@color/blanco">
         </Button>
         <Button
+            android:id="@+id/feedS"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/home">
+            android:background="@drawable/internet"
+            android:backgroundTint="@color/blanco">
         </Button>
         <Button
+            android:id="@+id/encuentrosS"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/garrapata">
+            android:background="@drawable/correr"
+            android:backgroundTint="@color/blanco">
         </Button>
         <Button
+            android:id="@+id/optionsS"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/menu">
+            android:background="@drawable/diente"
+            android:backgroundTint="@color/blanco">
         </Button>
     </LinearLayout>
 
