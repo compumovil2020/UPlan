@@ -33,7 +33,7 @@ public class Publicacion extends ArrayAdapter<String> {
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView=inflater.inflate(R.layout.publicacion, null,true);
 
-        TextView nomb = (TextView) rowView.findViewById(R.id.title);
+        TextView nomb = (TextView) rowView.findViewById(R.id.tittles);
         TextView descrip = (TextView) rowView.findViewById(R.id.descripcion);
         ImageView imgPerf = (ImageView) rowView.findViewById(R.id.icon);
         ImageView imgEv = (ImageView) rowView.findViewById(R.id.imagevento);
