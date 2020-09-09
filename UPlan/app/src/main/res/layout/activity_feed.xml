@@ -28,7 +28,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/usuario"
-            android:backgroundTint="@color/blanco">
+            android:backgroundTint="@color/blanco"
+            android:onClick="Profile">
         </Button>
         <Button
             android:id="@+id/feedF"
@@ -62,7 +63,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/diente"
-            android:backgroundTint="@color/blanco">
+            android:backgroundTint="@color/blanco"
+            android:onClick="Options">
         </Button>
     </LinearLayout>
 
