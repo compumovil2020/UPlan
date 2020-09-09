@@ -6,7 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import android.widget.Button;
+
+
 public class crearEvento extends AppCompatActivity {
+
+    Button perfil;
+    Button feed;
+    Button options;
+    Button encuentros;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,6 +22,7 @@ public class crearEvento extends AppCompatActivity {
         setContentView(R.layout.activity_crear_evento);
     }
 
+<<<<<<< HEAD
     public void Feed(View v){
         Intent intent = new Intent(v.getContext(), Feed.class);
         startActivity(intent);
@@ -34,3 +43,6 @@ public class crearEvento extends AppCompatActivity {
         startActivity(intent);
     }
 }
+=======
+}
+>>>>>>> 20580dac396e2148cb99c8e77f795b513b95e4b7
