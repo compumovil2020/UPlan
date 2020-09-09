@@ -11,12 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity_unfollow"></activity>
+        <activity android:name=".activity_unfollow"/>
         <activity android:name=".activity_seguir" />
         <activity android:name=".InvitationsActivity" />
         <activity android:name=".EncuentrosActivity" />
         <activity android:name=".SignUp" />
-        <activity android:name=".SignUp"/>
         <activity android:name=".Feed" />
         <activity android:name=".Login" />
         <activity android:name=".editarPeril" />
