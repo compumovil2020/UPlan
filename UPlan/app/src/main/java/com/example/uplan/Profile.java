@@ -42,7 +42,7 @@ public class Profile extends AppCompatActivity {
     }
     public void editarPerfil(View v)
     {
-        Intent intent = new Intent(v.getContext(),editarPeril.class);
+        Intent intent = new Intent(v.getContext(), editarPerfil.class);
         startActivity(intent);
     }
     public void crearEvento(View v)

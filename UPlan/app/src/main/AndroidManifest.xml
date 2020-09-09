@@ -20,7 +20,7 @@
         <activity android:name=".SignUp" />
         <activity android:name=".Feed" />
         <activity android:name=".Login" />
-        <activity android:name=".editarPeril" />
+        <activity android:name=".editarPerfil" />
         <activity android:name=".crearEvento" />
         <activity
             android:name=".MainActivity"
