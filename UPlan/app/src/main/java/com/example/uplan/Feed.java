@@ -30,17 +30,24 @@ public class Feed extends AppCompatActivity {
             R.drawable.check,
     };
 
+    Integer[] imgevento={
+            R.drawable.map,R.drawable.menu,
+            R.drawable.upload,R.drawable.comment,
+            R.drawable.check,
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
-        Publicacion adapter=new Publicacion(this, maintitle, subtitle,imgid);
+        Publicacion adapter = new Publicacion(this, maintitle, subtitle,imgid,imgevento);
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
 
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -69,6 +76,6 @@ public class Feed extends AppCompatActivity {
                 }
 
             }
-        });
+        });*/
     }
 }
