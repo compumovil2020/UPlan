@@ -98,7 +98,8 @@
             android:layout_height="wrap_content"
             android:background="@color/morado"
             android:text="Puntos de Encuentro"
-            android:textColor="@color/blanco" />
+            android:textColor="@color/blanco"
+            android:onClick="Invitaciones"/>
 
         <Button
             android:id="@+id/invitations"
