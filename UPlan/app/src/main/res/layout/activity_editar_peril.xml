@@ -61,29 +61,50 @@
             android:onClick="Options"></Button>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:background="@color/morado"
+        android:text=""/>
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="50dp"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        app:layout_constraintTop_toBottomOf="@+id/top"
+        android:layout_marginTop="30dp"
+        app:srcCompat="@drawable/person_1" />
+
+    <TextView
+        android:id="@+id/anadirFoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="Añadir foto"
+        android:textColor="@color/morado"/>
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:text="Usuario"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/anadirFoto" />
 
     <EditText
         android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:text=""
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -92,6 +113,7 @@
         android:id="@+id/textView9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:text="Bio"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -100,6 +122,7 @@
         android:id="@+id/editTextTextMultiLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
@@ -124,7 +147,7 @@
             android:text="guardar cambios"
             android:background="@drawable/botlogin"
             android:textColor="@color/morado"
-
+            android:onClick="Profile"
             />
 
         <Button
@@ -135,7 +158,8 @@
             android:layout_weight="1"
             android:text="cancelar"
             android:background="@drawable/botlogin"
-            android:textColor="@color/morado"/>
+            android:textColor="@color/morado"
+            android:onClick="Profile"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
