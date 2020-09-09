@@ -13,21 +13,24 @@ public class crearEvento extends AppCompatActivity {
 
     Button perfil;
     Button feed;
-    Button options;
+    Button opciones;
     Button encuentros;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_evento);
+        encuentros = findViewById(R.id.encuentrosU);
+        feed = findViewById(R.id.feedU);
+        opciones = findViewById(R.id.optionsU);
+        perfil = findViewById(R.id.perfilU);
     }
-
 
     public void Feed(View v){
         Intent intent = new Intent(v.getContext(), Feed.class);
         startActivity(intent);
     }
-    /*public void Options(View v)
+    public void Options(View v)
     {
         Intent intent = new Intent(v.getContext(),Options.class);
         startActivity(intent);
@@ -36,7 +39,7 @@ public class crearEvento extends AppCompatActivity {
     {
         Intent intent = new Intent(v.getContext(),Profile.class);
         startActivity(intent);
-    }*/
+    }
     public void Encuentros(View v)
     {
         Intent intent = new Intent(v.getContext(),EncuentrosActivity.class);

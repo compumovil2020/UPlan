@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.uplan">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity_unfollow"/>
+        <activity android:name=".Options"></activity>
+        <activity android:name=".Profile" />
+        <activity android:name=".activity_unfollow" />
         <activity android:name=".activity_seguir" />
         <activity android:name=".InvitationsActivity" />
         <activity android:name=".EncuentrosActivity" />
@@ -33,11 +35,9 @@
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
     </application>
 
 </manifest>
