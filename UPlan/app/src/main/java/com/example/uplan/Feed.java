@@ -58,7 +58,8 @@ public class Feed extends AppCompatActivity {
         Intent intent = new Intent(v.getContext(), Feed.class);
         startActivity(intent);
     }
-    /*public void Options(View v)
+
+    public void Options(View v)
     {
         Intent intent = new Intent(v.getContext(),Options.class);
         startActivity(intent);
@@ -67,7 +68,7 @@ public class Feed extends AppCompatActivity {
     {
         Intent intent = new Intent(v.getContext(),Profile.class);
         startActivity(intent);
-    }*/
+    }
     public void Encuentros(View v)
     {
         Intent intent = new Intent(v.getContext(),EncuentrosActivity.class);
