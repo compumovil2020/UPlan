@@ -2,47 +2,63 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="50dp">
+    android:layout_marginTop="150dp">
 
 
     <Button
         android:id="@+id/button3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Cerrar Sesion " />
+        android:layout_marginTop="100dp"
+        android:layout_margin="10dp"
+        android:text="Cerrar Sesion "
+        android:textColor="@color/blanco"
+        android:background="@drawable/bordes_settings"
+        android:onClick="logout"/>
 
     <Button
         android:id="@+id/button4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:textColor="@color/blanco"
         android:text="Cambiar Contraseña"
-        android:layout_below="@id/button3"/>
+        android:layout_below="@id/button3"
+        android:layout_margin="10dp"
+        android:background="@drawable/bordes_settings"/>
 
     <Button
         android:id="@+id/button5"
+        android:textColor="@color/blanco"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
         android:text="Idioma"
-        android:layout_below="@id/button4"/>
+        android:layout_below="@id/button4"
+        android:background="@drawable/bordes_settings"/>
 
     <Button
         android:id="@+id/button6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/blanco"
         android:layout_marginTop="10dp"
         android:text="Elegir Fondo"
-        android:layout_below="@id/button5"/>
+        android:layout_margin="10dp"
+        android:layout_below="@id/button5"
+        android:background="@drawable/bordes_settings"/>
 
     <Button
         android:id="@+id/button7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:textColor="@color/blanco"
+        android:layout_margin="10dp"
         android:text="Soporte"
-        android:layout_below="@id/button6"/>
+        android:layout_below="@id/button6"
+        android:background="@drawable/bordes_settings"/>
 
     <!--   Esperar para decidir como hacer la barra de navegacion -->
     <LinearLayout

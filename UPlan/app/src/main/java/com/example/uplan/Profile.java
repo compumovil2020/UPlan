@@ -9,6 +9,8 @@ import android.widget.Button;
 
 public class Profile extends AppCompatActivity {
 
+
+
     Button encuentros,feed,opciones,perfil, crEvento, edPerfil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,8 @@ public class Profile extends AppCompatActivity {
         perfil = findViewById(R.id.perfilU);
         crEvento = findViewById(R.id.crearEvento);
         edPerfil = findViewById(R.id.editarPerfil);
+
+
     }
     public void Feed(View v){
         Intent intent = new Intent(v.getContext(), Feed.class);

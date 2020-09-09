@@ -38,4 +38,9 @@ public class Options extends AppCompatActivity {
         Intent intent = new Intent(v.getContext(),EncuentrosActivity.class);
         startActivity(intent);
     }
+    public void logout (View v)
+    {
+        Intent intent = new Intent(v.getContext(),Login.class);
+        startActivity(intent);
+    }
 }
