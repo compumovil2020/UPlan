@@ -34,7 +34,8 @@
             android:layout_marginRight="30dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/internet"
-            android:backgroundTint="@color/blanco"></Button>
+            android:backgroundTint="@color/blanco"
+            android:onClick="feed"></Button>
 
         <Button
             android:layout_width="40dp"
@@ -44,7 +45,8 @@
             android:layout_marginRight="30dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/correr"
-            android:backgroundTint="@color/blanco"></Button>
+            android:backgroundTint="@color/blanco"
+            android:onClick="encuentros"></Button>
 
         <Button
             android:layout_width="40dp"
