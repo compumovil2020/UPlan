@@ -24,7 +24,7 @@ public class SignUp extends AppCompatActivity {
         registrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), Feed.class);
+                Intent intent = new Intent(view.getContext(), Navigation.class);
                 startActivity(intent);
             }
         });

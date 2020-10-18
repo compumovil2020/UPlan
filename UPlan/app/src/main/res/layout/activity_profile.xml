@@ -99,60 +99,6 @@
     </LinearLayout>
 
     <!--   Esperar para decidir como hacer la barra de navegacion -->
-    <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:background="@color/morado"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp">
-        <Button
-            android:id="@+id/perfilU"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/usuario"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Profile">
-        </Button>
-        <Button
-            android:id="@+id/feedU"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/internet"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Feed">
-        </Button>
-        <Button
-            android:id="@+id/encuentrosU"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/correr"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Encuentros">
-        </Button>
-        <Button
-            android:id="@+id/optionsU"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/diente"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Options">
-        </Button>
-    </LinearLayout>
+
 
 </RelativeLayout>

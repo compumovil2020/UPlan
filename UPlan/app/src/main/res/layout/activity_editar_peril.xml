@@ -7,59 +7,7 @@
     tools:context=".editarPerfil">
 
     <!--   Esperar para decidir como hacer la barra de navegacion -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/morado"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/usuario"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Profile"></Button>
-
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/internet"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Feed"></Button>
-
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/correr"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Encuentros"></Button>
-
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/diente"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Options"></Button>
-    </LinearLayout>
 
     <TextView
         android:id="@+id/top"
@@ -133,33 +81,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine">
 
         <Button
             android:id="@+id/button5"
-            android:layout_margin="10dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="guardar cambios"
             android:background="@drawable/botlogin"
-            android:textColor="@color/morado"
-            android:onClick="Profile"
-            />
+            android:onClick="cancelar"
+            android:text="guardar cambios"
+            android:textColor="@color/morado" />
 
         <Button
             android:id="@+id/button6"
-            android:layout_margin="10dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="cancelar"
             android:background="@drawable/botlogin"
-            android:textColor="@color/morado"
-            android:onClick="Profile"/>
+            android:onClick="cancelar"
+            android:text="cancelar"
+            android:textColor="@color/morado" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

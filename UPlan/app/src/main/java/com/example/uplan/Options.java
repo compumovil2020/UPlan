@@ -1,46 +1,36 @@
 package com.example.uplan;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
-public class Options extends AppCompatActivity {
+public class Options extends Fragment {
 
     Button encuentros,feed,opciones,perfil;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_options);
-        encuentros = findViewById(R.id.encuentrosU);
-        feed = findViewById(R.id.feedU);
-        opciones = findViewById(R.id.optionsU);
-        perfil = findViewById(R.id.perfilU);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View optionsView = inflater.inflate(R.layout.activity_options, container, false);
+        encuentros = optionsView.findViewById(R.id.encuentrosU);
+        feed = optionsView.findViewById(R.id.feedU);
+        opciones = optionsView.findViewById(R.id.optionsU);
+        perfil = optionsView.findViewById(R.id.perfilU);
+
+        return optionsView;
     }
+
     public void Feed(View v){
         Intent intent = new Intent(v.getContext(), Feed.class);
         startActivity(intent);
     }
-    public void Options(View v)
-    {
-        Intent intent = new Intent(v.getContext(),Options.class);
-        startActivity(intent);
-    }
-    public void Profile(View v)
-    {
-        Intent intent = new Intent(v.getContext(),Profile.class);
-        startActivity(intent);
-    }
-    public void Encuentros(View v)
-    {
-        Intent intent = new Intent(v.getContext(),EncuentrosActivity.class);
-        startActivity(intent);
-    }
-    public void logout (View v)
-    {
-        Intent intent = new Intent(v.getContext(),Login.class);
-        startActivity(intent);
-    }
+
 }
