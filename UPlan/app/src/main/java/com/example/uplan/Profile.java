@@ -14,10 +14,13 @@ import android.widget.Button;
 
 public class Profile extends Fragment {
 
+
+
     Button encuentros,feed,opciones,perfil, crEvento, edPerfil;
 
     @Nullable
     @Override
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View profileView = inflater.inflate(R.layout.activity_profile, container, false);
         encuentros = profileView.findViewById(R.id.encuentrosU);
@@ -44,6 +47,7 @@ public class Profile extends Fragment {
         });
 
         return profileView;
+
     }
 
 
@@ -51,29 +55,5 @@ public class Profile extends Fragment {
         Intent intent = new Intent(v.getContext(), Feed.class);
         startActivity(intent);
     }
-    public void Options(View v)
-    {
-        Intent intent = new Intent(v.getContext(),Options.class);
-        startActivity(intent);
-    }
-    public void Profile(View v)
-    {
-        Intent intent = new Intent(v.getContext(),Profile.class);
-        startActivity(intent);
-    }
-    public void Encuentros(View v)
-    {
-        Intent intent = new Intent(v.getContext(),EncuentrosActivity.class);
-        startActivity(intent);
-    }
-    public void editarPerfil()
-    {
-        Intent intent = new Intent(getActivity(), editarPerfil.class);
-        startActivity(intent);
-    }
-    public void crearEvento(View v)
-    {
-        Intent intent = new Intent(v.getContext(),crearEvento.class);
-        startActivity(intent);
-    }
+    
 }
