@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 public class Publicacion extends ArrayAdapter<String> {
 
     private final Activity context;
@@ -30,8 +32,33 @@ public class Publicacion extends ArrayAdapter<String> {
 
     public View getView(int position,View view,ViewGroup parent) {
 
-        LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.publicacion, null,true);
+        ViewHolderPublicacion holder;
+        if(view==null){
+
+            LayoutInflater inflater = context.getLayoutInflater();
+            view = inflater.inflate(R.layout.publicacion, parent, false);
+
+            holder = new ViewHolderPublicacion();
+            holder.nomb = (TextView) view.findViewById(R.id.tittles);
+            holder.descrip = (TextView) view.findViewById(R.id.descripcion);
+            holder.imgPerf = (ImageView) view.findViewById(R.id.icon);
+            holder.imgEv = (ImageView) view.findViewById(R.id.imagevento);
+
+            view.setTag(holder);
+
+        }else{
+            holder = (ViewHolderPublicacion) view.getTag();
+        }
+
+        holder.nomb.setText(nombre[position]);
+        holder.imgPerf.setImageResource(imgperfil[position]);
+        holder.descrip.setText(descripcion[position]);
+        holder.imgEv.setImageResource(imgevento[position]);
+
+        return view;
+
+        /*LayoutInflater inflater=context.getLayoutInflater();
+        View rowView=inflater.inflate(R.layout.publicacion, parent,false);
 
         TextView nomb = (TextView) rowView.findViewById(R.id.tittles);
         TextView descrip = (TextView) rowView.findViewById(R.id.descripcion);
@@ -44,7 +71,16 @@ public class Publicacion extends ArrayAdapter<String> {
         descrip.setText(descripcion[position]);
         imgEv.setImageResource(imgevento[position]);
 
-        return rowView;
+        return rowView;*/
 
     };
+
+    static class ViewHolderPublicacion {
+
+        TextView nomb;
+        TextView descrip;
+        ImageView imgPerf;
+        ImageView imgEv;
+    }
 }
+

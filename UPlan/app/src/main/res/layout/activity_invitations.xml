@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutInvitations"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".InvitationsActivity">
@@ -99,7 +100,7 @@
             android:background="@color/morado"
             android:text="Puntos de Encuentro"
             android:textColor="@color/blanco"
-            android:onClick="Invitaciones"/>
+            android:onClick="Encuentros"/>
 
         <Button
             android:id="@+id/invitations"
@@ -139,7 +140,8 @@
             android:layout_marginRight="30dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/usuario"
-            android:backgroundTint="@color/blanco"></Button>
+            android:backgroundTint="@color/blanco"
+            android:onClick="Profile"></Button>
 
         <Button
             android:id="@+id/feedI"
@@ -150,7 +152,8 @@
             android:layout_marginRight="30dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/internet"
-            android:backgroundTint="@color/blanco"></Button>
+            android:backgroundTint="@color/blanco"
+            android:onClick="Feed"></Button>
 
         <Button
             android:id="@+id/encuentrosI"
@@ -161,7 +164,8 @@
             android:layout_marginRight="30dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/correr"
-            android:backgroundTint="@color/blanco"></Button>
+            android:backgroundTint="@color/blanco"
+            android:onClick="Encuentros"></Button>
 
         <Button
             android:id="@+id/optionsI"
@@ -172,7 +176,8 @@
             android:layout_marginRight="30dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/diente"
-            android:backgroundTint="@color/blanco"></Button>
+            android:backgroundTint="@color/blanco"
+            android:onClick="Options"></Button>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="dark_Theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/morado2_darkTheme</item>
+        <item name="colorPrimaryDark">@color/morado_darkTheme</item>
+        <item name="colorAccent">@color/accentMorado</item>
+        <item name="background_color">@color/dark_bg</item>
+    </style>
+</resources>
