@@ -12,32 +12,34 @@
         android:id="@+id/perfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         >
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_weight="1"
+            android:layout_weight="0.85"
             android:textAlignment="viewEnd"
-            android:layout_margin="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="20dp"
             android:layout_width="0dp"
-            android:layout_height="75dp"
-            android:text="Nombre de Usuario" />
+            android:layout_height="50dp"
+            android:text="Camila Ruiz" />
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            app:srcCompat="@drawable/person_4" />
+        />
     </LinearLayout>
 
     <TextView
         android:layout_below="@id/perfil"
         android:id="@+id/textView4"
-        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Biografia" />
+        android:text="Estudiante de la PUJ - Colombia - Ing. Sistemas" />
     <LinearLayout
         android:layout_below="@id/textView4"
         android:id="@+id/config"
@@ -72,83 +74,31 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="35dp"
-        android:background="@color/moradoOscuro"
+        android:layout_marginTop="20dp"
         >
-            <Button
+
+        <Button
             android:id="@+id/post"
-            android:layout_weight="0.5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/bordes_negro"
             android:text="Posts"
-            android:background="@color/morado"
+            android:textColor="@color/blanco"></Button>
+
+        <Button
+            android:id="@+id/myEvents"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@drawable/bordes_negro"
+            android:text="Mis Eventos"
             android:textColor="@color/blanco"
             ></Button>
-            <Button
-            android:id="@+id/myEvents"
-            android:layout_weight="0.5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Mis Eventos"
-            android:background="@color/morado"
-            android:textColor="@color/blanco"></Button>
     </LinearLayout>
 
     <!--   Esperar para decidir como hacer la barra de navegacion -->
-    <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:background="@color/morado"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp">
-        <Button
-            android:id="@+id/perfilU"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/usuario"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Profile">
-        </Button>
-        <Button
-            android:id="@+id/feedU"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/internet"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Feed">
-        </Button>
-        <Button
-            android:id="@+id/encuentrosU"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/correr"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Encuentros">
-        </Button>
-        <Button
-            android:id="@+id/optionsU"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/diente"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Options">
-        </Button>
-    </LinearLayout>
+
 
 </RelativeLayout>

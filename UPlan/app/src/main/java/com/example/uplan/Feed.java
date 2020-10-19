@@ -1,13 +1,18 @@
 package com.example.uplan;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class Feed extends AppCompatActivity {
+public class Feed extends Fragment {
 
     ListView list;
 
@@ -37,17 +42,15 @@ public class Feed extends AppCompatActivity {
 
     Publicacion adapter;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
-
-        adapter = new Publicacion(this, nombre, descripcion,imgid,imgevento);
-        list=(ListView)findViewById(R.id.list);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View feedView = inflater.inflate(R.layout.activity_feed, container, false);
+        adapter = new Publicacion(this.getActivity(), nombre, descripcion,imgid,imgevento);
+        list=(ListView)feedView.findViewById(R.id.list);
         list.setAdapter(adapter);
 
-
+        return feedView;
     }
 
     public void Invitaciones(View v){
@@ -59,19 +62,5 @@ public class Feed extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void Options(View v)
-    {
-        Intent intent = new Intent(v.getContext(),Options.class);
-        startActivity(intent);
-    }
-    public void Profile(View v)
-    {
-        Intent intent = new Intent(v.getContext(),Profile.class);
-        startActivity(intent);
-    }
-    public void Encuentros(View v)
-    {
-        Intent intent = new Intent(v.getContext(),EncuentrosActivity.class);
-        startActivity(intent);
-    }
+    
 }

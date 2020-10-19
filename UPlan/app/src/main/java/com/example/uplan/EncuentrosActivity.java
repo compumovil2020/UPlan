@@ -1,48 +1,38 @@
 package com.example.uplan;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
-public class EncuentrosActivity extends AppCompatActivity {
+public class EncuentrosActivity extends Fragment {
 
     Button invitations, feed, opciones, perfil;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_encuentros);
-        invitations = (Button) findViewById(R.id.invitations);
-        feed = (Button) findViewById(R.id.feedE);
-        perfil = (Button) findViewById(R.id.perfilE);
-        opciones = (Button) findViewById(R.id.optionsE);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View encuentrosView = inflater.inflate(R.layout.activity_encuentros, container, false);
+        invitations = (Button) encuentrosView.findViewById(R.id.invitations);
+
+
+        invitations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),InvitationsActivity.class);
+                startActivity(intent);
+            }
+        });
+        return encuentrosView;
     }
 
-    public void Invitaciones(View v){
-        Intent intent = new Intent(v.getContext(),InvitationsActivity.class);
-        startActivity(intent);
-    }
-    public void Feed(View v){
-        Intent intent = new Intent(v.getContext(), Feed.class);
-        startActivity(intent);
-    }
-    public void Options(View v)
-    {
-        Intent intent = new Intent(v.getContext(),Options.class);
-        startActivity(intent);
-    }
-    public void Profile(View v)
-    {
-        Intent intent = new Intent(v.getContext(),Profile.class);
-        startActivity(intent);
-    }
-    public void Encuentros(View v)
-    {
-        Intent intent = new Intent(v.getContext(),EncuentrosActivity.class);
-        startActivity(intent);
-    }
+
 
 }
