@@ -100,7 +100,7 @@
             android:background="@color/morado"
             android:text="Puntos de Encuentro"
             android:textColor="@color/blanco"
-            android:onClick="Invitaciones"/>
+            android:onClick="Encuentros"/>
 
         <Button
             android:id="@+id/invitations"
