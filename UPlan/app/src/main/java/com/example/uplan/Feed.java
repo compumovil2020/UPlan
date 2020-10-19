@@ -5,17 +5,27 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 public class Feed extends Fragment {
 
     ListView list;
-
+    RelativeLayout layout;
+    private SensorManager sensorManager;
+    private Sensor lightSensor;
+    private SensorEventListener lightSensorListener;
     String[] nombre ={
             "Sara Rodriguez","David Ayala",
             "Luna Diaz","Camila Ruiz",
@@ -49,7 +59,25 @@ public class Feed extends Fragment {
         adapter = new Publicacion(this.getActivity(), nombre, descripcion,imgid,imgevento);
         list=(ListView)feedView.findViewById(R.id.list);
         list.setAdapter(adapter);
+        layout=feedView.findViewById(R.id.layoutFeed);
+        sensorManager = (SensorManager) this.getActivity().getSystemService(Context.SENSOR_SERVICE);
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        lightSensorListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                if (event.values[0] < 5000) {
+                    Log.i("THEME", "DARK THEME " + event.values[0]);
+                    layout.setBackgroundResource(R.color.dark_bg);
+                } else {
+                    Log.i("THEME", "LIGHT THEME " + event.values[0]);
+                    layout.setBackgroundResource(R.color.blanco);
+                }
+            }
 
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            }
+        };
         return feedView;
     }
 
@@ -62,5 +90,14 @@ public class Feed extends Fragment {
         startActivity(intent);
     }
 
-    
+    @Override
+    public void onResume() {
+        super.onResume();
+        sensorManager.registerListener(lightSensorListener,lightSensor,SensorManager.SENSOR_DELAY_NORMAL);
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(lightSensorListener);
+    }
 }

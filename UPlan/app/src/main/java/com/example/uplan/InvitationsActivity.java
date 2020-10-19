@@ -1,16 +1,26 @@
 package com.example.uplan;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 public class InvitationsActivity extends AppCompatActivity {
 
     Button meetings, feed, opciones, perfil;
-
+    ConstraintLayout layout;
+    private SensorManager sensorManager;
+    private Sensor lightSensor;
+    private SensorEventListener lightSensorListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +29,25 @@ public class InvitationsActivity extends AppCompatActivity {
         perfil = (Button) findViewById(R.id.perfilI);
         opciones = (Button) findViewById(R.id.optionsI);
         feed = (Button) findViewById(R.id.feedI);
+        layout= findViewById(R.id.layoutInvitations);
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        lightSensorListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                if (event.values[0] < 5000) {
+                    Log.i("THEME", "DARK THEME " + event.values[0]);
+                    layout.setBackgroundResource(R.color.dark_bg);
+                } else {
+                    Log.i("THEME", "LIGHT THEME " + event.values[0]);
+                    layout.setBackgroundResource(R.color.blanco);
+                }
+            }
 
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            }
+        };
 
 
     }
@@ -45,5 +73,15 @@ public class InvitationsActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(v.getContext(),EncuentrosActivity.class);
         startActivity(intent);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(lightSensorListener,lightSensor,SensorManager.SENSOR_DELAY_NORMAL);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(lightSensorListener);
     }
 }
