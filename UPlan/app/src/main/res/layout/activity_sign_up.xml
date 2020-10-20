@@ -19,7 +19,7 @@
         android:layout_below="@id/usr"
         android:layout_width="300dp"
         android:layout_marginStart="50dp"
-        android:layout_height="38dp"
+        android:layout_height="45dp"
         android:autofillHints=""
         android:inputType="text"
         tools:ignore="LabelFor" />
@@ -51,7 +51,7 @@
         android:id="@+id/passText"
         android:layout_width="300dp"
         android:layout_marginStart="50dp"
-        android:layout_height="38dp"
+        android:layout_height="45dp"
         android:ems="10"
         android:layout_below="@id/cont"
         android:inputType="textPassword"
@@ -73,10 +73,10 @@
         android:id="@+id/mailText"
         android:layout_width="300dp"
         android:layout_marginStart="50dp"
-        android:layout_height="38dp"
+        android:layout_height="45dp"
         android:ems="10"
         android:layout_below="@id/emailview"
-        android:inputType="textPassword"
+        android:inputType="text"
         android:autofillHints=""
         tools:ignore="LabelFor,TextFields" />
 
@@ -108,22 +108,19 @@
         android:orientation="horizontal"
         android:layout_below="@id/boton_registrarse">
 
-        <Button
+        <com.facebook.login.widget.LoginButton
             android:background="@color/azulface"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="40dp"
             android:id="@+id/fb"
             android:textAllCaps="false"
-            android:text="Sign up with Facebook"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="30dp"
-            android:textSize="15sp"
-            android:textColor="@color/blanco" />
+            android:textSize="15sp" />
 
-        <Button
-            android:background="@color/rojogoogle"
+        <com.google.android.gms.common.SignInButton
             android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -131,10 +128,9 @@
             android:layout_height="40dp"
             android:id="@+id/google"
             android:textAllCaps="false"
-            android:text="Sign up with Google"
             android:layout_marginTop="30dp"
             android:textSize="15sp"
-            android:textColor="@color/blanco" />
+             />
 
     </LinearLayout>
 
