@@ -34,10 +34,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 public class SignUp extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private EditText username, email, password;
-
-    TextView cont,email,usr;
-    EditText passwordText,emailText,userText;
+    TextView cont,emailview,usr;
+    EditText passwordText,email,usernameText;
     Button facebook,google,registrarse;
     RelativeLayout layout;
     private SensorManager sensorManager;
@@ -49,14 +47,13 @@ public class SignUp extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
         cont=findViewById(R.id.cont);
-        email=findViewById(R.id.email);
+        email=findViewById(R.id.mailText);
         usr=findViewById(R.id.usr);
+        emailview = findViewById(R.id.emailview);
         final ColorStateList colorViejo = usr.getTextColors();
-        passwordText=findViewById(R.id.passwordText);
-        emailText=findViewById(R.id.emailText);
-        userText=findViewById(R.id.userText);
+        passwordText=findViewById(R.id.passText);
+        usernameText=findViewById(R.id.usernameText);
         facebook = findViewById(R.id.fb);
         google = findViewById(R.id.google);
         registrarse = findViewById(R.id.boton_registrarse);
@@ -65,7 +62,7 @@ public class SignUp extends AppCompatActivity {
         registrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerUser(email.getText().toString(), password.getText().toString());
+                registerUser(email.getText().toString(), passwordText.getText().toString());
             }
         });
 
@@ -99,33 +96,33 @@ public class SignUp extends AppCompatActivity {
                     Log.i("THEME", "DARK THEME " + event.values[0]);
                     layout.setBackgroundResource(R.color.dark_bg);
                     cont.setTextColor(getResources().getColor(R.color.blanco));
-                    email.setTextColor(getResources().getColor(R.color.blanco));
+                    emailview.setTextColor(getResources().getColor(R.color.blanco));
                     usr.setTextColor(getResources().getColor(R.color.blanco));
                     passwordText.setHintTextColor(getResources().getColor(R.color.blanco));
                     passwordText.setTextColor(getResources().getColor(R.color.blanco));
                     ViewCompat.setBackgroundTintList(passwordText, ColorStateList.valueOf(Color.WHITE));
-                    userText.setHintTextColor(getResources().getColor(R.color.blanco));
-                    userText.setTextColor(getResources().getColor(R.color.blanco));
-                    ViewCompat.setBackgroundTintList(userText, ColorStateList.valueOf(Color.WHITE));
-                    emailText.setHintTextColor(getResources().getColor(R.color.blanco));
-                    emailText.setTextColor(getResources().getColor(R.color.blanco));
-                    ViewCompat.setBackgroundTintList(emailText, ColorStateList.valueOf(Color.WHITE));
+                    usernameText.setHintTextColor(getResources().getColor(R.color.blanco));
+                    usernameText.setTextColor(getResources().getColor(R.color.blanco));
+                    ViewCompat.setBackgroundTintList(usernameText, ColorStateList.valueOf(Color.WHITE));
+                    email.setHintTextColor(getResources().getColor(R.color.blanco));
+                    email.setTextColor(getResources().getColor(R.color.blanco));
+                    ViewCompat.setBackgroundTintList(email, ColorStateList.valueOf(Color.WHITE));
                     registrarse.setBackgroundResource(R.drawable.boton_registrarse_dark);
                 } else {
                     Log.i("THEME", "LIGHT THEME " + event.values[0]);
                     layout.setBackgroundResource(R.color.blanco);
                     cont.setTextColor(colorViejo);
-                    email.setTextColor(colorViejo);
+                    emailview.setTextColor(colorViejo);
                     usr.setTextColor(colorViejo);
                     passwordText.setHintTextColor(colorViejo);
                     passwordText.setTextColor(colorViejo);
                     ViewCompat.setBackgroundTintList(passwordText, colorViejo);
-                    userText.setHintTextColor(colorViejo);
-                    userText.setTextColor(colorViejo);
-                    ViewCompat.setBackgroundTintList(userText, colorViejo);
-                    emailText.setHintTextColor(colorViejo);
-                    emailText.setTextColor(colorViejo);
-                    ViewCompat.setBackgroundTintList(emailText, colorViejo);
+                    usernameText.setHintTextColor(colorViejo);
+                    usernameText.setTextColor(colorViejo);
+                    ViewCompat.setBackgroundTintList(usernameText, colorViejo);
+                    email.setHintTextColor(colorViejo);
+                    email.setTextColor(colorViejo);
+                    ViewCompat.setBackgroundTintList(email, colorViejo);
                     registrarse.setBackgroundResource(R.drawable.boton_registrarse);
                 }
             }
@@ -146,7 +143,7 @@ public class SignUp extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if(user!=null){ //Update user Info
                                 UserProfileChangeRequest.Builder upcrb = new UserProfileChangeRequest.Builder();
-                                upcrb.setDisplayName(username.getText().toString());
+                                upcrb.setDisplayName(usernameText.getText().toString());
                                 upcrb.setPhotoUri(Uri.parse("path/to/pic"));//fake uri, use Firebase Storage
                                 user.updateProfile(upcrb.build());
                                 updateUI(user);
@@ -169,8 +166,8 @@ public class SignUp extends AppCompatActivity {
             startActivity(intent);
         } else {
             email.setText("");
-            password.setText("");
-            username.setText("");
+            passwordText.setText("");
+            usernameText.setText("");
         }
     }
 

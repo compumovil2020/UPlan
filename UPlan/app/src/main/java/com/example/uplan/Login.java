@@ -36,29 +36,29 @@ public class Login extends AppCompatActivity {
 
     RelativeLayout layout;
     TextView tittle,usr,cont,registrarse,registro;
-    EditText userText,passwordText;
     Button butlogin;
     private SensorManager sensorManager;
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         tittle = findViewById(R.id.tittle);
         usr=findViewById(R.id.usr);
         cont=findViewById(R.id.cont);
         final ColorStateList colorViejo = usr.getTextColors();
         registrarse=findViewById(R.id.registrarse);
         final ColorStateList colorViejoRegistrarse = registrarse.getTextColors();
-        passwordText=findViewById(R.id.passwordText);
-        userText=findViewById(R.id.userText);
         registro = findViewById(R.id.link_registro);
         butlogin = findViewById(R.id.boton_login);
 
         mAuth = FirebaseAuth.getInstance();
         TextView registro = (TextView) findViewById(R.id.link_registro);
         Button butlogin = (Button) findViewById(R.id.boton_login);
+
         email = (EditText) findViewById(R.id.userText);
         password = (EditText) findViewById(R.id.passwordText);
 
@@ -89,15 +89,15 @@ public class Login extends AppCompatActivity {
                     usr.setTextColor(getResources().getColor(R.color.blanco));
                     cont.setTextColor(getResources().getColor(R.color.blanco));
                     registrarse.setTextColor(getResources().getColor(R.color.blancoPalido));
-                    registro.setTextColor(getResources().getColor(R.color.accentMorado));
-                    butlogin.setBackgroundResource(R.drawable.boton_registrarse_dark);
-                    butlogin.setTextColor(getResources().getColor(R.color.blanco));
-                    passwordText.setHintTextColor(getResources().getColor(R.color.blanco));
-                    passwordText.setTextColor(getResources().getColor(R.color.blanco));
-                    ViewCompat.setBackgroundTintList(passwordText, ColorStateList.valueOf(Color.WHITE));
-                    userText.setHintTextColor(getResources().getColor(R.color.blanco));
-                    userText.setTextColor(getResources().getColor(R.color.blanco));
-                    ViewCompat.setBackgroundTintList(userText, ColorStateList.valueOf(Color.WHITE));
+                    //registro.setTextColor(getResources().getColor(R.color.accentMorado));
+                    //butlogin.setBackgroundResource(R.drawable.boton_registrarse_dark);
+                    //butlogin.setTextColor(getResources().getColor(R.color.blanco));
+                    password.setHintTextColor(getResources().getColor(R.color.blanco));
+                    password.setTextColor(getResources().getColor(R.color.blanco));
+                    ViewCompat.setBackgroundTintList(password, ColorStateList.valueOf(Color.WHITE));
+                    email.setHintTextColor(getResources().getColor(R.color.blanco));
+                    email.setTextColor(getResources().getColor(R.color.blanco));
+                    ViewCompat.setBackgroundTintList(email, ColorStateList.valueOf(Color.WHITE));
                 } else {
                     Log.i("THEME", "LIGHT THEME " + event.values[0]);
                     layout.setBackgroundResource(R.color.blanco);
@@ -105,15 +105,15 @@ public class Login extends AppCompatActivity {
                     usr.setTextColor(colorViejo);
                     cont.setTextColor(colorViejo);
                     registrarse.setTextColor(colorViejoRegistrarse);
-                    registro.setTextColor(getResources().getColor(R.color.morado));
-                    butlogin.setBackgroundResource(R.drawable.botlogin);
-                    butlogin.setTextColor(getResources().getColor(R.color.morado));
-                    passwordText.setHintTextColor(colorViejo);
-                    passwordText.setTextColor(colorViejo);
-                    ViewCompat.setBackgroundTintList(passwordText, colorViejo);
-                    userText.setHintTextColor(colorViejo);
-                    userText.setTextColor(colorViejo);
-                    ViewCompat.setBackgroundTintList(userText, colorViejo);
+                    //registro.setTextColor(getResources().getColor(R.color.morado));
+                    //butlogin.setBackgroundResource(R.drawable.botlogin);
+                    //butlogin.setTextColor(getResources().getColor(R.color.morado));
+                    password.setHintTextColor(colorViejo);
+                    password.setTextColor(colorViejo);
+                    ViewCompat.setBackgroundTintList(password, colorViejo);
+                    email.setHintTextColor(colorViejo);
+                    email.setTextColor(colorViejo);
+                    ViewCompat.setBackgroundTintList(email, colorViejo);
                 }
             }
 
