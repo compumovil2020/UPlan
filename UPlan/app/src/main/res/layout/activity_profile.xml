@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-
+    android:id="@+id/layoutProfile"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -55,15 +55,21 @@
             android:layout_weight="0.5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:text="Crear Evento"
+            android:textColor="@color/blanco"
             android:onClick="crearEvento"
             ></Button>
         <Button
             android:id="@+id/editarPerfil"
             android:layout_weight="0.5"
             android:layout_width="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_height="wrap_content"
             android:text="Editar Perfil "
+            android:textColor="@color/blanco"
             android:onClick="editarPerfil"></Button>
     </LinearLayout>
 
