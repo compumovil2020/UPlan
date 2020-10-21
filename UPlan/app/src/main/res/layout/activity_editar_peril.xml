@@ -18,25 +18,45 @@
         android:text=""/>
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/profileImage"
         android:layout_width="130dp"
         android:layout_height="130dp"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top"
         android:layout_marginTop="30dp"
         app:srcCompat="@drawable/person_1" />
 
-    <TextView
-        android:id="@+id/anadirFoto"
+    <LinearLayout
+        android:id="@+id/agregarPerfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        android:layout_marginTop="10dp"
-        android:clickable="true"
-        android:gravity="center"
-        android:text="Añadir foto"
-        android:textColor="@color/morado"/>
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/profileImage"
+        >
+        <TextView
+            android:id="@+id/anadirFotoGaleria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Añadir Perfil de Galería"
+            android:onClick="seleccionarimagen"
+            android:textColor="@color/morado"/>
+        <TextView
+            android:id="@+id/anadirFotoCamara"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Añadir Perifl de Camara"
+            android:onClick="abrirCamara"
+            android:textColor="@color/morado"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView6"
@@ -47,7 +67,7 @@
         android:text="Usuario"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/anadirFoto" />
+        app:layout_constraintTop_toBottomOf="@+id/agregarPerfil" />
 
     <EditText
         android:id="@+id/textView8"

@@ -68,31 +68,53 @@
             android:id="@+id/spinner2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             app:layout_constraintTop_toBottomOf="@id/tema"/>
 
-        <TextView
-            android:id="@+id/anadirImagen"
+        <LinearLayout
+            android:id="@+id/agregarBotones"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:clickable="true"
-            android:gravity="center"
-            android:text="Añadir imagen"
-            android:textColor="@color/morado"
-            app:layout_constraintTop_toBottomOf="@id/spinner2"
-            />
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/spinner2"
+            >
+            <TextView
+                android:id="@+id/anadirCamara"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="Añadir Imagen de Galeria"
+                android:textColor="@color/morado"
+                android:onClick="seleccionarimagen"
+                />
+            <TextView
+                android:id="@+id/anadirImagen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Añadir Imagen de Camara"
+                android:textColor="@color/morado"
+                android:onClick="abrirCamara"
+                />
+        </LinearLayout>
+
 
     <ImageView
         android:id="@+id/uploadImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/anadirImagen"
+        app:layout_constraintTop_toBottomOf="@id/agregarBotones"
         app:srcCompat="@drawable/upload"
-        app:tint="@color/colorPrimary" />
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
