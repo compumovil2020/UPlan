@@ -19,23 +19,43 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class Options extends Fragment {
 
-    Button encuentros,feed,opciones,perfil;
+    Button encuentros,feed,opciones,perfil,signOut;
     RelativeLayout layout;
     private SensorManager sensorManager;
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
+    private FirebaseAuth mAuth;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View optionsView = inflater.inflate(R.layout.activity_options, container, false);
+
+        mAuth = FirebaseAuth.getInstance();
+
         encuentros = optionsView.findViewById(R.id.encuentrosU);
         feed = optionsView.findViewById(R.id.feedU);
         opciones = optionsView.findViewById(R.id.optionsU);
         perfil = optionsView.findViewById(R.id.perfilU);
         layout=optionsView.findViewById(R.id.layoutOptions);
+
         sensorManager = (SensorManager) this.getActivity().getSystemService(Context.SENSOR_SERVICE);
+
+        signOut = optionsView.findViewById(R.id.logout);
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                Intent intent = new Intent(view.getContext(),MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightSensorListener = new SensorEventListener() {
             @Override

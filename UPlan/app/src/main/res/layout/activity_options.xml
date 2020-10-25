@@ -7,15 +7,16 @@
 
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_margin="10dp"
-        android:text="Cerrar Sesion "
-        android:textColor="@color/blanco"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/boton_registrarse"
-        android:onClick="logout"/>
+        android:onClick="logout"
+        android:text="Cerrar Sesion "
+        android:textColor="@color/blanco" />
 
     <Button
         android:id="@+id/button4"
@@ -24,7 +25,7 @@
         android:layout_marginTop="10dp"
         android:textColor="@color/blanco"
         android:text="Cambiar Contraseña"
-        android:layout_below="@id/button3"
+        android:layout_below="@id/logout"
         android:layout_margin="10dp"
         android:background="@drawable/boton_registrarse"/>
 
