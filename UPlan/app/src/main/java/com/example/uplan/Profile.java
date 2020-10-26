@@ -80,7 +80,7 @@ public class Profile extends Fragment {
         crEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), crearEvento.class);
+                Intent intent = new Intent(getActivity(), ListaEventos.class);
                 startActivity(intent);
             }
         });
