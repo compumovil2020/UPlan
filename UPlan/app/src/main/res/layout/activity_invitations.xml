@@ -70,7 +70,7 @@
 
         <ImageView
             android:id="@+id/imageView9"
-            android:layout_width="0dp"
+            android:layout_width="59dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@android:drawable/ic_input_add" />
@@ -116,13 +116,14 @@
         android:id="@+id/lista"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/Navegacion"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Ejemplo"/>
+        app:layout_constraintTop_toBottomOf="@+id/Ejemplo" />
 
     <!--   Esperar para decidir como hacer la barra de navegacion -->
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -141,7 +142,7 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/usuario"
             android:backgroundTint="@color/blanco"
-            android:onClick="Profile"></Button>
+            android:onClick="Profile" />
 
         <Button
             android:id="@+id/feedI"
@@ -153,7 +154,7 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/internet"
             android:backgroundTint="@color/blanco"
-            android:onClick="Feed"></Button>
+            android:onClick="Feed" />
 
         <Button
             android:id="@+id/encuentrosI"
@@ -165,7 +166,7 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/correr"
             android:backgroundTint="@color/blanco"
-            android:onClick="Encuentros"></Button>
+            android:onClick="Encuentros" />
 
         <Button
             android:id="@+id/optionsI"
@@ -177,7 +178,7 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/diente"
             android:backgroundTint="@color/blanco"
-            android:onClick="Options"></Button>
+            android:onClick="Options" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
