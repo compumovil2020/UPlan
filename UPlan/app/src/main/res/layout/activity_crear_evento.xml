@@ -8,11 +8,13 @@
     tools:context=".crearEvento">
 
     <TextView
-        android:id="@+id/top"
-        android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:background="@color/morado"
-        android:text=""/>
+    android:id="@+id/top"
+    android:layout_width="match_parent"
+    android:layout_height="28dp"
+    android:background="@color/morado"
+    android:text=" "
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
 
     <!--   Esperar para decidir como hacer la barra de navegacion -->
 
