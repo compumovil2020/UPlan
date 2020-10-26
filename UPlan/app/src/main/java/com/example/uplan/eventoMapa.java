@@ -55,10 +55,25 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evento_mapa);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        Intent intent = getIntent();
+        int choice = Integer.parseInt(intent.getStringExtra("codigo"));
+        switch (choice){
+            case 1:
+                //TODO: seleccionar una ubicacion para evento o punto de encuentro
+                break;
+            case 2:
+                //TODO: mostrar ubicacion
+                break;
+            default:
+                Toast.makeText(this,"Hubo error con el Intent", Toast.LENGTH_SHORT).show();
+                finish();
+                break;
+        }
     }
 
     /**
