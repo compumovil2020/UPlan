@@ -121,16 +121,15 @@
             android:textSize="15sp" />
 
         <com.google.android.gms.common.SignInButton
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:id="@+id/google"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:id="@+id/google"
-            android:textAllCaps="false"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="30dp"
-            android:textSize="15sp"
-             />
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:textAllCaps="false"
+            android:textSize="15sp" />
 
     </LinearLayout>
 

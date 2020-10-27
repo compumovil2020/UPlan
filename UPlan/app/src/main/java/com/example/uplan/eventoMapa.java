@@ -11,9 +11,14 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.ApiException;
@@ -22,6 +27,7 @@ import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
@@ -31,18 +37,24 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
+import java.util.List;
+
 public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
-    private static final int LOCATION_PERMISSION = 2;
+    private static final int LOCATION_PERMISSION = 1;
     private static final double RADIUS_OF_EARTH_KM = 6371;
     private static final int REQUEST_CHECK_SETTINGS = 2;
     private GoogleMap mMap;
+    private Geocoder mGeocoder;
     private FusedLocationProviderClient mLocationProvider;
     private LocationRequest mLocationRequest;
     private LocationCallback mLocationCallback;
@@ -50,16 +62,19 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
     private SensorManager sensorManager;
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
+    private LatLng myPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evento_mapa);
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        solicitarPermiso(this, Manifest.permission.ACCESS_FINE_LOCATION, "", LOCATION_PERMISSION);
+        getMyLocation();
+        setSensors();
         Intent intent = getIntent();
         int choice = Integer.parseInt(intent.getStringExtra("codigo"));
         switch (choice){
@@ -74,6 +89,33 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(lightSensorListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            startLocationUpdates();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(lightSensorListener);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            stopLocationUpdates();
+        }
+    }
+
+    private void startLocationUpdates(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
+            mLocationProvider.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
+        }
+    }
+    private void stopLocationUpdates(){
+        mLocationProvider.removeLocationUpdates(mLocationCallback);
     }
 
     /**
@@ -102,13 +144,20 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
             ActivityCompat.requestPermissions(context,new String[]{permiso}, idPermiso);
         }
     }
-    private void startLocationUpdates(){
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
-            mLocationProvider.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_PERMISSION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //getGPS();
+                } else {
+                    Toast.makeText(this, "Permiso denegado para ver la localización", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                return;
+            }
         }
-    }
-    private void stopLocationUpdates(){
-        mLocationProvider.removeLocationUpdates(mLocationCallback);
     }
 
     public void getGPS()
@@ -157,5 +206,73 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
                 return;
             }
         }
+    }
+
+    public void getMyLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            getGPS();
+            mLocationProvider.getLastLocation().addOnSuccessListener(this, new
+                    OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            Log.i("LOCATION", "onSuccess location");
+                            if (location != null) {
+                                myPosition = new LatLng(location.getLatitude(), location.getLongitude());
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
+                                mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+                            }
+                        }
+                    });
+            mLocationCallback = new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+                    Location location = locationResult.getLastLocation();
+                    if (location != null) {
+                        myPosition = new LatLng(location.getLatitude(), location.getLongitude());
+                        if(myPositionMarker != null) {
+                            myPositionMarker.remove();
+                        }
+                        myPositionMarker = mMap.addMarker(new MarkerOptions().position(myPosition).title("Mi posición").snippet(geoCoderSearchLatLang(myPosition)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                    }
+                }
+            };
+        }
+        else{
+            finish();
+        }
+    }
+
+    private String geoCoderSearchLatLang(LatLng latLng) {
+        String address = "";
+        try{
+            List<Address> Results = mGeocoder.getFromLocation(latLng.latitude,latLng.longitude, 2);
+            if(Results != null && Results.size() > 0)
+            {
+                address = Results.get(0).getAddressLine(0);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return address;
+    }
+
+    public void setSensors()
+    {
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        lightSensorListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                if (mMap != null) {
+                    if (event.values[0] < 4000) {
+                        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(eventoMapa.this,R.raw.night));
+                    } else {
+                        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(eventoMapa.this, R.raw.day));
+                    }
+                }
+            }
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+        };
     }
 }
