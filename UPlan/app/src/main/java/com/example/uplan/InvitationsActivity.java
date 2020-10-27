@@ -1,5 +1,7 @@
 package com.example.uplan;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -11,35 +13,33 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 public class InvitationsActivity extends AppCompatActivity {
 
-    Button meetings, feed, opciones, perfil;
+    Button meetings;
     ConstraintLayout layout;
     private SensorManager sensorManager;
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invitations);
+    protected View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View invitacionesView = inflater.inflate(R.layout.activity_invitations, container, false);
         meetings = (Button) findViewById(R.id.attending);
-        perfil = (Button) findViewById(R.id.perfilI);
-        opciones = (Button) findViewById(R.id.optionsI);
-        feed = (Button) findViewById(R.id.feedI);
-        layout= findViewById(R.id.layoutInvitations);
+        layout= invitacionesView.findViewById(R.id.layoutInvitations);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightSensorListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
                 if (event.values[0] < 5000) {
-                    Log.i("THEME", "DARK THEME " + event.values[0]);
                     layout.setBackgroundResource(R.color.dark_bg);
                 } else {
-                    Log.i("THEME", "LIGHT THEME " + event.values[0]);
                     layout.setBackgroundResource(R.color.blanco);
                 }
             }
@@ -49,31 +49,16 @@ public class InvitationsActivity extends AppCompatActivity {
             }
         };
 
+        meetings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(),InvitationsActivity.class);
+                startActivity(intent);
+            }
+        });
+        return invitacionesView;
+    }
 
-    }
-    public void Invitaciones(View v){
-        Intent intent = new Intent(v.getContext(),InvitationsActivity.class);
-        startActivity(intent);
-    }
-    public void Feed(View v){
-        Intent intent = new Intent(v.getContext(), Feed.class);
-        startActivity(intent);
-    }
-    public void Options(View v)
-    {
-        Intent intent = new Intent(v.getContext(),Options.class);
-        startActivity(intent);
-    }
-    public void Profile(View v)
-    {
-        Intent intent = new Intent(v.getContext(),Profile.class);
-        startActivity(intent);
-    }
-    public void Encuentros(View v)
-    {
-        Intent intent = new Intent(v.getContext(),EncuentrosActivity.class);
-        startActivity(intent);
-    }
     @Override
     protected void onResume() {
         super.onResume();
