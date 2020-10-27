@@ -31,12 +31,15 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+
+import java.util.Objects;
 
 public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
     private static final int LOCATION_PERMISSION = 2;
@@ -61,13 +64,18 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         Intent intent = getIntent();
-        int choice = Integer.parseInt(intent.getStringExtra("codigo"));
+        Bundle bundle = intent.getBundleExtra("bundle");
+        int choice = bundle.getInt("codigo");
         switch (choice){
             case 1:
                 //TODO: seleccionar una ubicacion para evento o punto de encuentro
                 break;
             case 2:
-                //TODO: mostrar ubicacion
+                LatLng position = new LatLng(Double.parseDouble(Objects.requireNonNull(bundle.getString("latitud"))), Double.parseDouble(Objects.requireNonNull(bundle.getString("longitud"))));
+                mMap.addMarker(new MarkerOptions().position(position).title(bundle.getString("evento")).snippet(geoCoderSearchLatLang(position)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+                mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+
                 break;
             default:
                 Toast.makeText(this,"Hubo error con el Intent", Toast.LENGTH_SHORT).show();
@@ -154,7 +162,7 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
                     Toast.makeText(this, "Sin acceso a localización, hardware deshabilitado!", Toast.LENGTH_LONG).show();
                     finish();
                 }
-                return;
+
             }
         }
     }

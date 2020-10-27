@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +20,9 @@ public class Publicacion extends ArrayAdapter<String> {
     private final Integer[] imgperfil;
     private final Integer[] imgevento;
 
-    public Publicacion(Activity context, String[] maintitle,String[] subtitle, Integer[] imgid, Integer[] imgper) {
+    private BtnClickListener mClickListener = null;
+
+    public Publicacion(Activity context, String[] maintitle,String[] subtitle, Integer[] imgid, Integer[] imgper, BtnClickListener listener) {
         super(context, R.layout.publicacion, maintitle);
 
         this.context=context;
@@ -27,6 +30,8 @@ public class Publicacion extends ArrayAdapter<String> {
         this.descripcion=subtitle;
         this.imgevento=imgid;
         this.imgperfil = imgper;
+        this.mClickListener = listener;
+
 
     }
 
@@ -54,6 +59,17 @@ public class Publicacion extends ArrayAdapter<String> {
         holder.imgPerf.setImageResource(imgperfil[position]);
         holder.descrip.setText(descripcion[position]);
         holder.imgEv.setImageResource(imgevento[position]);
+
+        Button map = (Button) view.findViewById(R.id.meet);
+        map.setTag(position); //For passing the list item index
+        map.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if(mClickListener != null)
+                    mClickListener.onBtnClick((Integer) v.getTag());
+            }
+        });
 
         return view;
 

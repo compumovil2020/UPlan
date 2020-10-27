@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -50,13 +51,33 @@ public class Feed extends Fragment {
             R.drawable.lugar_5,
     };
 
+    String[] Latitud ={
+            "4.667032","4.645036",
+            "4.674460","4.602899",
+            "4.670130",
+    };
+
+    String[] Longitud = {
+            "-74.053035","-74.063855",
+            "-74.056471","-74.060940",
+            "-74.054745",
+
+    };
+
+
     Publicacion adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View feedView = inflater.inflate(R.layout.activity_feed, container, false);
-        adapter = new Publicacion(this.getActivity(), nombre, descripcion,imgid,imgevento);
+
+        adapter = new Publicacion(this.getActivity(), nombre, descripcion, imgid, imgevento, new BtnClickListener() {
+            @Override
+            public void onBtnClick(int position) {
+                maps(position);
+            }
+        });
         list=(ListView)feedView.findViewById(R.id.list);
         list.setAdapter(adapter);
         layout=feedView.findViewById(R.id.layoutFeed);
@@ -99,5 +120,16 @@ public class Feed extends Fragment {
     public void onPause() {
         super.onPause();
         sensorManager.unregisterListener(lightSensorListener);
+    }
+
+    public void maps(int position){
+        Intent intent = new Intent(this.getContext(), eventoMapa.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("codigo", 2);
+        bundle.putString("latitud", Latitud[position] );
+        bundle.putString("longitud", Longitud[position]);
+        bundle.putString("evento", descripcion[position]);
+        intent.putExtra("bundle", bundle);
+        startActivity(intent);
     }
 }
