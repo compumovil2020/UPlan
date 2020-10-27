@@ -21,9 +21,7 @@
     <string name="registrate">Si no estas registrado, registrate ahora</string>
     <string name="action_settings">Settings</string>
     <string name="nomevento">Nombre del evento</string>
-    <string name="facebook_app_id">237844637571496</string>
-    <string name="fb_login_protocol_scheme">fb237844637571496</string>
     <string name="title_activity_evento_mapa">Map</string>
-
-
+    <string name="facebook_app_id">368227421182456</string>
+    <string name="fb_login_protocol_scheme">fb368227421182456</string>
 </resources>
