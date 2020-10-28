@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-<item
-     android:id="@+id/nav_mis_encuentros"
-    android:title="Encuentro">
-</item>
+    <item
+        android:id="@+id/nav_mis_encuentros"
+        android:title="Encuentros">
+    </item>
     <item
         android:id="@+id/nav_invitaciones"
         android:title="Invitaciones"></item>
