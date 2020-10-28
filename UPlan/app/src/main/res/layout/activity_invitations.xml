@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutInvitations"
@@ -10,77 +11,86 @@
     <LinearLayout
         android:id="@+id/Ejemplo"
         android:layout_width="match_parent"
-        android:layout_height="95dp"
+        android:layout_height="150dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@color/morado"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/lista"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/encuentrosfeed">
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:contentDescription="TODO"
+            android:padding="15dp"
+            app:srcCompat="@drawable/person_1" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5"
+            android:layout_weight="8"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/Anfitrion"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Te invita: Nicolas Rodriguez"
-                android:textColor="@color/blanco" />
 
             <TextView
                 android:id="@+id/NombreEncuentro"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:textColor="@color/blanco"
+                android:padding="5dp"
                 android:layout_weight="1"
-                android:text="Nombre del Encuentro: El PRE de la fiesta!!!"
-                android:textColor="@color/blanco" />
+                android:text="Nombre: El PRE de la fiesta!!!" />
+
+            <TextView
+                android:id="@+id/EventoEncuentro"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textColor="@color/blanco"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:text="Evento: Fiesta en theatron" />
 
             <TextView
                 android:id="@+id/FechaEncuentro"
+                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Fecha del Encuentro: 20/09/2020"
-                android:textColor="@color/blanco" />
-
-            <TextView
-                android:id="@+id/NombreEvento"
+                android:textColor="@color/blanco"
+                android:text="Fecha: 20/09/2020" />
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Nombre del Evento: Fiesta en la Candelaria"
-                android:textColor="@color/blanco" />
+                android:layout_height="wrap_content"
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1.2"
-                android:background="@color/moradoOscuro"
-                android:text="Visualizar en mapa"
-                android:textColor="@color/blanco"></Button>
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/uploadImage">
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Aceptar"
+                    android:background="@color/morado_darkTheme"
+                    android:textColor="@color/blanco"
+
+                    />
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Rechazar"
+                    android:background="@color/morado_darkTheme"
+                    android:textColor="@color/blanco" />
+            </LinearLayout>
 
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imageView9"
-            android:layout_width="59dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_input_add" />
-
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_delete" />
     </LinearLayout>
 
     <LinearLayout

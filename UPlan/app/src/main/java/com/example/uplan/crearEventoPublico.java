@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 
 import android.Manifest;
 import android.app.Activity;
@@ -14,15 +15,19 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -40,9 +45,10 @@ public class crearEventoPublico extends AppCompatActivity {
     static final int IMAGE_PICKER_ID = 2;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int IMAGE_CAPTURE_ID = 3;
-    TextView nomevento, descrip, venue, asistentes, fecha, ubicacion, anadirImagen, anadirCamara, fechaPublico;
+    private static final int MAP_PICKER_REQUEST = 4;
+    TextView nomevento, descrip, venue, asistentes, fecha, ubicacion, anadirImagen, anadirCamara, fechaPublico, direccion;
     EditText editNomevento, editdescrip, editvenue, editasistentes;
-    Button botonCalendar, button5, button6;
+    Button botonCalendar, button5, button6, mapa;
     ConstraintLayout layout;
     ImageView uploadImage;
 
@@ -57,6 +63,7 @@ public class crearEventoPublico extends AppCompatActivity {
         setContentView(R.layout.activity_crear_evento_publico);
         fechaPublico = findViewById(R.id.fechaPublico);
         nomevento = findViewById(R.id.nomevento);
+        final ColorStateList colorViejo = nomevento.getTextColors();
         descrip = findViewById(R.id.descrip);
         venue = findViewById(R.id.venue);
         asistentes = findViewById(R.id.asistentes);
@@ -73,11 +80,88 @@ public class crearEventoPublico extends AppCompatActivity {
         button6 = findViewById(R.id.button6);
         layout = findViewById(R.id.layoutCrearEventoPublico);
         uploadImage = findViewById(R.id.uploadImage);
+        direccion = findViewById(R.id.direccion);
+        mapa = findViewById(R.id.botonMap);
 
         //Sensores de luminosidad
-        layout= findViewById(R.id.layoutCrearEvento);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        lightSensorListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                if (event.values[0] < 5000) {
+                    Log.i("THEME", "DARK THEME " + event.values[0]);
+                    layout.setBackgroundResource(R.color.dark_bg);
+                    nomevento.setTextColor(getResources().getColor(R.color.blanco));
+                    descrip.setTextColor(getResources().getColor(R.color.blanco));
+                    venue.setTextColor(getResources().getColor(R.color.blanco));
+                    asistentes.setTextColor(getResources().getColor(R.color.blanco));
+                    fecha.setTextColor(getResources().getColor(R.color.blanco));
+                    ubicacion.setTextColor(getResources().getColor(R.color.blanco));
+                    anadirCamara.setTextColor(getResources().getColor(R.color.accentMorado));
+                    anadirImagen.setTextColor(getResources().getColor(R.color.accentMorado));
+                    fechaPublico.setTextColor(getResources().getColor(R.color.blanco));
+                    editNomevento.setHintTextColor(getResources().getColor(R.color.blanco));
+                    editNomevento.setTextColor(getResources().getColor(R.color.blanco));
+                    ViewCompat.setBackgroundTintList(editNomevento, ColorStateList.valueOf(Color.WHITE));
+                    editdescrip.setHintTextColor(getResources().getColor(R.color.blanco));
+                    editdescrip.setTextColor(getResources().getColor(R.color.blanco));
+                    ViewCompat.setBackgroundTintList(editdescrip, ColorStateList.valueOf(Color.WHITE));
+                    editvenue.setHintTextColor(getResources().getColor(R.color.blanco));
+                    editvenue.setTextColor(getResources().getColor(R.color.blanco));
+                    ViewCompat.setBackgroundTintList(editvenue, ColorStateList.valueOf(Color.WHITE));
+                    editasistentes.setHintTextColor(getResources().getColor(R.color.blanco));
+                    editasistentes.setTextColor(getResources().getColor(R.color.blanco));
+                    ViewCompat.setBackgroundTintList(editasistentes, ColorStateList.valueOf(Color.WHITE));
+                    botonCalendar.setBackgroundResource(R.drawable.boton_registrarse_dark);
+                    botonCalendar.setTextColor(getResources().getColor(R.color.blanco));
+                    button5.setBackgroundResource(R.drawable.boton_registrarse_dark);
+                    button6.setBackgroundResource(R.drawable.boton_registrarse_dark);
+                    button5.setTextColor(getResources().getColor(R.color.blanco));
+                    button6.setTextColor(getResources().getColor(R.color.blanco));
+                    direccion.setTextColor(getResources().getColor(R.color.blanco));
+                    mapa.setBackgroundResource(R.drawable.boton_registrarse_dark);
+                    mapa.setTextColor(getResources().getColor(R.color.blanco));
+                } else {
+                    Log.i("THEME", "LIGHT THEME " + event.values[0]);
+                    layout.setBackgroundResource(R.color.blanco);
+                    nomevento.setTextColor(colorViejo);
+                    descrip.setTextColor(colorViejo);
+                    venue.setTextColor(colorViejo);
+                    asistentes.setTextColor(colorViejo);
+                    fecha.setTextColor(colorViejo);
+                    ubicacion.setTextColor(colorViejo);
+                    fechaPublico.setTextColor(colorViejo);
+                    anadirCamara.setTextColor(getResources().getColor(R.color.morado));
+                    anadirImagen.setTextColor(getResources().getColor(R.color.morado));
+                    editNomevento.setHintTextColor(colorViejo);
+                    editNomevento.setTextColor(colorViejo);
+                    ViewCompat.setBackgroundTintList(editNomevento, colorViejo);
+                    editdescrip.setHintTextColor(colorViejo);
+                    editdescrip.setTextColor(colorViejo);
+                    ViewCompat.setBackgroundTintList(editdescrip, colorViejo);
+                    editvenue.setHintTextColor(colorViejo);
+                    editvenue.setTextColor(colorViejo);
+                    ViewCompat.setBackgroundTintList(editvenue, colorViejo);
+                    editasistentes.setHintTextColor(colorViejo);
+                    editasistentes.setTextColor(colorViejo);
+                    ViewCompat.setBackgroundTintList(editasistentes, colorViejo);
+                    botonCalendar.setBackgroundResource(R.drawable.botlogin);
+                    botonCalendar.setTextColor(getResources().getColor(R.color.morado));
+                    button5.setBackgroundResource(R.drawable.botlogin);
+                    button6.setBackgroundResource(R.drawable.botlogin);
+                    button5.setTextColor(getResources().getColor(R.color.morado));
+                    button6.setTextColor(getResources().getColor(R.color.morado));
+                    direccion.setTextColor(colorViejo);
+                    mapa.setBackgroundResource(R.drawable.botlogin);
+                    mapa.setTextColor(getResources().getColor(R.color.morado));
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            }
+        };
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void selecFecha(View v){
@@ -122,6 +206,13 @@ public class crearEventoPublico extends AppCompatActivity {
             startActivityForResult(selecImagen, IMAGE_PICKER_REQUEST);
         }
 
+    }
+    public void selectPosition(View v){
+        Intent intent = new Intent(this, eventoMapa.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("codigo", 1);
+        intent.putExtra("bundle", bundle);
+        startActivityForResult(intent, MAP_PICKER_REQUEST);
     }
     public void tomarFoto(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
@@ -175,6 +266,13 @@ public class crearEventoPublico extends AppCompatActivity {
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     uploadImage.setImageBitmap(imageBitmap);
                 }
+                break;
+            case MAP_PICKER_REQUEST:
+                if(resultCode == RESULT_OK){
+                    Bundle extras = data.getExtras();
+                    direccion.setText((String) extras.get("direccion"));
+                }
+                break;
         }
     }
 }
