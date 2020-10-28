@@ -81,6 +81,7 @@ public class Feed extends Fragment {
         list=(ListView)feedView.findViewById(R.id.list);
         list.setAdapter(adapter);
         layout=feedView.findViewById(R.id.layoutFeed);
+
         sensorManager = (SensorManager) this.getActivity().getSystemService(Context.SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightSensorListener = new SensorEventListener() {
@@ -89,9 +90,11 @@ public class Feed extends Fragment {
                 if (event.values[0] < 5000) {
                     Log.i("THEME", "DARK THEME " + event.values[0]);
                     layout.setBackgroundResource(R.color.dark_bg);
+                    list.setBackgroundResource(R.color.dark_bg);
                 } else {
                     Log.i("THEME", "LIGHT THEME " + event.values[0]);
                     layout.setBackgroundResource(R.color.blanco);
+                    list.setBackgroundResource(R.color.blanco);
                 }
             }
 

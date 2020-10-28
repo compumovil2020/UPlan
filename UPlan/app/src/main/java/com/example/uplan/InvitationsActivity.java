@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class InvitationsActivity extends AppCompatActivity {
+public class InvitationsActivity extends Fragment {
 
     Button meetings;
     ConstraintLayout layout;
@@ -28,11 +29,10 @@ public class InvitationsActivity extends AppCompatActivity {
 
     @Nullable
     @Override
-    protected View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View invitacionesView = inflater.inflate(R.layout.activity_invitations, container, false);
-        meetings = (Button) findViewById(R.id.attending);
         layout= invitacionesView.findViewById(R.id.layoutInvitations);
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensorManager = (SensorManager) this.getActivity().getSystemService(Context.SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightSensorListener = new SensorEventListener() {
             @Override
@@ -49,23 +49,17 @@ public class InvitationsActivity extends AppCompatActivity {
             }
         };
 
-        meetings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(),InvitationsActivity.class);
-                startActivity(intent);
-            }
-        });
+
         return invitacionesView;
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         sensorManager.registerListener(lightSensorListener,lightSensor,SensorManager.SENSOR_DELAY_NORMAL);
     }
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         sensorManager.unregisterListener(lightSensorListener);
     }

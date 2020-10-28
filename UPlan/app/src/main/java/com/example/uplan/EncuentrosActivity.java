@@ -79,7 +79,6 @@ public class EncuentrosActivity extends Fragment {
                 startActivity(intent);
             }
         });
-        invitations = (Button) encuentrosView.findViewById(R.id.invitations);
         sensorManager = (SensorManager) this.getActivity().getSystemService(Context.SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightSensorListener = new SensorEventListener() {
@@ -97,13 +96,6 @@ public class EncuentrosActivity extends Fragment {
             }
         };
 
-        invitations.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),InvitationsActivity.class);
-                startActivity(intent);
-            }
-        });
         return encuentrosView;
     }
 
