@@ -77,7 +77,7 @@ public class Navigation extends AppCompatActivity {
                             selectedFragment = new Feed();
                             break;
                         case R.id.nav_encuentros:
-                            selectedFragment = new EncuentrosActivity();
+                            selectedFragment = new NavigationEncuentros();
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

@@ -15,26 +15,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/attending"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/moradoOscuro"
-            android:text="Puntos de Encuentro"
-            android:textColor="@color/blanco"/>
-            <!--android:onClick="Encuentros"/>-->
-
-        <Button
-            android:id="@+id/invitations"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/morado"
-            android:text="Invitaciones"
-            android:textColor="@color/blanco"/>
-            <!--android:onClick="Invitaciones"/>-->
     </LinearLayout>
 
     <ListView
