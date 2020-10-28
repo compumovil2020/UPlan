@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:background="@color/blanco"
-    android:padding="20dp">
+    android:padding="20dp"
+    android:id="@+id/layoutPublicacion">
 
     <ImageView
         android:id="@+id/icon"
