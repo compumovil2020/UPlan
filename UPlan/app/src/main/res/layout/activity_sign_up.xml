@@ -108,29 +108,8 @@
         android:orientation="horizontal"
         android:layout_below="@id/boton_registrarse">
 
-        <com.facebook.login.widget.LoginButton
-            android:background="@color/azulface"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:id="@+id/fb"
-            android:textAllCaps="false"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="30dp"
-            android:textSize="15sp" />
 
-        <com.google.android.gms.common.SignInButton
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:id="@+id/google"
-            android:textAllCaps="false"
-            android:layout_marginTop="30dp"
-            android:textSize="15sp"
-             />
+
 
     </LinearLayout>
 

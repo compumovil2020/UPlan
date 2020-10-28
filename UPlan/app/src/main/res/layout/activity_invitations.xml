@@ -70,7 +70,7 @@
 
         <ImageView
             android:id="@+id/imageView9"
-            android:layout_width="0dp"
+            android:layout_width="59dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@android:drawable/ic_input_add" />
@@ -92,7 +92,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <!--<Button
             android:id="@+id/attending"
             android:layout_width="0dp"
             android:layout_weight="0.5"
@@ -109,76 +109,18 @@
             android:layout_weight="0.5"
             android:background="@color/moradoOscuro"
             android:text="Invitaciones"
-            android:textColor="@color/blanco" />
+            android:textColor="@color/blanco" />-->
     </LinearLayout>
 
     <ListView
         android:id="@+id/lista"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/Navegacion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Ejemplo"/>
+        app:layout_constraintTop_toBottomOf="@+id/Ejemplo" />
 
     <!--   Esperar para decidir como hacer la barra de navegacion -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/morado"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/perfilI"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/usuario"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Profile"></Button>
-
-        <Button
-            android:id="@+id/feedI"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/internet"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Feed"></Button>
-
-        <Button
-            android:id="@+id/encuentrosI"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/correr"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Encuentros"></Button>
-
-        <Button
-            android:id="@+id/optionsI"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/diente"
-            android:backgroundTint="@color/blanco"
-            android:onClick="Options"></Button>
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

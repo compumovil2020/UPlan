@@ -1,7 +1,10 @@
 package com.example.uplan;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,35 +14,32 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
-public class InvitationsActivity extends AppCompatActivity {
+public class InvitationsActivity extends Fragment {
 
-    Button meetings, feed, opciones, perfil;
+    Button meetings;
     ConstraintLayout layout;
     private SensorManager sensorManager;
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invitations);
-        meetings = (Button) findViewById(R.id.attending);
-        perfil = (Button) findViewById(R.id.perfilI);
-        opciones = (Button) findViewById(R.id.optionsI);
-        feed = (Button) findViewById(R.id.feedI);
-        layout= findViewById(R.id.layoutInvitations);
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View invitacionesView = inflater.inflate(R.layout.activity_invitations, container, false);
+        layout= invitacionesView.findViewById(R.id.layoutInvitations);
+        sensorManager = (SensorManager) this.getActivity().getSystemService(Context.SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightSensorListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
                 if (event.values[0] < 5000) {
-                    Log.i("THEME", "DARK THEME " + event.values[0]);
                     layout.setBackgroundResource(R.color.dark_bg);
                 } else {
-                    Log.i("THEME", "LIGHT THEME " + event.values[0]);
                     layout.setBackgroundResource(R.color.blanco);
                 }
             }
@@ -50,37 +50,16 @@ public class InvitationsActivity extends AppCompatActivity {
         };
 
 
+        return invitacionesView;
     }
-    public void Invitaciones(View v){
-        Intent intent = new Intent(v.getContext(),InvitationsActivity.class);
-        startActivity(intent);
-    }
-    public void Feed(View v){
-        Intent intent = new Intent(v.getContext(), Feed.class);
-        startActivity(intent);
-    }
-    public void Options(View v)
-    {
-        Intent intent = new Intent(v.getContext(),Options.class);
-        startActivity(intent);
-    }
-    public void Profile(View v)
-    {
-        Intent intent = new Intent(v.getContext(),Profile.class);
-        startActivity(intent);
-    }
-    public void Encuentros(View v)
-    {
-        Intent intent = new Intent(v.getContext(),EncuentrosActivity.class);
-        startActivity(intent);
-    }
+
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         sensorManager.registerListener(lightSensorListener,lightSensor,SensorManager.SENSOR_DELAY_NORMAL);
     }
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         sensorManager.unregisterListener(lightSensorListener);
     }

@@ -8,58 +8,6 @@
     tools:context=".EncuentrosActivity">
 
     <LinearLayout
-        android:id="@+id/Ejemplo"
-        android:layout_width="match_parent"
-        android:layout_height="95dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/morado"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/encuentrosfeed">
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="191dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/NombreEncuentro"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:textColor="@color/blanco"
-                android:layout_weight="1"
-                android:text="Nombre del Encuentro: El PRE de la fiesta!!!" />
-
-            <TextView
-                android:id="@+id/FechaEncuentro"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textColor="@color/blanco"
-                android:text="Fecha del Encuentro: 20/09/2020" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1.2"
-                android:text="Ir con mapa"
-                android:background="@color/moradoOscuro"
-                android:textColor="@color/blanco"></Button>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/encuentrosfeed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,36 +15,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/attending"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/moradoOscuro"
-            android:text="Puntos de Encuentro"
-            android:textColor="@color/blanco"
-            android:onClick="Encuentros"/>
-
-        <Button
-            android:id="@+id/invitations"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/morado"
-            android:text="Invitaciones"
-            android:textColor="@color/blanco"
-            android:onClick="Invitaciones"/>
     </LinearLayout>
 
     <ListView
         android:id="@+id/lista"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/Navegacion"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Ejemplo">
+        app:layout_constraintTop_toBottomOf="@+id/encuentrosfeed">
 
     </ListView>
 
