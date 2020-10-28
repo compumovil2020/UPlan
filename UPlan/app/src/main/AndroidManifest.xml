@@ -7,6 +7,13 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the "MyLocation" functionality.
     -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,38 +30,49 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
         <activity
             android:name=".eventoMapa"
-            android:label="@string/title_activity_evento_mapa"></activity>
-
+            android:label="@string/title_activity_evento_mapa" />
         <activity android:name=".crearEventoPublico" />
         <activity android:name=".crearEventoDeportivo" />
         <activity android:name=".crearEventoGamer" />
         <activity android:name=".crearEventoFiesta" />
         <activity android:name=".crearEventoConcierto" />
-        <activity android:name=".ListaEventos" />
-        <!--<activity android:name=".Options"/>-->
-        <!--<activity android:name=".Profile" />-->
+        <activity android:name=".ListaEventos" /> <!-- <activity android:name=".Options"/> -->
+        <!-- <activity android:name=".Profile" /> -->
         <activity android:name=".activity_unfollow" />
         <activity android:name=".activity_seguir" />
-        <activity android:name=".InvitationsActivity" />
-        <!--<activity android:name=".EncuentrosActivity" />-->
-        <activity android:name=".SignUp" />
-        <!--<activity android:name=".Feed" />-->
+        <activity android:name=".InvitationsActivity" /> <!-- <activity android:name=".EncuentrosActivity" /> -->
+        <activity android:name=".SignUp" /> <!-- <activity android:name=".Feed" /> -->
         <activity android:name=".Login" />
         <activity android:name=".editarPerfil" />
         <activity android:name=".crearEvento" />
         <activity android:name=".Navigation" />
-
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-        <activity android:name="com.facebook.CustomTabActivity"
+        <activity
+            android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
@@ -68,25 +86,12 @@
             </intent-filter>
         </activity>
 
-        <!--
-               Set to true if your app is Standalone, that is, it does not require the handheld
-               app to run.
-        -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>

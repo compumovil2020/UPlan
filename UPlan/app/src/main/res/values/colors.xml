@@ -14,5 +14,6 @@
     <color name="morado_darkTheme">#5E35B1</color>
     <color name="morado2_darkTheme">#311B92</color>
     <color name="accentMorado">#B388FF</color>
+    <color name="pielBlanca">#ffffffcc</color>
 
 </resources>

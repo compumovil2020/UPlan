@@ -40,9 +40,10 @@ public class crearEventoFiesta extends AppCompatActivity {
     static final int IMAGE_PICKER_ID = 2;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int IMAGE_CAPTURE_ID = 3;
-    TextView nomevento, descrip, venue, genero, asistentes, fecha, ubicacion, anadirImagen, anadirCamara, fechaFiesta;
+    private static final int MAP_PICKER_REQUEST = 4;
+    TextView nomevento, descrip, venue, genero, asistentes, fecha, ubicacion, anadirImagen, anadirCamara, fechaFiesta, direccion;
     EditText editNomevento, editdescrip, editvenue, editgenero, editasistentes;
-    Button botonCalendar, button5, button6;
+    Button botonCalendar, button5, button6, mapa;
     ConstraintLayout layout;
     ImageView uploadImage;
 
@@ -76,6 +77,8 @@ public class crearEventoFiesta extends AppCompatActivity {
         button6 = findViewById(R.id.button6);
         layout = findViewById(R.id.layoutCrearEventoFiesta);
         uploadImage = findViewById(R.id.uploadImage);
+        direccion = findViewById(R.id.direccion);
+        mapa = findViewById(R.id.botonMap);
 
         //Sensores de luminosidad
         layout= findViewById(R.id.layoutCrearEvento);
@@ -127,8 +130,16 @@ public class crearEventoFiesta extends AppCompatActivity {
             selecImagen.setType("image/*");
             startActivityForResult(selecImagen, IMAGE_PICKER_REQUEST);
         }
-
     }
+
+    public void selectPosition(View v){
+        Intent intent = new Intent(this, eventoMapa.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("codigo", 1);
+        intent.putExtra("bundle", bundle);
+        startActivityForResult(intent, MAP_PICKER_REQUEST);
+    }
+
     public void tomarFoto(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -181,6 +192,13 @@ public class crearEventoFiesta extends AppCompatActivity {
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     uploadImage.setImageBitmap(imageBitmap);
                 }
+                break;
+            case MAP_PICKER_REQUEST:
+                if(resultCode == RESULT_OK){
+                    Bundle extras = data.getExtras();
+                    direccion.setText((String) extras.get("direccion"));
+                }
+                break;
         }
     }
 }

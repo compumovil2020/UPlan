@@ -27,7 +27,6 @@ public class InvitationsActivity extends AppCompatActivity {
     private SensorEventListener lightSensorListener;
 
     @Nullable
-    @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View invitacionesView = inflater.inflate(R.layout.activity_invitations, container, false);
         meetings = (Button) findViewById(R.id.attending);
