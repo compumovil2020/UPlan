@@ -25,4 +25,12 @@
         android:hint="Escriba una dirección"
         >
     </EditText>
+
+    <Button
+        android:id="@+id/accionMap"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bot_mapa"
+        android:layout_margin="10dp" />
 </FrameLayout>

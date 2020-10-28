@@ -27,7 +27,6 @@ public class InvitationsActivity extends Fragment {
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
 
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View invitacionesView = inflater.inflate(R.layout.activity_invitations, container, false);

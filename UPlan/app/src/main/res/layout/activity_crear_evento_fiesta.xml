@@ -111,8 +111,6 @@
         android:text="Seleccionar Fecha:"
         app:layout_constraintTop_toBottomOf="@+id/editasistentes"/>
 
-
-
     <LinearLayout
         android:id="@+id/seleccionarFecha"
         android:layout_width="match_parent"
@@ -153,11 +151,41 @@
         app:layout_constraintTop_toBottomOf="@+id/seleccionarFecha"/>
 
         <LinearLayout
-            android:id="@+id/agregarBotones"
+            android:id="@+id/ubicacionContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/ubicacion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/direccion"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:gravity="center"
+                android:text=""
+                android:textSize="18dp"/>
+            <Button
+                android:id="@+id/botonMap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/botlogin"
+                android:onClick="selectPosition"
+                android:text="Mapa"
+                android:textColor="@color/morado"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/agregarBotones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/ubicacionContainer"
             >
             <TextView
                 android:id="@+id/anadirCamara"
@@ -211,7 +239,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/botlogin"
-                android:onClick="cancelar"
+                android:onClick="publicar"
                 android:text="publicar"
                 android:textColor="@color/morado"
 
