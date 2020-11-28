@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -38,24 +39,51 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.uplan.models.EventoConcierto;
+import com.example.uplan.models.EventoDeportivo;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class crearEventoDeportivo extends AppCompatActivity {
+
+    public static final String PATH_EVENTS="eventos/";
+
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+    private StorageReference mStorageRef;
 
     static final int IMAGE_PICKER_REQUEST = 0;
     static final int IMAGE_PICKER_ID = 2;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int IMAGE_CAPTURE_ID = 3;
     private static final int MAP_PICKER_REQUEST = 4;
+
     TextView nomevento, descrip, implementos, deporte, modalidad, asistentes, fecha, ubicacion, anadirImagen, anadirCamara, fechaDeportivo, direccion;
     EditText editNomevento, editdescrip, editdeporte, editimplementos, editasistentes;
     CheckBox equipos, individual;
-    Button botonImplementos, botonCalendar, button5, button6, mapa;
+    Button botonImplementos, botonCalendar, publicarDeportivo, button6, mapa;
     ConstraintLayout layout;
     LinearLayout implementosIngresados;
     ImageView uploadImage;
+    Double latitud, longitud;
+    List<String> listImplementos;
 
     private SensorManager sensorManager;
     private Sensor lightSensor;
@@ -63,10 +91,13 @@ public class crearEventoDeportivo extends AppCompatActivity {
 
     private int dia, mes, ano;
 
+    private Uri imagen;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_evento_deportivo);
+
         fechaDeportivo = findViewById(R.id.fechaDeportivo);
         nomevento = findViewById(R.id.nomevento);
         final ColorStateList colorViejo = nomevento.getTextColors();
@@ -88,13 +119,22 @@ public class crearEventoDeportivo extends AppCompatActivity {
         editasistentes = findViewById(R.id.editasistentes);
         botonImplementos = findViewById(R.id.botonImplementos);
         botonCalendar = findViewById(R.id.botonCalendar);
-        button5 = findViewById(R.id.button5);
+        publicarDeportivo = findViewById(R.id.button5);
         button6 = findViewById(R.id.button6);
         implementosIngresados = findViewById(R.id.implementosIngresados);
         layout = findViewById(R.id.layoutCrearEventoDeportivo);
         uploadImage = findViewById(R.id.uploadImage);
         direccion = findViewById(R.id.direccion);
         mapa = findViewById(R.id.botonMap);
+
+        imagen = null;
+
+        listImplementos = new ArrayList<String>();
+
+        mAuth = FirebaseAuth.getInstance();
+        database= FirebaseDatabase.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        myRef = database.getReference(PATH_EVENTS);
 
         //Sensores de luminosidad
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -137,9 +177,9 @@ public class crearEventoDeportivo extends AppCompatActivity {
                     botonImplementos.setTextColor(getResources().getColor(R.color.blanco));
                     botonCalendar.setBackgroundResource(R.drawable.boton_registrarse_dark);
                     botonCalendar.setTextColor(getResources().getColor(R.color.blanco));
-                    button5.setBackgroundResource(R.drawable.boton_registrarse_dark);
+                    publicarDeportivo.setBackgroundResource(R.drawable.boton_registrarse_dark);
                     button6.setBackgroundResource(R.drawable.boton_registrarse_dark);
-                    button5.setTextColor(getResources().getColor(R.color.blanco));
+                    publicarDeportivo.setTextColor(getResources().getColor(R.color.blanco));
                     button6.setTextColor(getResources().getColor(R.color.blanco));
                     direccion.setTextColor(getResources().getColor(R.color.blanco));
                     mapa.setBackgroundResource(R.drawable.boton_registrarse_dark);
@@ -179,9 +219,9 @@ public class crearEventoDeportivo extends AppCompatActivity {
                     botonImplementos.setTextColor(getResources().getColor(R.color.morado));
                     botonCalendar.setBackgroundResource(R.drawable.botlogin);
                     botonCalendar.setTextColor(getResources().getColor(R.color.morado));
-                    button5.setBackgroundResource(R.drawable.botlogin);
+                    publicarDeportivo.setBackgroundResource(R.drawable.botlogin);
                     button6.setBackgroundResource(R.drawable.botlogin);
-                    button5.setTextColor(getResources().getColor(R.color.morado));
+                    publicarDeportivo.setTextColor(getResources().getColor(R.color.morado));
                     button6.setTextColor(getResources().getColor(R.color.morado));
                     direccion.setTextColor(colorViejo);
                     mapa.setBackgroundResource(R.drawable.botlogin);
@@ -193,6 +233,17 @@ public class crearEventoDeportivo extends AppCompatActivity {
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
             }
         };
+
+        publicarDeportivo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    publicar();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void selecFecha(View v){
@@ -213,6 +264,7 @@ public class crearEventoDeportivo extends AppCompatActivity {
         TextView jueg = new TextView(this);
         jueg.setTextColor(getResources().getColor(R.color.design_default_color_secondary));
         jueg.setText(editimplementos.getText());
+        listImplementos.add(editimplementos.getText().toString());
         implementosIngresados.addView(jueg);
     }
     public void cancelar(View v){
@@ -289,6 +341,7 @@ public class crearEventoDeportivo extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     try{
                         final Uri imageUri = data.getData();
+                        this.imagen = imageUri;
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                         uploadImage.setImageBitmap(selectedImage);
@@ -300,6 +353,7 @@ public class crearEventoDeportivo extends AppCompatActivity {
             case REQUEST_IMAGE_CAPTURE:
                 if(resultCode == RESULT_OK){
                     Bundle extras = data.getExtras();
+                    this.imagen = data.getData();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     uploadImage.setImageBitmap(imageBitmap);
                 }
@@ -308,8 +362,134 @@ public class crearEventoDeportivo extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     Bundle extras = data.getExtras();
                     direccion.setText((String) extras.get("direccion"));
+                    this.latitud = (Double) extras.get("latitud");
+                    this.longitud = (Double) extras.get("longitud");
                 }
                 break;
         }
+    }
+
+    public void publicar() throws ParseException {
+        if(verificar()){
+            EventoDeportivo evento = new EventoDeportivo();
+            evento.setTipo("Deportivo");
+            evento.setDescripcion(editdescrip.getText().toString());
+            evento.setNombreEv(editNomevento.getText().toString());
+            evento.setAsistentes(Integer.parseInt(editasistentes.getText().toString()));
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String fechaEv = this.dia+"/"+this.mes+"/"+this.ano;
+            Date date = sdf.parse(fechaEv);
+            evento.setFechaEv(date.getTime());
+            evento.setFechaPub(System.currentTimeMillis());
+            String ruta = uploadFile();
+            evento.setImgevento(ruta);
+            evento.setNombrePerf(mAuth.getCurrentUser().getDisplayName());
+            evento.setImgperfil("fotosperfil/"+mAuth.getCurrentUser().getEmail());
+            evento.setLatitud(this.latitud);
+            evento.setLongitud(this.longitud);
+            evento.setImplementos(this.listImplementos);
+            evento.setDeporte(editdeporte.getText().toString());
+            if(individual.isChecked()){
+                evento.setModalidad("Individual");
+            }
+            if(equipos.isChecked()){
+                evento.setModalidad("Equipos");
+            }
+
+            String key = myRef.push().getKey();
+            myRef=database.getReference(PATH_EVENTS+key);
+            myRef.setValue(evento);
+
+            Intent intent = new Intent(crearEventoDeportivo.this, Navigation.class);
+            startActivity(intent);
+        }
+    }
+
+    private String uploadFile(){
+        File f = new File(imagen.getPath());
+        String imageName = f.getName();
+        String path = "images/eventosDeportivos/"+ imageName;
+        StorageReference imageRef = mStorageRef.child(path);
+        imageRef.putFile(imagen)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        Log.i("EventoFiesta", "Succesfully upload image");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        // ...
+                    }
+                });
+        return path;
+    }
+
+    public boolean verificar(){
+        boolean valid = true;
+        String text;
+        text = editNomevento.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            editNomevento.setError("Required.");
+            valid = false;
+        } else {
+            editNomevento.setError(null);
+        }
+        text = editdescrip.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            editdescrip.setError("Required.");
+            valid = false;
+        } else {
+            editdescrip.setError(null);
+        }
+        text = editasistentes.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            editasistentes.setError("Required.");
+            valid = false;
+        } else {
+            editasistentes.setError(null);
+        }
+        text = fechaDeportivo.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            fechaDeportivo.setError("Required.");
+            valid = false;
+        } else {
+            fechaDeportivo.setError(null);
+        }
+        text = direccion.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            direccion.setError("Required.");
+            valid = false;
+        } else {
+            direccion.setError(null);
+        }
+        if (this.imagen == null) {
+            Toast.makeText(crearEventoDeportivo.this, "Publish failed: Seleccione una imagen",
+                    Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+        if (this.listImplementos.isEmpty()){
+            editimplementos.setError("Required.");
+            valid = false;
+        } else {
+            editimplementos.setError(null);
+        }
+        text = editdeporte.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            editdeporte.setError("Required.");
+            valid = false;
+        } else {
+            editdeporte.setError(null);
+        }
+        if (!equipos.isChecked() && !individual.isChecked()) {
+            Toast.makeText(crearEventoDeportivo.this, "Publish failed: Seleccione una modalidad",
+                    Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+        return valid;
+
     }
 }

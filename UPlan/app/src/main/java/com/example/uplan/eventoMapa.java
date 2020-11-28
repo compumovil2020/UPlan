@@ -197,7 +197,12 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
                 accion.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        crearRuta(myPosition, position);
+                        if(myPosition != null) {
+                            crearRuta(myPosition, position);
+                        }
+                        else{
+                            Toast.makeText(eventoMapa.this,"No pudimos localizar tu posición", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 break;
@@ -218,7 +223,7 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
     }
 
     private void crearRuta(LatLng origen, LatLng destino) {
-        new RutaTask(this, mMap, origen, destino).execute();
+        //new RutaTask(this, mMap, origen, destino).execute();
     }
 
     public void readAdresses(){

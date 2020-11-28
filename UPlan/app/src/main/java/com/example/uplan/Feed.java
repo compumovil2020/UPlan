@@ -2,9 +2,9 @@ package com.example.uplan;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -16,9 +16,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+
+import com.example.uplan.models.Evento;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Feed extends Fragment {
 
@@ -27,29 +37,20 @@ public class Feed extends Fragment {
     private SensorManager sensorManager;
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
-    String[] nombre ={
-            "Sara Rodriguez","David Ayala",
-            "Luna Diaz","Camila Ruiz",
-            "Diana Gonzales",
-    };
+    private View feedView;
 
-    String[] descripcion ={
-            "Tarde de parche en Andino ","Evento especial en Theatron",
-            "Picnic en el Virrey","Subida al cerro de Monserrate",
-            "Noche de fiesta en armando",
-    };
+    //FireBase Authentication
+    private FirebaseAuth mAuth;
 
-    Integer[] imgevento={
-            R.drawable.person_1,R.drawable.person_2,
-            R.drawable.person_3,R.drawable.person_4,
-            R.drawable.person_5,
-    };
+    //FireBase Database
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+    public static final String PATH_EVENTS="eventos/";
 
-    Integer[] imgid={
-            R.drawable.lugar_1,R.drawable.lugar_2,
-            R.drawable.lugar_3,R.drawable.lugar_4,
-            R.drawable.lugar_5,
-    };
+    private final List<String> nombre = new ArrayList<>();
+    private final List<String> descripcion = new ArrayList<>();
+    private final List<String> imgid = new ArrayList<>();
+    private final List<String> imgevento = new ArrayList<>();
 
     String[] Latitud ={
             "4.667032","4.645036",
@@ -65,23 +66,21 @@ public class Feed extends Fragment {
     };
 
 
-    Publicacion adapter;
+    PublicacionAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View feedView = inflater.inflate(R.layout.activity_feed, container, false);
+        feedView = inflater.inflate(R.layout.activity_feed, container, false);
 
-        adapter = new Publicacion(this.getActivity(), nombre, descripcion, imgid, imgevento, new BtnClickListener() {
-            @Override
-            public void onBtnClick(int position) {
-                maps(position);
-            }
-        });
+        mAuth = FirebaseAuth.getInstance();
+        database= FirebaseDatabase.getInstance();
+        myRef = database.getReference(PATH_EVENTS);
+
         list=(ListView)feedView.findViewById(R.id.list);
-        list.setAdapter(adapter);
         layout=feedView.findViewById(R.id.layoutFeed);
 
+        readFeed(this.getActivity());
         sensorManager = (SensorManager) this.getActivity().getSystemService(Context.SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightSensorListener = new SensorEventListener() {
@@ -103,6 +102,44 @@ public class Feed extends Fragment {
             }
         };
         return feedView;
+    }
+
+    private void readFeed(final Activity activity){
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                nombre.clear();
+                descripcion.clear();
+                imgid.clear();
+                imgevento.clear();
+                for(DataSnapshot single: dataSnapshot.getChildren())
+                {
+                    Evento pub = single.getValue(Evento.class);
+                    nombre.add(pub.getNombrePerf());
+                    descripcion.add(pub.getDescripcion());
+                    //imgid.add(pub.getImgperfil())
+                    imgevento.add(pub.getImgevento());
+                    Log.i("Pruebas", pub.getNombrePerf());
+                    //if() {
+                        //codigos.add(single.getKey())
+                    //}
+
+
+                }
+                adapter = new PublicacionAdapter(activity, nombre, descripcion, imgid, imgevento, new BtnClickListener() {
+                    @Override
+                    public void onBtnClick(int position) {
+                        maps(position);
+                    }
+                });
+                list.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void Invitaciones(View v){
@@ -131,7 +168,7 @@ public class Feed extends Fragment {
         bundle.putInt("codigo", 2);
         bundle.putString("latitud", Latitud[position] );
         bundle.putString("longitud", Longitud[position]);
-        bundle.putString("evento", descripcion[position]);
+        //bundle.putString("evento", descripcion[position]);
         intent.putExtra("bundle", bundle);
         startActivity(intent);
     }
