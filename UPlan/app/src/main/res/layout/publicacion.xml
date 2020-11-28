@@ -60,11 +60,11 @@
 
     <Button
         android:id="@+id/assist"
-        android:layout_width="32dp"
+        android:layout_width="16dp"
         android:layout_height="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/imagevento"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
         android:background="@drawable/ok" />
 
     <TextView

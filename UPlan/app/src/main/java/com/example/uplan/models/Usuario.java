@@ -9,19 +9,38 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private String email;
-    private String identificacion;
     private String imagen;
+    private String username;
+    private long fechaNacimiento;
+    private long latitud;
+    private long longitud;
 
     public Usuario(){
 
     }
 
-    public Usuario(String nombre, String apellido, String email, String identificacion,String imagen) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.email = email;
-        this.identificacion = identificacion;
-        this.imagen = imagen;
+    public long getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(long fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public long getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(long latitud) {
+        this.latitud = latitud;
+    }
+
+    public long getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(long longitud) {
+        this.longitud = longitud;
     }
 
     public String getNombre() {
@@ -48,12 +67,12 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getIdentificacion() {
-        return identificacion;
+    public String getUsername() {
+        return username;
     }
 
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getImagen() { return imagen; }
