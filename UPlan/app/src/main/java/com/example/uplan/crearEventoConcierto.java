@@ -87,6 +87,17 @@ public class crearEventoConcierto extends AppCompatActivity {
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
 
+    private FirebaseAuth mAuth;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+    private StorageReference mStorageRef;
+    ArrayList<String> listartistas;
+    ArrayList<String> listalinks;
+    double latitud;
+    double longitud;
+    private Uri filePath;
+
+
     private int dia, mes, ano;
 
     private Uri imagen;
@@ -255,19 +266,81 @@ public class crearEventoConcierto extends AppCompatActivity {
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void selecFecha(View v){
-        Calendar c = Calendar.getInstance();
+        final Calendar c = Calendar.getInstance();
         dia = c.get(Calendar.DAY_OF_MONTH);
         mes = c.get(Calendar.MONTH);
         ano = c.get(Calendar.YEAR);
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                 fechaConcierto.setText(dayOfMonth + "/" + (monthOfYear+1) + "/" + year);
             }
         }
-                , dia, mes, ano);
+                , ano, mes, dia);
         datePickerDialog.show();
     }
+
+    public void publicarConcierto(View v){
+        FirebaseUser user = mAuth.getCurrentUser();
+        Log.i("concierto", user.getEmail());
+        if(user != null){
+            Concierto c = new Concierto();
+            c.setPublicadoPor(user.getUid());
+            c.setNombre(editNomevento.getText().toString());
+            c.setDescripcion(editdescrip.getText().toString());
+            c.setVenue(editvenue.getText().toString());
+            c.setArtistas(listartistas);
+            c.setLinks(listalinks);
+            c.setAsistentes(Integer.parseInt(editasistentes.getText().toString()));
+            c.setFecha(fechaConcierto.getText().toString());
+            Date fecha = new Date();
+            c.setFechaPublicacion(fecha.toString());
+            c.setLatitud(latitud);
+            c.setLongitud(longitud);
+            Log.i("concierto",c.getFechaPublicacion());
+            String newPath ="images/conciertos/" + UUID.randomUUID().toString()+".jpg";
+            StorageReference imageRef =mStorageRef.child(newPath);
+            imageRef.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(crearEventoConcierto.this,"Image concierto subida!!", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(crearEventoConcierto.this,"Fallo al subir imagen" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+            c.setImagen(newPath);
+            String key = myRef.push().getKey();
+            myRef =database.getReference(PATH_CONCIERTO + key);
+            myRef.setValue(c).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(crearEventoConcierto.this,"Se creo el evento!!", Toast.LENGTH_SHORT).show();
+
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(crearEventoConcierto.this,"Algo fallo", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+            updateUI(user);
+        }
+    }
+    private void updateUI(FirebaseUser currentUser){
+        if(currentUser!=null){
+            Intent intent = new Intent(getBaseContext(), Navigation.class);
+            startActivity(intent);
+        }
+    }
+
     public void agregarA(View v){
         TextView art = new TextView(this);
         art.setTextColor(getResources().getColor(R.color.design_default_color_secondary));
@@ -369,6 +442,7 @@ public class crearEventoConcierto extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     this.imagen = data.getData();
                     Bundle extras = data.getExtras();
+                    filePath = data.getData();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     uploadImage.setImageBitmap(imageBitmap);
                 }
