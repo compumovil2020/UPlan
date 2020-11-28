@@ -1,32 +1,36 @@
 package com.example.uplan.models;
 
-import java.util.Date;
+public class Evento {
 
-public class Publicacion {
-
-    private String nombre;
+    private String tipo;
+    private String nombreEv;
     private String descripcion;
+    private String nombrePerf;
     private String imgperfil;
     private String imgevento;
-    private long timestamp;
+    private Double latitud;
+    private Double longitud;
+    private long fechaEv;
+    private long fechaPub;
 
-    public Publicacion(){
+    public Evento(){
 
     }
 
-    public Publicacion(String nombre, String descripcion, String imgperfil, String imgevento) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.imgperfil = imgperfil;
-        this.imgevento = imgevento;
+    public String getTipo() {
+        return tipo;
     }
 
-    public String getNombre() {
-        return nombre;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public String getNombreEv() {
+        return nombreEv;
+    }
+
+    public void setNombreEv(String nombreEv) {
+        this.nombreEv = nombreEv;
     }
 
     public String getDescripcion() {
@@ -53,11 +57,43 @@ public class Publicacion {
         this.imgevento = imgevento;
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public long getFechaEv() {
+        return fechaEv;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+    public void setFechaEv(long fechaEv) {
+        this.fechaEv = fechaEv;
+    }
+
+    public String getNombrePerf() {
+        return nombrePerf;
+    }
+
+    public void setNombrePerf(String nombrePerf) {
+        this.nombrePerf = nombrePerf;
+    }
+
+    public long getFechaPub() {
+        return fechaPub;
+    }
+
+    public void setFechaPub(long fechaPub) {
+        this.fechaPub = fechaPub;
+    }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
     }
 }
