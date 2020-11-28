@@ -8,6 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,21 +22,30 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class Publicacion extends ArrayAdapter<String> {
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.List;
+
+public class PublicacionAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
-    private final String[] nombre;
-    private final String[] descripcion;
-    private final Integer[] imgperfil;
-    private final Integer[] imgevento;
+    private final List<String> nombre;
+    private final List<String> descripcion;
+    private final List<String> imgperfil;
+    private final List<String> imgevento;
 
     private BtnClickListener mClickListener = null;
+
+    private StorageReference mStorageRef;
 
     private SensorManager sensorManager;
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
 
-    public Publicacion(Activity context, String[] maintitle,String[] subtitle, Integer[] imgid, Integer[] imgper, BtnClickListener listener) {
+    public PublicacionAdapter(Activity context, List<String> maintitle, List<String> subtitle, List<String> imgper, List<String> imgid, BtnClickListener listener) {
         super(context, R.layout.publicacion, maintitle);
 
         this.context=context;
@@ -44,6 +54,8 @@ public class Publicacion extends ArrayAdapter<String> {
         this.imgevento=imgid;
         this.imgperfil = imgper;
         this.mClickListener = listener;
+
+        this.mStorageRef = FirebaseStorage.getInstance().getReference();
 
 
     }
@@ -69,10 +81,28 @@ public class Publicacion extends ArrayAdapter<String> {
             holder = (ViewHolderPublicacion) view.getTag();
         }
 
-        holder.nomb.setText(nombre[position]);
-        holder.imgPerf.setImageResource(imgperfil[position]);
-        holder.descrip.setText(descripcion[position]);
-        holder.imgEv.setImageResource(imgevento[position]);
+        holder.nomb.setText(nombre.get(position));
+        holder.descrip.setText(descripcion.get(position));
+
+        /*StorageReference imgRef = mStorageRef.child(imgperfil.get(position));
+        imgRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(context.getBaseContext())
+                        .load(uri)
+                        .into(holder.imgPerf);
+            }
+        });*/
+
+        StorageReference imgRef2 = mStorageRef.child(imgevento.get(position));
+        imgRef2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(context.getBaseContext())
+                        .load(uri)
+                        .into(holder.imgEv);
+            }
+        });
 
         Button map = (Button) view.findViewById(R.id.meet);
         map.setTag(position); //For passing the list item index
@@ -111,23 +141,6 @@ public class Publicacion extends ArrayAdapter<String> {
         };
 
         return view;
-
-        /*LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.publicacion, parent,false);
-
-        TextView nomb = (TextView) rowView.findViewById(R.id.tittles);
-        TextView descrip = (TextView) rowView.findViewById(R.id.descripcion);
-        ImageView imgPerf = (ImageView) rowView.findViewById(R.id.icon);
-        ImageView imgEv = (ImageView) rowView.findViewById(R.id.imagevento);
-
-
-        nomb.setText(nombre[position]);
-        imgPerf.setImageResource(imgperfil[position]);
-        descrip.setText(descripcion[position]);
-        imgEv.setImageResource(imgevento[position]);
-
-        return rowView;*/
-
     };
 
     static class ViewHolderPublicacion {

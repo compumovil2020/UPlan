@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,31 +37,61 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.uplan.models.EventoConcierto;
+import com.example.uplan.models.EventoPublico;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class crearEventoPublico extends AppCompatActivity {
+
+    public static final String PATH_EVENTS="eventos/";
+
     static final int IMAGE_PICKER_REQUEST = 0;
     static final int IMAGE_PICKER_ID = 2;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int IMAGE_CAPTURE_ID = 3;
     private static final int MAP_PICKER_REQUEST = 4;
+
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+    private StorageReference mStorageRef;
+
     TextView nomevento, descrip, venue, asistentes, fecha, ubicacion, anadirImagen, anadirCamara, fechaPublico, direccion;
     EditText editNomevento, editdescrip, editvenue, editasistentes;
-    Button botonCalendar, button5, button6, mapa;
+    Button botonCalendar, publicarEvento, button6, mapa;
     ConstraintLayout layout;
     ImageView uploadImage;
+    Double latitud, longitud;
 
     private SensorManager sensorManager;
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
 
     private int dia, mes, ano;
+
+    private Uri imagen;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_evento_publico);
+
         fechaPublico = findViewById(R.id.fechaPublico);
         nomevento = findViewById(R.id.nomevento);
         final ColorStateList colorViejo = nomevento.getTextColors();
@@ -76,12 +107,19 @@ public class crearEventoPublico extends AppCompatActivity {
         editvenue = findViewById(R.id.editvenue);
         editasistentes = findViewById(R.id.editasistentes);
         botonCalendar = findViewById(R.id.botonCalendar);
-        button5 = findViewById(R.id.button5);
+        publicarEvento = findViewById(R.id.button5);
         button6 = findViewById(R.id.button6);
         layout = findViewById(R.id.layoutCrearEventoPublico);
         uploadImage = findViewById(R.id.uploadImage);
         direccion = findViewById(R.id.direccion);
         mapa = findViewById(R.id.botonMap);
+
+        imagen = null;
+
+        mAuth = FirebaseAuth.getInstance();
+        database= FirebaseDatabase.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        myRef = database.getReference(PATH_EVENTS);
 
         //Sensores de luminosidad
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -115,9 +153,9 @@ public class crearEventoPublico extends AppCompatActivity {
                     ViewCompat.setBackgroundTintList(editasistentes, ColorStateList.valueOf(Color.WHITE));
                     botonCalendar.setBackgroundResource(R.drawable.boton_registrarse_dark);
                     botonCalendar.setTextColor(getResources().getColor(R.color.blanco));
-                    button5.setBackgroundResource(R.drawable.boton_registrarse_dark);
+                    publicarEvento.setBackgroundResource(R.drawable.boton_registrarse_dark);
                     button6.setBackgroundResource(R.drawable.boton_registrarse_dark);
-                    button5.setTextColor(getResources().getColor(R.color.blanco));
+                    publicarEvento.setTextColor(getResources().getColor(R.color.blanco));
                     button6.setTextColor(getResources().getColor(R.color.blanco));
                     direccion.setTextColor(getResources().getColor(R.color.blanco));
                     mapa.setBackgroundResource(R.drawable.boton_registrarse_dark);
@@ -148,9 +186,9 @@ public class crearEventoPublico extends AppCompatActivity {
                     ViewCompat.setBackgroundTintList(editasistentes, colorViejo);
                     botonCalendar.setBackgroundResource(R.drawable.botlogin);
                     botonCalendar.setTextColor(getResources().getColor(R.color.morado));
-                    button5.setBackgroundResource(R.drawable.botlogin);
+                    publicarEvento.setBackgroundResource(R.drawable.botlogin);
                     button6.setBackgroundResource(R.drawable.botlogin);
-                    button5.setTextColor(getResources().getColor(R.color.morado));
+                    publicarEvento.setTextColor(getResources().getColor(R.color.morado));
                     button6.setTextColor(getResources().getColor(R.color.morado));
                     direccion.setTextColor(colorViejo);
                     mapa.setBackgroundResource(R.drawable.botlogin);
@@ -162,6 +200,18 @@ public class crearEventoPublico extends AppCompatActivity {
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
             }
         };
+
+        publicarEvento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    publicar();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void selecFecha(View v){
@@ -252,6 +302,7 @@ public class crearEventoPublico extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     try{
                         final Uri imageUri = data.getData();
+                        this.imagen = imageUri;
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                         uploadImage.setImageBitmap(selectedImage);
@@ -262,6 +313,7 @@ public class crearEventoPublico extends AppCompatActivity {
                 break;
             case REQUEST_IMAGE_CAPTURE:
                 if(resultCode == RESULT_OK){
+                    this.imagen = data.getData();
                     Bundle extras = data.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     uploadImage.setImageBitmap(imageBitmap);
@@ -271,8 +323,117 @@ public class crearEventoPublico extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     Bundle extras = data.getExtras();
                     direccion.setText((String) extras.get("direccion"));
+                    this.latitud = (Double) extras.get("latitud");
+                    this.longitud = (Double) extras.get("longitud");
                 }
                 break;
         }
+    }
+
+    public void publicar() throws ParseException {
+        if(verificar()){
+            EventoPublico evento = new EventoPublico();
+            evento.setTipo("Publico");
+            evento.setDescripcion(editdescrip.getText().toString());
+            evento.setNombreEv(editNomevento.getText().toString());
+            evento.setVenue(editvenue.getText().toString());
+            evento.setAsistentes(Integer.parseInt(editasistentes.getText().toString()));
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String fechaEv = this.dia+"/"+this.mes+"/"+this.ano;
+            Date date = sdf.parse(fechaEv);
+            evento.setFechaEv(date.getTime());
+            evento.setFechaPub(System.currentTimeMillis());
+            String ruta = uploadFile();
+            evento.setImgevento(ruta);
+            evento.setNombrePerf(mAuth.getCurrentUser().getDisplayName());
+            evento.setImgperfil("fotosperfil/"+mAuth.getCurrentUser().getEmail());
+            evento.setLatitud(this.latitud);
+            evento.setLongitud(this.longitud);
+
+
+            String key = myRef.push().getKey();
+            myRef=database.getReference(PATH_EVENTS+key);
+            myRef.setValue(evento);
+
+            Intent intent = new Intent(crearEventoPublico.this, Navigation.class);
+            startActivity(intent);
+        }
+    }
+
+    private String uploadFile(){
+        File f = new File(imagen.getPath());
+        String imageName = f.getName();
+        String path = "images/eventosPublicos/"+ imageName;
+        StorageReference imageRef = mStorageRef.child(path);
+        imageRef.putFile(imagen)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        Log.i("EventoPublico", "Succesfully upload image");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        // ...
+                    }
+                });
+        return path;
+    }
+
+    public boolean verificar(){
+        boolean valid = true;
+        String text;
+        text = editNomevento.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            editNomevento.setError("Required.");
+            valid = false;
+        } else {
+            editNomevento.setError(null);
+        }
+        text = editdescrip.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            editdescrip.setError("Required.");
+            valid = false;
+        } else {
+            editdescrip.setError(null);
+        }
+        text = editvenue.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            editvenue.setError("Required.");
+            valid = false;
+        } else {
+            editvenue.setError(null);
+        }
+        text = editasistentes.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            editasistentes.setError("Required.");
+            valid = false;
+        } else {
+            editasistentes.setError(null);
+        }
+        text = fechaPublico.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            fechaPublico.setError("Required.");
+            valid = false;
+        } else {
+            fechaPublico.setError(null);
+        }
+        text = direccion.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            direccion.setError("Required.");
+            valid = false;
+        } else {
+            direccion.setError(null);
+        }
+        if (this.imagen == null) {
+            Toast.makeText(crearEventoPublico.this, "Publish failed: Seleccione una imagen",
+                    Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+        return valid;
+
     }
 }

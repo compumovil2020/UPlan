@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,21 +37,45 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.uplan.models.EventoFiesta;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class crearEventoFiesta extends AppCompatActivity {
+
+    public static final String PATH_EVENTS="eventos/";
+
     static final int IMAGE_PICKER_REQUEST = 0;
     static final int IMAGE_PICKER_ID = 2;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int IMAGE_CAPTURE_ID = 3;
     private static final int MAP_PICKER_REQUEST = 4;
+
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+    private StorageReference mStorageRef;
+
     TextView nomevento, descrip, venue, genero, asistentes, fecha, ubicacion, anadirImagen, anadirCamara, fechaFiesta, direccion;
     EditText editNomevento, editdescrip, editvenue, editgenero, editasistentes;
-    Button botonCalendar, button5, button6, mapa;
+    Button botonCalendar, publicar, button6, mapa;
     ConstraintLayout layout;
     ImageView uploadImage;
+    Double latitud, longitud;
 
     private SensorManager sensorManager;
     private Sensor lightSensor;
@@ -58,10 +83,13 @@ public class crearEventoFiesta extends AppCompatActivity {
 
     private int dia, mes, ano;
 
+    private Uri imagen;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_evento_fiesta);
+
         fechaFiesta = findViewById(R.id.fechaFiesta);
         nomevento = findViewById(R.id.nomevento);
         final ColorStateList colorViejo = nomevento.getTextColors();
@@ -79,12 +107,18 @@ public class crearEventoFiesta extends AppCompatActivity {
         editgenero = findViewById(R.id.editgenero);
         editasistentes = findViewById(R.id.editasistentes);
         botonCalendar = findViewById(R.id.botonCalendar);
-        button5 = findViewById(R.id.button5);
+        publicar = findViewById(R.id.publicarFiesta);
         button6 = findViewById(R.id.button6);
         layout = findViewById(R.id.layoutCrearEventoFiesta);
         uploadImage = findViewById(R.id.uploadImage);
         direccion = findViewById(R.id.direccion);
         mapa = findViewById(R.id.botonMap);
+        imagen = null;
+
+        mAuth = FirebaseAuth.getInstance();
+        database= FirebaseDatabase.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        myRef = database.getReference(PATH_EVENTS);
 
         //Sensores de luminosidad
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -125,9 +159,9 @@ public class crearEventoFiesta extends AppCompatActivity {
                     mapa.setTextColor(getResources().getColor(R.color.blanco));
                     botonCalendar.setBackgroundResource(R.drawable.boton_registrarse_dark);
                     botonCalendar.setTextColor(getResources().getColor(R.color.blanco));
-                    button5.setBackgroundResource(R.drawable.boton_registrarse_dark);
+                    publicar.setBackgroundResource(R.drawable.boton_registrarse_dark);
                     button6.setBackgroundResource(R.drawable.boton_registrarse_dark);
-                    button5.setTextColor(getResources().getColor(R.color.blanco));
+                    publicar.setTextColor(getResources().getColor(R.color.blanco));
                     button6.setTextColor(getResources().getColor(R.color.blanco));
                 } else {
                     Log.i("THEME", "LIGHT THEME " + event.values[0]);
@@ -162,9 +196,9 @@ public class crearEventoFiesta extends AppCompatActivity {
                     mapa.setTextColor(getResources().getColor(R.color.morado));
                     botonCalendar.setBackgroundResource(R.drawable.botlogin);
                     botonCalendar.setTextColor(getResources().getColor(R.color.morado));
-                    button5.setBackgroundResource(R.drawable.botlogin);
+                    publicar.setBackgroundResource(R.drawable.botlogin);
                     button6.setBackgroundResource(R.drawable.botlogin);
-                    button5.setTextColor(getResources().getColor(R.color.morado));
+                    publicar.setTextColor(getResources().getColor(R.color.morado));
                     button6.setTextColor(getResources().getColor(R.color.morado));
                 }
             }
@@ -173,6 +207,17 @@ public class crearEventoFiesta extends AppCompatActivity {
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
             }
         };
+
+        publicar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    publicar();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -267,6 +312,7 @@ public class crearEventoFiesta extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     try{
                         final Uri imageUri = data.getData();
+                        this.imagen = imageUri;
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                         uploadImage.setImageBitmap(selectedImage);
@@ -277,6 +323,7 @@ public class crearEventoFiesta extends AppCompatActivity {
                 break;
             case REQUEST_IMAGE_CAPTURE:
                 if(resultCode == RESULT_OK){
+                    this.imagen = data.getData();
                     Bundle extras = data.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     uploadImage.setImageBitmap(imageBitmap);
@@ -286,9 +333,127 @@ public class crearEventoFiesta extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     Bundle extras = data.getExtras();
                     direccion.setText((String) extras.get("direccion"));
+                    this.latitud = (Double) extras.get("latitud");
+                    this.longitud = (Double) extras.get("longitud");
                 }
                 break;
         }
+    }
+
+    public void publicar() throws ParseException {
+        if(verificar()){
+            EventoFiesta evento = new EventoFiesta();
+            evento.setTipo("Fiesta");
+            evento.setDescripcion(editdescrip.getText().toString());
+            evento.setNombreEv(editNomevento.getText().toString());
+            evento.setGenero(editgenero.getText().toString());
+            evento.setVenue(editvenue.getText().toString());
+            evento.setAsistentes(Integer.parseInt(editasistentes.getText().toString()));
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String fechaEv = this.dia+"/"+this.mes+"/"+this.ano;
+            Date date = sdf.parse(fechaEv);
+            evento.setFechaEv(date.getTime());
+            evento.setFechaPub(System.currentTimeMillis());
+            String ruta = uploadFile();
+            evento.setImgevento(ruta);
+            evento.setNombrePerf(mAuth.getCurrentUser().getDisplayName());
+            evento.setImgperfil("fotosperfil/"+mAuth.getCurrentUser().getEmail());
+            evento.setLatitud(this.latitud);
+            evento.setLongitud(this.longitud);
+
+            String key = myRef.push().getKey();
+            myRef=database.getReference(PATH_EVENTS+key);
+            myRef.setValue(evento);
+
+            Intent intent = new Intent(crearEventoFiesta.this, Navigation.class);
+            startActivity(intent);
+        }
+    }
+
+    private String uploadFile(){
+        File f = new File(imagen.getPath());
+        String imageName = f.getName();
+        String path = "images/eventosFiestas/"+ imageName;
+        StorageReference imageRef = mStorageRef.child(path);
+        imageRef.putFile(imagen)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        Log.i("EventoFiesta", "Succesfully upload image");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        // ...
+                    }
+                });
+        return path;
+    }
+
+    public boolean verificar(){
+        boolean valid = true;
+        String text;
+        text = editNomevento.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            editNomevento.setError("Required.");
+            valid = false;
+        } else {
+            editNomevento.setError(null);
+        }
+        text = editdescrip.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            editdescrip.setError("Required.");
+            valid = false;
+        } else {
+            editdescrip.setError(null);
+        }
+        text = editvenue.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            editvenue.setError("Required.");
+            valid = false;
+        } else {
+            editvenue.setError(null);
+        }
+        text = editgenero.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            editgenero.setError("Required.");
+            valid = false;
+        } else {
+            editgenero.setError(null);
+        }
+        text = editasistentes.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            editasistentes.setError("Required.");
+            valid = false;
+        } else {
+            editasistentes.setError(null);
+        }
+        text = fechaFiesta.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            fechaFiesta.setError("Required.");
+            valid = false;
+        } else {
+            fechaFiesta.setError(null);
+        }
+        text = direccion.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            direccion.setError("Required.");
+            valid = false;
+        } else {
+            direccion.setError(null);
+        }
+        if (this.imagen == null) {
+            Toast.makeText(crearEventoFiesta.this, "Publish failed: Seleccione una imagen",
+                    Toast.LENGTH_SHORT).show();
+            valid = false;
+        } else {
+            direccion.setError(null);
+        }
+        return valid;
+
     }
 }
 

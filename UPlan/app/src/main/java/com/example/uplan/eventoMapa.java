@@ -223,7 +223,7 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
     }
 
     private void crearRuta(LatLng origen, LatLng destino) {
-        new RutaTask(this, mMap, origen, destino).execute();
+        //new RutaTask(this, mMap, origen, destino).execute();
     }
 
     public void readAdresses(){
