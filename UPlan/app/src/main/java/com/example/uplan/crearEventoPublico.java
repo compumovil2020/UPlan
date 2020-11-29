@@ -225,7 +225,7 @@ public class crearEventoPublico extends AppCompatActivity {
                 fechaPublico.setText(dayOfMonth + "/" + (monthOfYear+1) + "/" + year);
             }
         }
-                , dia, mes, ano);
+                , ano, mes, dia);
         datePickerDialog.show();
     }
     public void cancelar(View v){

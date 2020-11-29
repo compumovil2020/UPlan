@@ -257,7 +257,7 @@ public class crearEventoDeportivo extends AppCompatActivity {
                 fechaDeportivo.setText(dayOfMonth + "/" + (monthOfYear+1) + "/" + year);
             }
         }
-                , dia, mes, ano);
+                , ano, mes, dia);
         datePickerDialog.show();
     }
     public void agregarI(View v){

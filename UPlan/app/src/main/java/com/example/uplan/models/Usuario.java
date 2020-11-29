@@ -14,9 +14,18 @@ public class Usuario {
     private long fechaNacimiento;
     private long latitud;
     private long longitud;
+    private String id;
+
 
     public Usuario(){
+    }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public long getFechaNacimiento() {

@@ -43,6 +43,7 @@ import com.example.uplan.models.EventoFiesta;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -87,14 +88,8 @@ public class crearEventoConcierto extends AppCompatActivity {
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
 
-    private FirebaseAuth mAuth;
-    FirebaseDatabase database;
-    DatabaseReference myRef;
-    private StorageReference mStorageRef;
     ArrayList<String> listartistas;
     ArrayList<String> listalinks;
-    double latitud;
-    double longitud;
     private Uri filePath;
 
 
@@ -281,59 +276,8 @@ public class crearEventoConcierto extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    public void publicarConcierto(View v){
-        FirebaseUser user = mAuth.getCurrentUser();
-        Log.i("concierto", user.getEmail());
-        if(user != null){
-            Concierto c = new Concierto();
-            c.setPublicadoPor(user.getUid());
-            c.setNombre(editNomevento.getText().toString());
-            c.setDescripcion(editdescrip.getText().toString());
-            c.setVenue(editvenue.getText().toString());
-            c.setArtistas(listartistas);
-            c.setLinks(listalinks);
-            c.setAsistentes(Integer.parseInt(editasistentes.getText().toString()));
-            c.setFecha(fechaConcierto.getText().toString());
-            Date fecha = new Date();
-            c.setFechaPublicacion(fecha.toString());
-            c.setLatitud(latitud);
-            c.setLongitud(longitud);
-            Log.i("concierto",c.getFechaPublicacion());
-            String newPath ="images/conciertos/" + UUID.randomUUID().toString()+".jpg";
-            StorageReference imageRef =mStorageRef.child(newPath);
-            imageRef.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(crearEventoConcierto.this,"Image concierto subida!!", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(crearEventoConcierto.this,"Fallo al subir imagen" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-            c.setImagen(newPath);
-            String key = myRef.push().getKey();
-            myRef =database.getReference(PATH_CONCIERTO + key);
-            myRef.setValue(c).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(crearEventoConcierto.this,"Se creo el evento!!", Toast.LENGTH_SHORT).show();
 
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(crearEventoConcierto.this,"Algo fallo", Toast.LENGTH_SHORT).show();
 
-                }
-            });
-            updateUI(user);
-        }
-    }
     private void updateUI(FirebaseUser currentUser){
         if(currentUser!=null){
             Intent intent = new Intent(getBaseContext(), Navigation.class);
