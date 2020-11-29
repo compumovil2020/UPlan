@@ -42,10 +42,12 @@
     <ImageButton
         android:id="@+id/menudots"
         android:layout_marginEnd="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_alignParentEnd= "true"
-        app:srcCompat="@drawable/menu" />
+        android:background="@drawable/more_vert"
+        android:backgroundTint="@color/negro"/>
 
     <Button
         android:id="@+id/meet"
@@ -60,12 +62,23 @@
 
     <Button
         android:id="@+id/assist"
-        android:layout_width="16dp"
+        android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_below="@id/imagevento"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:background="@drawable/ok" />
+
+    <Button
+        android:id="@+id/listassit"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_below="@id/imagevento"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="35dp"
+        android:layout_toEndOf="@+id/assist"
+        android:background="@drawable/lista"
+        android:backgroundTint="@color/negro"/>
 
     <TextView
         android:id="@+id/descripcion"

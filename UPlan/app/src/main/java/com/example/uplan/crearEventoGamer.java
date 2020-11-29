@@ -246,7 +246,7 @@ public class crearEventoGamer extends AppCompatActivity {
                 fechaGamer.setText(dayOfMonth + "/" + (monthOfYear+1) + "/" + year);
             }
         }
-                , dia, mes, ano);
+                , ano, mes, dia);
         datePickerDialog.show();
     }
     public void agregarJ(View v){

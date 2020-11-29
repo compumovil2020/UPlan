@@ -321,7 +321,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/botlogin"
-                android:onClick="cancelar"
+                android:onClick="publicarConcierto"
                 android:text="publicar"
                 android:textColor="@color/morado"
 
