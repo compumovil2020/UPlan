@@ -126,12 +126,23 @@ public class Feed extends Fragment {
 
 
                 }
-                adapter = new PublicacionAdapter(activity, nombre, descripcion, imgid, imgevento, new BtnClickListener() {
+
+                BtnClickListener listener = new BtnClickListener() {
                     @Override
                     public void onBtnClick(int position) {
                         maps(position);
                     }
-                });
+                };
+
+                BtnClickListener listener2 = new BtnClickListener() {
+                    @Override
+                    public void onBtnClick(int position) {
+                        //Aqui se define la funcion para lo de quien asiste
+                        //En position tiene el index de las listas con la info de esta publicación
+                    }
+                };
+
+                adapter = new PublicacionAdapter(activity, nombre, descripcion, imgid, imgevento, listener, listener2);
                 list.setAdapter(adapter);
             }
 

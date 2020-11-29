@@ -37,7 +37,7 @@ public class PublicacionAdapter extends ArrayAdapter<String> {
     private final List<String> imgperfil;
     private final List<String> imgevento;
 
-    private BtnClickListener mClickListener = null;
+    private BtnClickListener mClickListener = null, mClickListener2 = null;
 
     private StorageReference mStorageRef;
 
@@ -45,7 +45,7 @@ public class PublicacionAdapter extends ArrayAdapter<String> {
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
 
-    public PublicacionAdapter(Activity context, List<String> maintitle, List<String> subtitle, List<String> imgper, List<String> imgid, BtnClickListener listener) {
+    public PublicacionAdapter(Activity context, List<String> maintitle, List<String> subtitle, List<String> imgper, List<String> imgid, BtnClickListener listener, BtnClickListener listener2) {
         super(context, R.layout.publicacion, maintitle);
 
         this.context=context;
@@ -54,6 +54,7 @@ public class PublicacionAdapter extends ArrayAdapter<String> {
         this.imgevento=imgid;
         this.imgperfil = imgper;
         this.mClickListener = listener;
+        this.mClickListener2 = listener2;
 
         this.mStorageRef = FirebaseStorage.getInstance().getReference();
 
@@ -114,6 +115,18 @@ public class PublicacionAdapter extends ArrayAdapter<String> {
                     mClickListener.onBtnClick((Integer) v.getTag());
             }
         });
+
+        Button assist = (Button) view.findViewById(R.id.assist);
+        assist.setTag(position); //For passing the list item index
+        assist.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if(mClickListener2 != null)
+                    mClickListener2.onBtnClick((Integer) v.getTag());
+            }
+        });
+
         final ColorStateList colorViejo = holder.nomb.getTextColors();
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);

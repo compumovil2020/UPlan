@@ -25,4 +25,9 @@
     <string name="facebook_app_id">368227421182456</string>
     <string name="fb_login_protocol_scheme">fb368227421182456</string>
     <string name="title_activity_map_manager">Map</string>
+    <string name="name">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="birth">Fecha de nacimiento</string>
+    <string name="fotop">Foto de perfil</string>
+    <string name="gustos">Gustos</string>
 </resources>
