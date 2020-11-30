@@ -57,6 +57,8 @@ public class Feed extends Fragment {
     private final List<String> imgid = new ArrayList<>();
     private final List<String> imgevento = new ArrayList<>();
     private final List<String> pubid = new ArrayList<>();
+    private final List<Double> latitud = new ArrayList<>();
+    private final List<Double> longitud = new ArrayList<>();
 
     String[] Latitud ={
             "4.667032","4.645036",
@@ -194,8 +196,8 @@ public class Feed extends Fragment {
         Intent intent = new Intent(this.getContext(), eventoMapa.class);
         Bundle bundle = new Bundle();
         bundle.putInt("codigo", 2);
-        bundle.putString("latitud", Latitud[position] );
-        bundle.putString("longitud", Longitud[position]);
+        bundle.putString("latitud", Double.toString(latitud.get(position)));
+        bundle.putString("longitud", Double.toString(longitud.get(position)));
         //bundle.putString("evento", descripcion[position]);
         intent.putExtra("bundle", bundle);
         startActivity(intent);

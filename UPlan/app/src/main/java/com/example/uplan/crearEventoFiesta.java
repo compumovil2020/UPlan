@@ -41,6 +41,7 @@ import com.example.uplan.models.EventoFiesta;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -343,6 +344,8 @@ public class crearEventoFiesta extends AppCompatActivity {
     public void publicar() throws ParseException {
         if(verificar()){
             EventoFiesta evento = new EventoFiesta();
+            FirebaseUser user = mAuth.getCurrentUser();
+            evento.setUsuarioId(user.getUid());
             evento.setTipo("Fiesta");
             evento.setDescripcion(editdescrip.getText().toString());
             evento.setNombreEv(editNomevento.getText().toString());
