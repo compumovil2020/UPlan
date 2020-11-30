@@ -42,6 +42,7 @@ import com.example.uplan.models.EventoPublico;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -333,6 +334,8 @@ public class crearEventoPublico extends AppCompatActivity {
     public void publicar() throws ParseException {
         if(verificar()){
             EventoPublico evento = new EventoPublico();
+            FirebaseUser user = mAuth.getCurrentUser();
+            evento.setUsuarioId(user.getUid());
             evento.setTipo("Publico");
             evento.setDescripcion(editdescrip.getText().toString());
             evento.setNombreEv(editNomevento.getText().toString());

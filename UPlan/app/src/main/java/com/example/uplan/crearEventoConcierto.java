@@ -405,6 +405,8 @@ public class crearEventoConcierto extends AppCompatActivity {
     public void publicar() throws ParseException {
         if(verificar()){
             EventoConcierto evento = new EventoConcierto();
+            FirebaseUser user = mAuth.getCurrentUser();
+            evento.setUsuarioId(user.getUid());
             evento.setTipo("Concierto");
             evento.setDescripcion(editdescrip.getText().toString());
             evento.setNombreEv(editNomevento.getText().toString());
