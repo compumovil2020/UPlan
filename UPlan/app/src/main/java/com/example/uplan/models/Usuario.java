@@ -4,6 +4,8 @@ import android.widget.EditText;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.List;
+
 public class Usuario {
 
     private String nombre;
@@ -12,11 +14,20 @@ public class Usuario {
     private String imagen;
     private String username;
     private long fechaNacimiento;
-    private long latitud;
-    private long longitud;
+    private Double latitud;
+    private Double longitud;
+    private List<String> gustos;
 
     public Usuario(){
 
+    }
+
+    public List<String> getGustos() {
+        return gustos;
+    }
+
+    public void setGustos(List<String> gustos) {
+        this.gustos = gustos;
     }
 
     public long getFechaNacimiento() {
@@ -27,19 +38,19 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public long getLatitud() {
+    public Double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(long latitud) {
+    public void setLatitud(Double latitud) {
         this.latitud = latitud;
     }
 
-    public long getLongitud() {
+    public Double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(long longitud) {
+    public void setLongitud(Double longitud) {
         this.longitud = longitud;
     }
 

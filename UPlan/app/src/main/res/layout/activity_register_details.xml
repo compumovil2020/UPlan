@@ -6,12 +6,12 @@
     tools:context=".crearEventoConcierto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/layoutCrearEventoConcierto"
+        android:id="@+id/layoutMain"
+        android:padding="10dp"
         >
 
         <TextView
@@ -57,13 +57,24 @@
             android:layout_margin="10dp"
             android:text="@string/gustos"
             app:layout_constraintTop_toBottomOf="@id/editApe"/>
+
+        <LinearLayout
+            android:id="@+id/gustosIngresados"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gustos"/>
+
         <LinearLayout
             android:id="@+id/linearGustos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gustos">
+            app:layout_constraintTop_toBottomOf="@id/gustosIngresados">
             <EditText
                 android:id="@+id/editGustos"
                 android:layout_width="wrap_content"
@@ -93,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Seleccionar Fecha:"
+            android:text="Seleccionar Fecha de Nacimento:"
             app:layout_constraintTop_toBottomOf="@id/linearGustos"/>
 
         <LinearLayout
@@ -107,7 +118,7 @@
             app:layout_constraintTop_toBottomOf="@id/fecha">
 
             <TextView
-                android:id="@+id/fechaConcierto"
+                android:id="@+id/fechaNacimento"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="8"

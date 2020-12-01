@@ -85,7 +85,7 @@ public class PublicacionAdapter extends ArrayAdapter<String> {
         holder.nomb.setText(nombre.get(position));
         holder.descrip.setText(descripcion.get(position));
 
-        /*StorageReference imgRef = mStorageRef.child(imgperfil.get(position));
+        StorageReference imgRef = mStorageRef.child(imgperfil.get(position));
         imgRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -93,7 +93,7 @@ public class PublicacionAdapter extends ArrayAdapter<String> {
                         .load(uri)
                         .into(holder.imgPerf);
             }
-        });*/
+        });
 
         StorageReference imgRef2 = mStorageRef.child(imgevento.get(position));
         imgRef2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

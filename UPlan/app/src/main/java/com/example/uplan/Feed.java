@@ -117,14 +117,9 @@ public class Feed extends Fragment {
                     Evento pub = single.getValue(Evento.class);
                     nombre.add(pub.getNombrePerf());
                     descripcion.add(pub.getDescripcion());
-                    //imgid.add(pub.getImgperfil())
+                    imgid.add(pub.getImgperfil());
                     imgevento.add(pub.getImgevento());
                     Log.i("Pruebas", pub.getNombrePerf());
-                    //if() {
-                        //codigos.add(single.getKey())
-                    //}
-
-
                 }
 
                 BtnClickListener listener = new BtnClickListener() {

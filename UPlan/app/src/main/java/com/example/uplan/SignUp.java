@@ -153,7 +153,8 @@ public class SignUp extends AppCompatActivity {
                                 upcrb.setDisplayName(usernameText.getText().toString());
                                 upcrb.setPhotoUri(Uri.parse("path/to/pic"));//fake uri, use Firebase Storage
                                 user.updateProfile(upcrb.build());
-                                updateUI(user);
+                                Intent intent = new Intent(getBaseContext(), RegisterDetails.class);
+                                startActivity(intent);
                             }
                         }
                         if (!task.isSuccessful()) {
