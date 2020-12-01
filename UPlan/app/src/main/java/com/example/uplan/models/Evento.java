@@ -12,9 +12,18 @@ public class Evento {
     private Double longitud;
     private long fechaEv;
     private long fechaPub;
+    private String usuarioId;
 
     public Evento(){
 
+    }
+
+    public String getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(String usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     public String getTipo() {

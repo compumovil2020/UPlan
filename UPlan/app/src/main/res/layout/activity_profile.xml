@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layoutProfile"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scrollPerfil">
+
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,16 +20,25 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         >
-
+        <ImageView
+            android:id="@+id/imagenperfil"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="20dp"
+             />
+        />
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/usernameperfil"
             android:layout_weight="0.85"
-            android:textAlignment="viewEnd"
-            android:layout_marginTop="40dp"
+            android:textAlignment="viewStart"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:text="Camila Ruiz" />
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            android:text="" />
 
         <ImageView
             android:id="@+id/fotoperfil"
@@ -36,13 +51,26 @@
 
     <TextView
         android:layout_below="@id/perfil"
-        android:id="@+id/textView4"
+        android:id="@+id/fechaNacimiento"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Estudiante de la PUJ - Colombia - Ing. Sistemas" />
+        android:text="" />
+
+    <TextView
+        android:layout_below="@id/fechaNacimiento"
+        android:id="@+id/gustos"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/morado"
+        android:text="mis gustos" />
+
+
     <LinearLayout
-        android:layout_below="@id/textView4"
+        android:layout_below="@id/gustos"
         android:id="@+id/config"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,7 +88,6 @@
             android:layout_marginRight="5dp"
             android:text="Crear Evento"
             android:textColor="@color/blanco"
-            android:onClick="crearEvento"
             ></Button>
         <Button
             android:id="@+id/editarPerfil"
@@ -71,7 +98,7 @@
             android:layout_height="wrap_content"
             android:text="Editar Perfil "
             android:textColor="@color/blanco"
-            android:onClick="editarPerfil"></Button>
+            ></Button>
     </LinearLayout>
 
     <LinearLayout
@@ -104,8 +131,14 @@
             android:textColor="@color/blanco"
             ></Button>
     </LinearLayout>
-
-    <!--   Esperar para decidir como hacer la barra de navegacion -->
+    <ListView
+        android:id="@+id/listamiseventos"
+        android:layout_width="wrap_content"
+        android:layout_height="1000dp"
+        android:layout_below="@+id/misEventos"
+        android:layout_marginTop="20dp"
+        />
 
 
 </RelativeLayout>
+</ScrollView>

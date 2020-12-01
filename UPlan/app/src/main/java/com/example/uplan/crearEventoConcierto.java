@@ -43,6 +43,7 @@ import com.example.uplan.models.EventoFiesta;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -86,6 +87,11 @@ public class crearEventoConcierto extends AppCompatActivity {
     private SensorManager sensorManager;
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
+
+    ArrayList<String> listartistas;
+    ArrayList<String> listalinks;
+    private Uri filePath;
+
 
     private int dia, mes, ano;
 
@@ -255,19 +261,30 @@ public class crearEventoConcierto extends AppCompatActivity {
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void selecFecha(View v){
-        Calendar c = Calendar.getInstance();
+        final Calendar c = Calendar.getInstance();
         dia = c.get(Calendar.DAY_OF_MONTH);
         mes = c.get(Calendar.MONTH);
         ano = c.get(Calendar.YEAR);
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                 fechaConcierto.setText(dayOfMonth + "/" + (monthOfYear+1) + "/" + year);
             }
         }
-                , dia, mes, ano);
+                , ano, mes, dia);
         datePickerDialog.show();
     }
+
+
+
+    private void updateUI(FirebaseUser currentUser){
+        if(currentUser!=null){
+            Intent intent = new Intent(getBaseContext(), Navigation.class);
+            startActivity(intent);
+        }
+    }
+
     public void agregarA(View v){
         TextView art = new TextView(this);
         art.setTextColor(getResources().getColor(R.color.design_default_color_secondary));
@@ -369,6 +386,7 @@ public class crearEventoConcierto extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     this.imagen = data.getData();
                     Bundle extras = data.getExtras();
+                    filePath = data.getData();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     uploadImage.setImageBitmap(imageBitmap);
                 }
@@ -387,6 +405,8 @@ public class crearEventoConcierto extends AppCompatActivity {
     public void publicar() throws ParseException {
         if(verificar()){
             EventoConcierto evento = new EventoConcierto();
+            FirebaseUser user = mAuth.getCurrentUser();
+            evento.setUsuarioId(user.getUid());
             evento.setTipo("Concierto");
             evento.setDescripcion(editdescrip.getText().toString());
             evento.setNombreEv(editNomevento.getText().toString());

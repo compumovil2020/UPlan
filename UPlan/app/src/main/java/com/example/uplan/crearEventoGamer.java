@@ -43,6 +43,7 @@ import com.example.uplan.models.EventoGamer;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -246,7 +247,7 @@ public class crearEventoGamer extends AppCompatActivity {
                 fechaGamer.setText(dayOfMonth + "/" + (monthOfYear+1) + "/" + year);
             }
         }
-                , dia, mes, ano);
+                , ano, mes, dia);
         datePickerDialog.show();
     }
     public void agregarJ(View v){
@@ -361,6 +362,8 @@ public class crearEventoGamer extends AppCompatActivity {
     public void publicar() throws ParseException {
         if(verificar()){
             EventoGamer evento = new EventoGamer();
+            FirebaseUser user = mAuth.getCurrentUser();
+            evento.setUsuarioId(user.getUid());
             evento.setTipo("Gamer");
             evento.setDescripcion(editdescrip.getText().toString());
             evento.setNombreEv(editNomevento.getText().toString());

@@ -18,8 +18,12 @@ public class Usuario {
     private Double longitud;
     private List<String> gustos;
 
-    public Usuario(){
 
+    public Usuario(){
+    }
+
+    public String getId() {
+        return id;
     }
 
     public List<String> getGustos() {

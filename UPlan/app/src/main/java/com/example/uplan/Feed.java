@@ -18,9 +18,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.example.uplan.models.AsistirEvento;
 import com.example.uplan.models.Evento;
+import com.example.uplan.models.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,11 +50,15 @@ public class Feed extends Fragment {
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     public static final String PATH_EVENTS="eventos/";
+    public static final String PATH_ASISTIR="asistirEventos/";
 
     private final List<String> nombre = new ArrayList<>();
     private final List<String> descripcion = new ArrayList<>();
     private final List<String> imgid = new ArrayList<>();
     private final List<String> imgevento = new ArrayList<>();
+    private final List<String> pubid = new ArrayList<>();
+    private final List<Double> latitud = new ArrayList<>();
+    private final List<Double> longitud = new ArrayList<>();
 
     String[] Latitud ={
             "4.667032","4.645036",
@@ -112,9 +120,12 @@ public class Feed extends Fragment {
                 descripcion.clear();
                 imgid.clear();
                 imgevento.clear();
+                pubid.clear();
                 for(DataSnapshot single: dataSnapshot.getChildren())
                 {
                     Evento pub = single.getValue(Evento.class);
+                    Log.i("Pruebas",single.getKey());
+                    pubid.add(single.getKey());
                     nombre.add(pub.getNombrePerf());
                     descripcion.add(pub.getDescripcion());
                     imgid.add(pub.getImgperfil());
@@ -134,10 +145,18 @@ public class Feed extends Fragment {
                     public void onBtnClick(int position) {
                         //Aqui se define la funcion para lo de quien asiste
                         //En position tiene el index de las listas con la info de esta publicación
+                        asistirEvento(position);
                     }
                 };
 
-                adapter = new PublicacionAdapter(activity, nombre, descripcion, imgid, imgevento, listener, listener2);
+                BtnClickListener listener3 = new BtnClickListener() {
+                    @Override
+                    public void onBtnClick(int position) {
+                        abrirListaAsistentes(position);
+                    }
+                };
+
+                adapter = new PublicacionAdapter(activity, nombre, descripcion, imgid, imgevento, listener, listener2, listener3);
                 list.setAdapter(adapter);
             }
 
@@ -172,10 +191,70 @@ public class Feed extends Fragment {
         Intent intent = new Intent(this.getContext(), eventoMapa.class);
         Bundle bundle = new Bundle();
         bundle.putInt("codigo", 2);
-        bundle.putString("latitud", Latitud[position] );
-        bundle.putString("longitud", Longitud[position]);
+        bundle.putString("latitud", Double.toString(latitud.get(position)));
+        bundle.putString("longitud", Double.toString(longitud.get(position)));
         //bundle.putString("evento", descripcion[position]);
         intent.putExtra("bundle", bundle);
+        startActivity(intent);
+    }
+    public void asistirEvento(final int position){
+        final FirebaseUser user = mAuth.getCurrentUser();
+        myRef = database.getReference(PATH_ASISTIR);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean yaAsiste = true;
+                for(DataSnapshot single: snapshot.getChildren()) {
+                    AsistirEvento a = single.getValue(AsistirEvento.class);
+                    if (a.getIdUsuario().equals(user.getUid()) && a.getIdEvento().equals(pubid.get(position))) {
+                        single.getRef().removeValue();
+                        Toast.makeText(getContext(), "Ya no asistes a este evento", Toast.LENGTH_SHORT).show();
+                        yaAsiste = false;
+                    }
+                }
+                if(yaAsiste) {
+                    myRef = FirebaseDatabase.getInstance().getReference("usuarios/");
+                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot single: snapshot.getChildren()){
+                                Usuario u = single.getValue(Usuario.class);
+
+                                if(u.getId().equals(user.getUid())){
+                                    AsistirEvento a = new AsistirEvento();
+
+                                    a.setImgperfil(u.getImagen());
+                                    a.setIdUsuario(user.getUid());
+                                    a.setUsername(u.getUsername());
+                                    a.setIdEvento(pubid.get(position));
+
+                                    String key = myRef.push().getKey();
+                                    myRef = database.getReference(PATH_ASISTIR + key);
+                                    myRef.setValue(a);
+                                    Toast.makeText(getContext(),"Asistencia hecha!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+    public void abrirListaAsistentes(int position){
+        Intent intent =new Intent(getContext(), ListaAsistentes.class);
+        intent.putExtra("pubid", pubid.get(position));
         startActivity(intent);
     }
 }

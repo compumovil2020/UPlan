@@ -37,7 +37,7 @@ public class PublicacionAdapter extends ArrayAdapter<String> {
     private final List<String> imgperfil;
     private final List<String> imgevento;
 
-    private BtnClickListener mClickListener = null, mClickListener2 = null;
+    private BtnClickListener mClickListener = null, mClickListener2 = null, mClickListener3 = null;
 
     private StorageReference mStorageRef;
 
@@ -45,7 +45,7 @@ public class PublicacionAdapter extends ArrayAdapter<String> {
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
 
-    public PublicacionAdapter(Activity context, List<String> maintitle, List<String> subtitle, List<String> imgper, List<String> imgid, BtnClickListener listener, BtnClickListener listener2) {
+    public PublicacionAdapter(Activity context, List<String> maintitle, List<String> subtitle, List<String> imgper, List<String> imgid, BtnClickListener listener, BtnClickListener listener2, BtnClickListener listener3 ) {
         super(context, R.layout.publicacion, maintitle);
 
         this.context=context;
@@ -55,6 +55,7 @@ public class PublicacionAdapter extends ArrayAdapter<String> {
         this.imgperfil = imgper;
         this.mClickListener = listener;
         this.mClickListener2 = listener2;
+        this.mClickListener3 = listener3;
 
         this.mStorageRef = FirebaseStorage.getInstance().getReference();
 
@@ -124,6 +125,15 @@ public class PublicacionAdapter extends ArrayAdapter<String> {
             public void onClick(View v) {
                 if(mClickListener2 != null)
                     mClickListener2.onBtnClick((Integer) v.getTag());
+            }
+        });
+        Button listassit = view.findViewById(R.id.listassit);
+        listassit.setTag(position);
+        listassit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mClickListener3 != null)
+                    mClickListener3.onBtnClick((Integer) v.getTag());
             }
         });
 
