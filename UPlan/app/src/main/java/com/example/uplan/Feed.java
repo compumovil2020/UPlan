@@ -131,6 +131,8 @@ public class Feed extends Fragment {
                     //imgid.add(pub.getImgperfil())
                     imgevento.add(pub.getImgevento());
                     Log.i("Pruebas", pub.getNombrePerf());
+                    latitud.add(pub.getLatitud());
+                    longitud.add(pub.getLongitud());
                     //if() {
                         //codigos.add(single.getKey())
                     //}
