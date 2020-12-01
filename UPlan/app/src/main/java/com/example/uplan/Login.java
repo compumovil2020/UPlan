@@ -44,15 +44,25 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.Arrays;
 
 public class Login extends AppCompatActivity {
 
+    public static final String PATH_USERS="usuarios/";
+
     private static final int RC_SIGN_IN = 1;
     private static final String TAG = "AUTH_Google";
 
     private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
     private EditText email;
     private EditText password;
     private CallbackManager mCallbackManager;
@@ -75,7 +85,6 @@ public class Login extends AppCompatActivity {
 
         //FacebookSdk.sdkInitialize(getApplicationContext());
         FacebookSdk.fullyInitialize();
-        Log.d("Aquiiiiiiiiii", "key:" + FacebookSdk.getApplicationSignature(this));
 
         tittle = findViewById(R.id.tittle);
         usr=findViewById(R.id.usr);
@@ -87,6 +96,8 @@ public class Login extends AppCompatActivity {
         butlogin = findViewById(R.id.boton_login);
 
         mAuth = FirebaseAuth.getInstance();
+        database= FirebaseDatabase.getInstance();
+        myRef = database.getReference(PATH_USERS);
         TextView registro = (TextView) findViewById(R.id.link_registro);
         Button butlogin = (Button) findViewById(R.id.boton_login);
         google = findViewById(R.id.google);
@@ -167,6 +178,9 @@ public class Login extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
+        if (mAuth.getCurrentUser() != null){
+            estaRegistrado(mAuth.getCurrentUser().getUid());
+        }
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
@@ -276,6 +290,7 @@ public class Login extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            estaRegistrado(user.getUid());
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -343,5 +358,25 @@ public class Login extends AppCompatActivity {
                         // ...
                     }
                 });
+    }
+
+    public void estaRegistrado(final String uid){
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.hasChild(uid)){
+                    Intent intent = new Intent(getBaseContext(), RegisterDetails.class);
+                    startActivity(intent);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 }

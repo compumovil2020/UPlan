@@ -12,10 +12,19 @@ public class Evento {
     private Double longitud;
     private long fechaEv;
     private long fechaPub;
+    private boolean reportado;
     private String usuarioId;
 
     public Evento(){
 
+    }
+
+    public boolean isReportado() {
+        return reportado;
+    }
+
+    public void setReportado(boolean reportado) {
+        this.reportado = reportado;
     }
 
     public String getUsuarioId() {

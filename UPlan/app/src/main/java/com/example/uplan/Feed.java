@@ -32,7 +32,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Feed extends Fragment {
 
@@ -59,19 +61,6 @@ public class Feed extends Fragment {
     private final List<String> pubid = new ArrayList<>();
     private final List<Double> latitud = new ArrayList<>();
     private final List<Double> longitud = new ArrayList<>();
-
-    String[] Latitud ={
-            "4.667032","4.645036",
-            "4.674460","4.602899",
-            "4.670130",
-    };
-
-    String[] Longitud = {
-            "-74.053035","-74.063855",
-            "-74.056471","-74.060940",
-            "-74.054745",
-
-    };
 
 
     PublicacionAdapter adapter;
@@ -128,16 +117,11 @@ public class Feed extends Fragment {
                     pubid.add(single.getKey());
                     nombre.add(pub.getNombrePerf());
                     descripcion.add(pub.getDescripcion());
-                    //imgid.add(pub.getImgperfil())
+                    imgid.add(pub.getImgperfil());
                     imgevento.add(pub.getImgevento());
                     Log.i("Pruebas", pub.getNombrePerf());
                     latitud.add(pub.getLatitud());
                     longitud.add(pub.getLongitud());
-                    //if() {
-                        //codigos.add(single.getKey())
-                    //}
-
-
                 }
 
                 BtnClickListener listener = new BtnClickListener() {
@@ -150,8 +134,6 @@ public class Feed extends Fragment {
                 BtnClickListener listener2 = new BtnClickListener() {
                     @Override
                     public void onBtnClick(int position) {
-                        //Aqui se define la funcion para lo de quien asiste
-                        //En position tiene el index de las listas con la info de esta publicación
                         asistirEvento(position);
                     }
                 };
@@ -163,7 +145,14 @@ public class Feed extends Fragment {
                     }
                 };
 
-                adapter = new PublicacionAdapter(activity, nombre, descripcion, imgid, imgevento, listener, listener2, listener3);
+                BtnClickListener listener4 = new BtnClickListener() {
+                    @Override
+                    public void onBtnClick(int position) {
+                        report(position);
+                    }
+                };
+
+                adapter = new PublicacionAdapter(activity, nombre, descripcion, imgid, imgevento, listener, listener2, listener3, listener4);
                 list.setAdapter(adapter);
             }
 
@@ -200,9 +189,16 @@ public class Feed extends Fragment {
         bundle.putInt("codigo", 2);
         bundle.putString("latitud", Double.toString(latitud.get(position)));
         bundle.putString("longitud", Double.toString(longitud.get(position)));
-        //bundle.putString("evento", descripcion[position]);
+        bundle.putString("evento", descripcion.get(position));
         intent.putExtra("bundle", bundle);
         startActivity(intent);
+    }
+    public void report(int position){
+        myRef = database.getReference(PATH_EVENTS+pubid.get(position));
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("reportado", true);
+        myRef.updateChildren(updates);
+        Toast.makeText(getContext(),"Publicacion reportada!", Toast.LENGTH_SHORT).show();
     }
     public void asistirEvento(final int position){
         final FirebaseUser user = mAuth.getCurrentUser();

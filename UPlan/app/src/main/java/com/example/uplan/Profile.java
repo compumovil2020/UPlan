@@ -2,7 +2,6 @@ package com.example.uplan;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
@@ -45,10 +44,13 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Profile extends Fragment {
 
+    public static final String PATH_USERS="usuarios/";
 
     TextView usernameperfil, fechanacimiento, gustos;
     Button encuentros,feed,opciones,perfil, crEvento, edPerfil,post,myEvents;
@@ -85,6 +87,7 @@ public class Profile extends Fragment {
     @Override
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View profileView = inflater.inflate(R.layout.activity_profile, container, false);
 
         mAuth = FirebaseAuth.getInstance();
@@ -94,6 +97,7 @@ public class Profile extends Fragment {
         miseventos = profileView.findViewById(R.id.listamiseventos);
         imagenperfil = profileView.findViewById(R.id.imagenperfil);
         encuentros = profileView.findViewById(R.id.encuentrosU);
+
         feed = profileView.findViewById(R.id.feedU);
         opciones = profileView.findViewById(R.id.optionsU);
         perfil = profileView.findViewById(R.id.perfilU);
@@ -140,6 +144,7 @@ public class Profile extends Fragment {
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
             }
         };
+
         crEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -252,7 +257,14 @@ public class Profile extends Fragment {
                     }
                 };
 
-                adapter = new PublicacionAdapter(activity, nombre, descripcion, imgid, imgevento, listener, listener2, listener3);
+                BtnClickListener listener4 = new BtnClickListener() {
+                    @Override
+                    public void onBtnClick(int position) {
+                        report(position);
+                    }
+                };
+
+                adapter = new PublicacionAdapter(activity, nombre, descripcion, imgid, imgevento, listener, listener2, listener3,listener4);
                 miseventos.setAdapter(adapter);
             }
 
@@ -283,6 +295,12 @@ public class Profile extends Fragment {
         //bundle.putString("evento", descripcion[position]);
         intent.putExtra("bundle", bundle);
         startActivity(intent);
+    }
+    public void report(int position){
+        myRef = database.getReference(PATH_EVENTS+pubid.get(position));
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("reportado", true);
+        myRef.updateChildren(updates);
     }
     public void asistirEvento(final int position){
         final FirebaseUser user = mAuth.getCurrentUser();
