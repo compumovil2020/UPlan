@@ -44,7 +44,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Profile extends Fragment {
 
@@ -159,8 +161,6 @@ public class Profile extends Fragment {
             }
         });
 
-        getPerfil();
-
         return profileView;
 
     }
@@ -257,7 +257,14 @@ public class Profile extends Fragment {
                     }
                 };
 
-                adapter = new PublicacionAdapter(activity, nombre, descripcion, imgid, imgevento, listener, listener2, listener3);
+                BtnClickListener listener4 = new BtnClickListener() {
+                    @Override
+                    public void onBtnClick(int position) {
+                        report(position);
+                    }
+                };
+
+                adapter = new PublicacionAdapter(activity, nombre, descripcion, imgid, imgevento, listener, listener2, listener3,listener4);
                 miseventos.setAdapter(adapter);
             }
 
@@ -288,6 +295,12 @@ public class Profile extends Fragment {
         //bundle.putString("evento", descripcion[position]);
         intent.putExtra("bundle", bundle);
         startActivity(intent);
+    }
+    public void report(int position){
+        myRef = database.getReference(PATH_EVENTS+pubid.get(position));
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("reportado", true);
+        myRef.updateChildren(updates);
     }
     public void asistirEvento(final int position){
         final FirebaseUser user = mAuth.getCurrentUser();

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,7 +38,7 @@ public class PublicacionAdapter extends ArrayAdapter<String> {
     private final List<String> imgperfil;
     private final List<String> imgevento;
 
-    private BtnClickListener mClickListener = null, mClickListener2 = null, mClickListener3 = null;
+    private BtnClickListener mClickListener = null, mClickListener2 = null, mClickListener3 = null, mClickListener4 = null;
 
     private StorageReference mStorageRef;
 
@@ -45,7 +46,7 @@ public class PublicacionAdapter extends ArrayAdapter<String> {
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
 
-    public PublicacionAdapter(Activity context, List<String> maintitle, List<String> subtitle, List<String> imgper, List<String> imgid, BtnClickListener listener, BtnClickListener listener2, BtnClickListener listener3 ) {
+    public PublicacionAdapter(Activity context, List<String> maintitle, List<String> subtitle, List<String> imgper, List<String> imgid, BtnClickListener listener, BtnClickListener listener2, BtnClickListener listener3, BtnClickListener listener4 ) {
         super(context, R.layout.publicacion, maintitle);
 
         this.context=context;
@@ -56,6 +57,8 @@ public class PublicacionAdapter extends ArrayAdapter<String> {
         this.mClickListener = listener;
         this.mClickListener2 = listener2;
         this.mClickListener3 = listener3;
+        this.mClickListener4 = listener4;
+
 
         this.mStorageRef = FirebaseStorage.getInstance().getReference();
 
@@ -134,6 +137,15 @@ public class PublicacionAdapter extends ArrayAdapter<String> {
             public void onClick(View v) {
                 if(mClickListener3 != null)
                     mClickListener3.onBtnClick((Integer) v.getTag());
+            }
+        });
+        ImageButton report = view.findViewById(R.id.report);
+        report.setTag(position);
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mClickListener4 != null)
+                    mClickListener4.onBtnClick((Integer) v.getTag());
             }
         });
 
