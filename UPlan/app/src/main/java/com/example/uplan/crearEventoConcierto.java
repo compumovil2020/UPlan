@@ -12,6 +12,8 @@ import androidx.core.view.ViewCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -69,6 +71,8 @@ public class crearEventoConcierto extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int IMAGE_CAPTURE_ID = 3;
     private static final int MAP_PICKER_REQUEST = 4;
+
+    public static final String CHANNEL_ID = "MY_NOTIF_CHANNEL";
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
@@ -429,8 +433,8 @@ public class crearEventoConcierto extends AppCompatActivity {
             String key = myRef.push().getKey();
             myRef=database.getReference(PATH_EVENTS+key);
             myRef.setValue(evento);
-            Intent intentF = new Intent(this, FirebaseListenerJobSevice.class);
-            FirebaseListenerJobSevice.enqueueWork(this, intentF);
+            Intent intentF = new Intent(crearEventoConcierto.this, FirebaseListenerJobSevice.class);
+            FirebaseListenerJobSevice.enqueueWork(crearEventoConcierto.this, intentF);
 
             Intent intent = new Intent(crearEventoConcierto.this, Navigation.class);
             startActivity(intent);
@@ -524,5 +528,17 @@ public class crearEventoConcierto extends AppCompatActivity {
         }
         return valid;
 
+    }
+
+    private void createNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "channel";
+            String description = "channel description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
