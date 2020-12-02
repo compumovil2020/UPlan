@@ -34,7 +34,7 @@ public class FirebaseListenerJobSevice extends JobIntentService {
     Map<String, String> eventos;
     String email;
 
-    private static final int JOB_ID = 13;
+    private static final int JOB_ID = 12;
 
     public static void enqueueWork(Context context, Intent intent){
         enqueueWork(context, FirebaseListenerJobSevice.class, JOB_ID, intent);
@@ -42,12 +42,16 @@ public class FirebaseListenerJobSevice extends JobIntentService {
 
     @Override
     public void onCreate() {
+        Log.i("entro0", "entroooooooooooooooo");
         super.onCreate();
+        Log.i("entro1", "entroooooooooooooooo");
         firebaseDatabase = FirebaseDatabase.getInstance();
+        Log.i("entro2", "entroooooooooooooooo");
         mAuth = FirebaseAuth.getInstance();
+        Log.i("entro3", "entroooooooooooooooo");
         myRef = firebaseDatabase.getReference(PATH_USERS);
         eventos = new HashMap<>();
-        Log.i("entro", "entroooooooooooooooo");
+        Log.i("entro4", "entroooooooooooooooo");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -81,28 +85,28 @@ public class FirebaseListenerJobSevice extends JobIntentService {
                     cambios.add(u);
                 }
                 for(int i = 0; i < cambios.size(); i++){
-                    if(cambios.get(i).getNombreEv() != eventos.get(cambios.get(i).getNombreEv()) && cambios.get(i).getNombreEv() != eventos.get(cambios.get(i).getNombreEv())){
+                    if(cambios.get(i).getNombreEv() != eventos.get(cambios.get(i).getNombreEv()) && cambios.get(i).getUsuarioId() != eventos.get(cambios.get(i).getUsuarioId())){
                         if(cambios.get(i).getTipo()=="Gamer") {
                             System.out.println("Entro");
                             Log.i("user", cambios.get(i).getUsuarioId());
                             email = cambios.get(i).getNombreEv();
-                            buildAndShowNotificationG("Nuevo evento Gamer te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
+                            buildAndShowNotification("Nuevo evento Gamer te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
                         }else if(cambios.get(i).getTipo()=="Concierto"){
                             Log.i("user", cambios.get(i).getUsuarioId());
                             email = cambios.get(i).getNombreEv();
-                            buildAndShowNotificationC("Nuevo Concierto te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
+                            buildAndShowNotification("Nuevo Concierto te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
                         }else if(cambios.get(i).getTipo()=="Deportivo"){
                             Log.i("user", cambios.get(i).getUsuarioId());
                             email = cambios.get(i).getNombreEv();
-                            buildAndShowNotificationD("Nuevo evento Deportivo te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
+                            buildAndShowNotification("Nuevo evento Deportivo te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
                         }else if(cambios.get(i).getTipo()=="Fiesta"){
                             Log.i("user", cambios.get(i).getUsuarioId());
                             email = cambios.get(i).getNombreEv();
-                            buildAndShowNotificationF("Nueva Fiesta te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
+                            buildAndShowNotification("Nueva Fiesta te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
                         }else if(cambios.get(i).getTipo()=="Publico"){
                             Log.i("user", cambios.get(i).getUsuarioId());
                             email = cambios.get(i).getNombreEv();
-                            buildAndShowNotificationP("Nuevo evento Publico te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
+                            buildAndShowNotification("Nuevo evento Publico te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
                         }
                         eventos.put(cambios.get(i).getNombreEv(), cambios.get(i).getUsuarioId());
                     }
@@ -116,8 +120,8 @@ public class FirebaseListenerJobSevice extends JobIntentService {
             }
         });
     }
-    private void buildAndShowNotificationG(String title, String message){
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, crearEventoGamer.CHANNEL_ID);
+    private void buildAndShowNotification(String title, String message){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Navigation.CHANNEL_ID);
         mBuilder.setSmallIcon(R.drawable.logo2);
         mBuilder.setContentTitle(title);
         mBuilder.setContentText(message);
@@ -135,81 +139,6 @@ public class FirebaseListenerJobSevice extends JobIntentService {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(notificationId, mBuilder.build());
     }
-    private void buildAndShowNotificationC(String title, String message){
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, crearEventoConcierto.CHANNEL_ID);
-        mBuilder.setSmallIcon(R.drawable.logo2);
-        mBuilder.setContentTitle(title);
-        mBuilder.setContentText(message);
-        mBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        Log.i("user", "le mando este email: " + email);
-        Intent inten = new Intent(this, Feed.class);
-        inten.putExtra("email2", email);
-        inten.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, inten, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(pendingIntent);
-        mBuilder.setAutoCancel(true);
-
-        int notificationId = 001;
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(notificationId, mBuilder.build());
-    }
-    private void buildAndShowNotificationD(String title, String message){
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, crearEventoDeportivo.CHANNEL_ID);
-        mBuilder.setSmallIcon(R.drawable.logo2);
-        mBuilder.setContentTitle(title);
-        mBuilder.setContentText(message);
-        mBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        Log.i("user", "le mando este email: " + email);
-        Intent inten = new Intent(this, Feed.class);
-        inten.putExtra("email2", email);
-        inten.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, inten, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(pendingIntent);
-        mBuilder.setAutoCancel(true);
-
-        int notificationId = 001;
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(notificationId, mBuilder.build());
-    }
-    private void buildAndShowNotificationF(String title, String message){
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, crearEventoFiesta.CHANNEL_ID);
-        mBuilder.setSmallIcon(R.drawable.logo2);
-        mBuilder.setContentTitle(title);
-        mBuilder.setContentText(message);
-        mBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        Log.i("user", "le mando este email: " + email);
-        Intent inten = new Intent(this, Feed.class);
-        inten.putExtra("email2", email);
-        inten.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, inten, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(pendingIntent);
-        mBuilder.setAutoCancel(true);
-
-        int notificationId = 001;
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(notificationId, mBuilder.build());
-    }
-    private void buildAndShowNotificationP(String title, String message){
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, crearEventoPublico.CHANNEL_ID);
-        mBuilder.setSmallIcon(R.drawable.logo2);
-        mBuilder.setContentTitle(title);
-        mBuilder.setContentText(message);
-        mBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        Log.i("user", "le mando este email: " + email);
-        Intent inten = new Intent(this, Feed.class);
-        inten.putExtra("email2", email);
-        inten.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, inten, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(pendingIntent);
-        mBuilder.setAutoCancel(true);
-
-        int notificationId = 001;
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(notificationId, mBuilder.build());
-    }
 }
 

@@ -1,10 +1,14 @@
 package com.example.uplan;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -22,6 +26,7 @@ public class Navigation extends AppCompatActivity {
     private SensorManager sensorManager;
     private Sensor lightSensor;
     private SensorEventListener lightSensorListener;
+    public static final String CHANNEL_ID = "MY_NOTIF_CHANNEL";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +55,12 @@ public class Navigation extends AppCompatActivity {
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
             }
         };
+
+        createNotificationChannel();
+        Log.i("entro", "entroooooooooooooooo");
+        Intent intentF = new Intent(this, FirebaseListenerJobSevice.class);
+        Log.i("creo", "entroooooooooooooooo");
+        FirebaseListenerJobSevice.enqueueWork(this, intentF);
     }
     @Override
     protected void onResume() {
@@ -85,4 +96,15 @@ public class Navigation extends AppCompatActivity {
                     return true;
                 }
             };
+    private void createNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "channel";
+            String description = "channel description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 }

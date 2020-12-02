@@ -68,7 +68,6 @@ public class crearEventoFiesta extends AppCompatActivity {
     static final int IMAGE_CAPTURE_ID = 3;
     private static final int MAP_PICKER_REQUEST = 4;
 
-    public static final String CHANNEL_ID = "MY_NOTIF_CHANNEL";
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
@@ -94,7 +93,6 @@ public class crearEventoFiesta extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_evento_fiesta);
-        createNotificationChannel();
         fechaFiesta = findViewById(R.id.fechaFiesta);
         nomevento = findViewById(R.id.nomevento);
         final ColorStateList colorViejo = nomevento.getTextColors();
@@ -371,8 +369,6 @@ public class crearEventoFiesta extends AppCompatActivity {
             String key = myRef.push().getKey();
             myRef=database.getReference(PATH_EVENTS+key);
             myRef.setValue(evento);
-            Intent intentF = new Intent(this, FirebaseListenerJobSevice.class);
-            FirebaseListenerJobSevice.enqueueWork(this, intentF);
 
             Intent intent = new Intent(crearEventoFiesta.this, Navigation.class);
             startActivity(intent);
@@ -465,16 +461,5 @@ public class crearEventoFiesta extends AppCompatActivity {
 
     }
 
-    private void createNotificationChannel(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            CharSequence name = "channel";
-            String description = "channel description";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
 }
 

@@ -5,12 +5,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,7 +79,6 @@ public class Feed extends Fragment {
 
         list=(ListView)feedView.findViewById(R.id.list);
         layout=feedView.findViewById(R.id.layoutFeed);
-
         readFeed(this.getActivity());
         sensorManager = (SensorManager) this.getActivity().getSystemService(Context.SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
@@ -257,4 +259,6 @@ public class Feed extends Fragment {
         intent.putExtra("pubid", pubid.get(position));
         startActivity(intent);
     }
+
+
 }
