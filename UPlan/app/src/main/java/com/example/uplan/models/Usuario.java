@@ -27,6 +27,10 @@ public class Usuario {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public List<String> getGustos() {
         return gustos;
     }

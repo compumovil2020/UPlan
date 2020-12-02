@@ -211,32 +211,30 @@ public class Feed extends Fragment {
                     AsistirEvento a = single.getValue(AsistirEvento.class);
                     if (a.getIdUsuario().equals(user.getUid()) && a.getIdEvento().equals(pubid.get(position))) {
                         single.getRef().removeValue();
+                        Log.i("Perfil", a.getUsername());
                         Toast.makeText(getContext(), "Ya no asistes a este evento", Toast.LENGTH_SHORT).show();
                         yaAsiste = false;
                     }
                 }
                 if(yaAsiste) {
-                    myRef = FirebaseDatabase.getInstance().getReference("usuarios/");
+                    myRef = database.getReference("usuarios/" + mAuth.getCurrentUser().getUid());
                     myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for(DataSnapshot single: snapshot.getChildren()){
-                                Usuario u = single.getValue(Usuario.class);
+                            Usuario u = snapshot.getValue(Usuario.class);
+                            AsistirEvento a = new AsistirEvento();
 
-                                if(u.getId().equals(user.getUid())){
-                                    AsistirEvento a = new AsistirEvento();
+                            a.setImgperfil(u.getImagen());
+                            a.setIdUsuario(user.getUid());
+                            a.setUsername(u.getUsername());
+                            a.setIdEvento(pubid.get(position));
 
-                                    a.setImgperfil(u.getImagen());
-                                    a.setIdUsuario(user.getUid());
-                                    a.setUsername(u.getUsername());
-                                    a.setIdEvento(pubid.get(position));
+                            String key = myRef.push().getKey();
+                            myRef = database.getReference(PATH_ASISTIR + key);
+                            myRef.setValue(a);
+                            Log.i("Perfil", u.getUsername());
+                            Toast.makeText(getContext(),"Asistencia hecha!", Toast.LENGTH_SHORT).show();
 
-                                    String key = myRef.push().getKey();
-                                    myRef = database.getReference(PATH_ASISTIR + key);
-                                    myRef.setValue(a);
-                                    Toast.makeText(getContext(),"Asistencia hecha!", Toast.LENGTH_SHORT).show();
-                                }
-                            }
                         }
 
                         @Override
@@ -244,7 +242,6 @@ public class Feed extends Fragment {
 
                         }
                     });
-
 
                 }
             }

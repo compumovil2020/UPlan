@@ -227,6 +227,7 @@ public class RegisterDetails extends AppCompatActivity {
     public void register() throws ParseException {
 
         Usuario myUser = new Usuario();
+        myUser.setId(mAuth.getCurrentUser().getUid());
         myUser.setNombre(editNombre.getText().toString());
         myUser.setApellido(editApellido.getText().toString());
         myUser.setEmail(mAuth.getCurrentUser().getEmail());
@@ -260,7 +261,7 @@ public class RegisterDetails extends AppCompatActivity {
                 fechaNacimento.setText(dayOfMonth + "/" + (monthOfYear+1) + "/" + year);
             }
         }
-                , dia, mes, ano);
+                , ano, mes, dia);
         datePickerDialog.show();
     }
 

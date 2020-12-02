@@ -166,36 +166,33 @@ public class Profile extends Fragment {
     }
 
     public void readPerfil(final Activity activity){
-        myRef = database.getReference(PATH_USUARIOS);
+        myRef = database.getReference(PATH_USUARIOS + mAuth.getCurrentUser().getUid());
+
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                for(DataSnapshot single: snapshot.getChildren()){
-                    Usuario u = single.getValue(Usuario.class);
-                    if(u.getId().equals(user.getUid())){
-                        usernameperfil.setText(u.getUsername());
-                        Log.i("Perfil", usernameperfil.getText().toString());
-                        long fecha = u.getFechaNacimiento();
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTimeInMillis(fecha);
-                        int ano = calendar.get(Calendar.YEAR);
-                        int mes = calendar.get(Calendar.MONTH);
-                        int dia = calendar.get(Calendar.DAY_OF_MONTH);
-                        fechanacimiento.setText("Fecha Nacimiento: " + Integer.toString(dia) +"/"+ Integer.toString(mes) +"/"+ Integer.toString(ano));
-                        Log.i("Perfil", fechanacimiento.getText().toString());
-                        mStorageRef = FirebaseStorage.getInstance().getReference();
-                        StorageReference imgRef2 = mStorageRef.child(u.getImagen());
-                        imgRef2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                Glide.with(activity.getBaseContext())
-                                        .load(uri)
-                                        .into(imagenperfil);
-                            }
-                        });
+                Usuario u = snapshot.getValue(Usuario.class);
+
+                usernameperfil.setText(u.getUsername());
+                Log.i("Perfil", usernameperfil.getText().toString());
+                long fecha = u.getFechaNacimiento();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(fecha);
+                int ano = calendar.get(Calendar.YEAR);
+                int mes = calendar.get(Calendar.MONTH);
+                int dia = calendar.get(Calendar.DAY_OF_MONTH);
+                fechanacimiento.setText("Fecha Nacimiento: " + Integer.toString(dia) +"/"+ Integer.toString(mes) +"/"+ Integer.toString(ano));
+                Log.i("Perfil", fechanacimiento.getText().toString());
+                mStorageRef = FirebaseStorage.getInstance().getReference();
+                StorageReference imgRef2 = mStorageRef.child(u.getImagen());
+                imgRef2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(activity.getBaseContext())
+                                .load(uri)
+                                .into(imagenperfil);
                     }
-                }
+                });
             }
 
             @Override
@@ -223,7 +220,7 @@ public class Profile extends Fragment {
                         pubid.add(single.getKey());
                         nombre.add(pub.getNombrePerf());
                         descripcion.add(pub.getDescripcion());
-                        //imgid.add(pub.getImgperfil())
+                        imgid.add(pub.getImgperfil());
                         imgevento.add(pub.getImgevento());
                         longitud.add(pub.getLongitud());
                         latitud.add(pub.getLatitud());
