@@ -167,34 +167,30 @@ public class Profile extends Fragment {
 
     public void readPerfil(final Activity activity){
         myRef = database.getReference(PATH_USUARIOS + mAuth.getCurrentUser().getUid());
-
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Usuario u = snapshot.getValue(Usuario.class);
-
-                usernameperfil.setText(u.getUsername());
-                Log.i("Perfil", usernameperfil.getText().toString());
-                long fecha = u.getFechaNacimiento();
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(fecha);
-                int ano = calendar.get(Calendar.YEAR);
-                int mes = calendar.get(Calendar.MONTH);
-                int dia = calendar.get(Calendar.DAY_OF_MONTH);
-                fechanacimiento.setText("Fecha Nacimiento: " + Integer.toString(dia) +"/"+ Integer.toString(mes) +"/"+ Integer.toString(ano));
-                Log.i("Perfil", fechanacimiento.getText().toString());
-                mStorageRef = FirebaseStorage.getInstance().getReference();
-                StorageReference imgRef2 = mStorageRef.child(u.getImagen());
-                imgRef2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Glide.with(activity.getBaseContext())
-                                .load(uri)
-                                .into(imagenperfil);
-                    }
-                });
+                    Usuario u = snapshot.getValue(Usuario.class);
+                        usernameperfil.setText(u.getUsername());
+                        long fecha = u.getFechaNacimiento();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTimeInMillis(fecha);
+                        int ano = calendar.get(Calendar.YEAR);
+                        int mes = calendar.get(Calendar.MONTH);
+                        int dia = calendar.get(Calendar.DAY_OF_MONTH);
+                        fechanacimiento.setText("Fecha Nacimiento: " + Integer.toString(dia) +"/"+ Integer.toString(mes) +"/"+ Integer.toString(ano));
+                        Log.i("Perfil", fechanacimiento.getText().toString());
+                        mStorageRef = FirebaseStorage.getInstance().getReference();
+                        StorageReference imgRef2 = mStorageRef.child(u.getImagen());
+                        imgRef2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Glide.with(activity.getBaseContext())
+                                        .load(uri)
+                                        .into(imagenperfil);
+                            }
+                        });
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
