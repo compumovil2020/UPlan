@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -20,8 +21,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.uplan.models.AsistirEvento;
+import com.example.uplan.models.Evento;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EncuentrosActivity extends Fragment {
 
@@ -33,52 +47,40 @@ public class EncuentrosActivity extends Fragment {
     private SensorEventListener lightSensorListener;
     private PuntoEncuentro adapter;
 
-    String[] nombre ={
-            "El pre de la fiestaaa","Let's party",
-            "Lunada","Salida cristiana por los niños",
-            "Reunion uniJave",
-    };
+    private final List<String> events = new ArrayList<>();
 
-    String[] evento = {
-            "Theatron","Bruno","Guatavita","Club Militar","Universidad Javeriana",
-    };
+    private final List<String> nombre = new ArrayList<>();
+    private final List<String> descripcion = new ArrayList<>();
+    private final List<Long> fecha = new ArrayList<>();
+    private final List<String> img = new ArrayList<>();
+    private final List<Double> latitud = new ArrayList<>();
+    private final List<Double> longitud = new ArrayList<>();
 
-    String[] fecha ={
-            "25/03/2021","25/03/2021","25/03/2021","25/03/2021","25/03/2021","25/03/2021",
-    };
+    //FireBase Authentication
+    private FirebaseAuth mAuth;
 
-    Integer[] imgperfil={
-            R.drawable.person_1,R.drawable.person_2,
-            R.drawable.person_3,R.drawable.person_4,
-            R.drawable.person_5,
-    };
+    //FireBase Database
+    private FirebaseDatabase database;
+    private DatabaseReference myRef, myRef2;
+    public static final String PATH_EVENTS = "eventos/";
+    public static final String PATH_ASISTIR = "asistirEventos/";
 
-    LatLng[] position={
-            new LatLng(4.624335, -74.063644),
-            new LatLng(4.824335, -75.063644),
-            new LatLng(4.624335, -76.063644),
-            new LatLng(4.634335, -70.063644),
-            new LatLng(5.624335, -78.063644),
-    };
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View encuentrosView = inflater.inflate(R.layout.activity_encuentros, container, false);
-        layout=encuentrosView.findViewById(R.id.layoutEncuentros);
-        adapter = new PuntoEncuentro(this.getActivity(), nombre, evento, fecha,imgperfil,position);
-        list=(ListView)encuentrosView.findViewById(R.id.lista);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView adapterView, View view, int i, long l)
-            {
-                PuntoEncuentro punto = (PuntoEncuentro) adapterView.getItemAtPosition(i);
-                Intent intent = new Intent(getContext() , eventoMapa.class);
-                intent.putExtra("codigo", 2);
-                startActivity(intent);
-            }
-        });
+        layout = encuentrosView.findViewById(R.id.layoutEncuentros);
+
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference(PATH_EVENTS);
+
+        list = (ListView) encuentrosView.findViewById(R.id.lista);
+
+        readEvents(this.getActivity());
+
         sensorManager = (SensorManager) this.getActivity().getSystemService(Context.SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightSensorListener = new SensorEventListener() {
@@ -103,12 +105,86 @@ public class EncuentrosActivity extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        sensorManager.registerListener(lightSensorListener,lightSensor,SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(lightSensorListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
+
     @Override
     public void onPause() {
         super.onPause();
         sensorManager.unregisterListener(lightSensorListener);
+    }
+
+    public void readEvents(final Activity activity) {
+
+        final FirebaseUser user = mAuth.getCurrentUser();
+        myRef = database.getReference(PATH_ASISTIR);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot single : snapshot.getChildren()) {
+                    AsistirEvento a = single.getValue(AsistirEvento.class);
+                    if (a.getIdUsuario().equals(user.getUid())) {
+                        events.add(a.getIdEvento());
+                    }
+                }
+
+                createLists(activity);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    public void createLists(final Activity activity){
+
+        myRef = database.getReference(PATH_EVENTS);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot single : snapshot.getChildren()) {
+                    if (events.contains(single.getKey())){
+                        Evento ev = single.getValue(Evento.class);
+                        nombre.add(ev.getNombreEv());
+                        descripcion.add(ev.getDescripcion());
+                        fecha.add(ev.getFechaEv());
+                        img.add(ev.getImgevento());
+                        latitud.add(ev.getLatitud());
+                        longitud.add(ev.getLongitud());
+                    }
+                }
+
+                BtnClickListener listener = new BtnClickListener() {
+                    @Override
+                    public void onBtnClick(int position) {
+                        maps(position);
+                    }
+                };
+
+                adapter = new PuntoEncuentro(activity, nombre, descripcion,fecha, img, latitud,longitud,listener);
+                list.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    public void maps(int position){
+        Intent intent = new Intent(this.getContext(), eventoMapa.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("codigo", 2);
+        bundle.putString("latitud", Double.toString(latitud.get(position)));
+        bundle.putString("longitud", Double.toString(longitud.get(position)));
+        bundle.putString("evento", descripcion.get(position));
+        intent.putExtra("bundle", bundle);
+        startActivity(intent);
     }
 
 }

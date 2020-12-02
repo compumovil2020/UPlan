@@ -42,8 +42,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,6 +95,7 @@ public class Profile extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         database= FirebaseDatabase.getInstance();
         myRef = database.getReference(PATH_USUARIOS);
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         miseventos = profileView.findViewById(R.id.listamiseventos);
         imagenperfil = profileView.findViewById(R.id.imagenperfil);
@@ -171,25 +174,26 @@ public class Profile extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Usuario u = snapshot.getValue(Usuario.class);
-                        usernameperfil.setText(u.getUsername());
-                        long fecha = u.getFechaNacimiento();
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTimeInMillis(fecha);
-                        int ano = calendar.get(Calendar.YEAR);
-                        int mes = calendar.get(Calendar.MONTH);
-                        int dia = calendar.get(Calendar.DAY_OF_MONTH);
-                        fechanacimiento.setText("Fecha Nacimiento: " + Integer.toString(dia) +"/"+ Integer.toString(mes) +"/"+ Integer.toString(ano));
-                        Log.i("Perfil", fechanacimiento.getText().toString());
-                        mStorageRef = FirebaseStorage.getInstance().getReference();
-                        StorageReference imgRef2 = mStorageRef.child(u.getImagen());
-                        imgRef2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                Glide.with(activity.getBaseContext())
-                                        .load(uri)
-                                        .into(imagenperfil);
-                            }
-                        });
+                    String name = u.getNombre() + " " + u.getApellido();
+                    usernameperfil.setText(name);
+                    long fecha = u.getFechaNacimiento();
+                    Date date=new Date(fecha);
+                    SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy");
+                    fechanacimiento.setText("Fecha Nacimiento: " + formatDate.format(date));
+                    String gustosText = "Mis gustos: \n";
+                    for (String s : u.getGustos()){
+                        gustosText = gustosText + s + '\n';
+                    }
+                    gustos.setText(gustosText);
+                    StorageReference imgRef = mStorageRef.child(u.getImagen());
+                    imgRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Glide.with(activity.getBaseContext())
+                                    .load(uri)
+                                    .into(imagenperfil);
+                        }
+                    });
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
