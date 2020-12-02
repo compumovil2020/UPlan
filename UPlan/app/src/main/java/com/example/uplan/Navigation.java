@@ -37,6 +37,11 @@ public class Navigation extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new Feed()).commit();
         layout= findViewById(R.id.barraPrincipal);
+
+        createNotificationChannel();
+        Intent intentF = new Intent(this, FirebaseListenerJobSevice.class);
+        FirebaseListenerJobSevice.enqueueWork(this, intentF);
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         lightSensorListener = new SensorEventListener() {
@@ -56,11 +61,6 @@ public class Navigation extends AppCompatActivity {
             }
         };
 
-        createNotificationChannel();
-        Log.i("entro", "entroooooooooooooooo");
-        Intent intentF = new Intent(this, FirebaseListenerJobSevice.class);
-        Log.i("creo", "entroooooooooooooooo");
-        FirebaseListenerJobSevice.enqueueWork(this, intentF);
     }
     @Override
     protected void onResume() {
@@ -98,7 +98,7 @@ public class Navigation extends AppCompatActivity {
             };
     private void createNotificationChannel(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            CharSequence name = "channel";
+            CharSequence name = "MY_NOTIF_CHANNEL";
             String description = "channel description";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);

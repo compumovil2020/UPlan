@@ -42,16 +42,11 @@ public class FirebaseListenerJobSevice extends JobIntentService {
 
     @Override
     public void onCreate() {
-        Log.i("entro0", "entroooooooooooooooo");
         super.onCreate();
-        Log.i("entro1", "entroooooooooooooooo");
         firebaseDatabase = FirebaseDatabase.getInstance();
-        Log.i("entro2", "entroooooooooooooooo");
         mAuth = FirebaseAuth.getInstance();
-        Log.i("entro3", "entroooooooooooooooo");
         myRef = firebaseDatabase.getReference(PATH_USERS);
         eventos = new HashMap<>();
-        Log.i("entro4", "entroooooooooooooooo");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -86,24 +81,24 @@ public class FirebaseListenerJobSevice extends JobIntentService {
                 }
                 for(int i = 0; i < cambios.size(); i++){
                     if(cambios.get(i).getNombreEv() != eventos.get(cambios.get(i).getNombreEv()) && cambios.get(i).getUsuarioId() != eventos.get(cambios.get(i).getUsuarioId())){
-                        if(cambios.get(i).getTipo()=="Gamer") {
+                        if(cambios.get(i).getTipo().contentEquals("Gamer")) {
                             System.out.println("Entro");
                             Log.i("user", cambios.get(i).getUsuarioId());
                             email = cambios.get(i).getNombreEv();
                             buildAndShowNotification("Nuevo evento Gamer te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
-                        }else if(cambios.get(i).getTipo()=="Concierto"){
+                        }else if(cambios.get(i).getTipo().contentEquals("Concierto")){
                             Log.i("user", cambios.get(i).getUsuarioId());
                             email = cambios.get(i).getNombreEv();
                             buildAndShowNotification("Nuevo Concierto te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
-                        }else if(cambios.get(i).getTipo()=="Deportivo"){
+                        }else if(cambios.get(i).getTipo().contentEquals("Deportivo")){
                             Log.i("user", cambios.get(i).getUsuarioId());
                             email = cambios.get(i).getNombreEv();
                             buildAndShowNotification("Nuevo evento Deportivo te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
-                        }else if(cambios.get(i).getTipo()=="Fiesta"){
+                        }else if(cambios.get(i).getTipo().contentEquals("Fiesta")){
                             Log.i("user", cambios.get(i).getUsuarioId());
                             email = cambios.get(i).getNombreEv();
                             buildAndShowNotification("Nueva Fiesta te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
-                        }else if(cambios.get(i).getTipo()=="Publico"){
+                        }else if(cambios.get(i).getTipo().contentEquals("Publico")){
                             Log.i("user", cambios.get(i).getUsuarioId());
                             email = cambios.get(i).getNombreEv();
                             buildAndShowNotification("Nuevo evento Publico te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
