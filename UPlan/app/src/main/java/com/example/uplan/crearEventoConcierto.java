@@ -429,6 +429,8 @@ public class crearEventoConcierto extends AppCompatActivity {
             String key = myRef.push().getKey();
             myRef=database.getReference(PATH_EVENTS+key);
             myRef.setValue(evento);
+            Intent intentF = new Intent(this, FirebaseListenerJobSevice.class);
+            FirebaseListenerJobSevice.enqueueWork(this, intentF);
 
             Intent intent = new Intent(crearEventoConcierto.this, Navigation.class);
             startActivity(intent);
