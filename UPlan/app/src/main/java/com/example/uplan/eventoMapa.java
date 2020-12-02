@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -17,6 +18,7 @@ import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -24,9 +26,12 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.uplan.models.Clima;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -52,6 +57,14 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Objects;
 
 import java.io.IOException;
@@ -74,6 +87,8 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
     private LatLng eventPosition;
     private EditText searchBar;
     private Button accion;
+    private ImageView imgcli;
+    private TextView textcli;
     public static final double lowerLeftLatitude = 1.396967;
     public static final double lowerLeftLongitude= -78.903968;
     public static final double upperRightLatitude= 11.983639;
@@ -86,6 +101,8 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
         setContentView(R.layout.activity_evento_mapa);
         accion = findViewById(R.id.accionMap);
         searchBar = findViewById(R.id.addressText);
+        imgcli = findViewById(R.id.climai);
+        textcli = findViewById(R.id.climatext);
         mLocationRequest = createLocationRequest();
         mGeocoder = new Geocoder(getBaseContext());
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapa);
@@ -140,6 +157,29 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
+    public void clims(String latitud, String longitud){
+        String content;
+        Clima clima = new Clima();
+        try {
+            content = clima.execute("http://api.openweathermap.org/data/2.5/weather?lat="+latitud+"&lon="+longitud+"&appid=c7124b56cf164b745ecad9989b488dcb&units=metric").get();
+            JSONObject clim = new JSONObject(content);
+            String clim_a= clim.getString("weather");
+            JSONArray arreglo = new JSONArray(clim_a);
+            String icon = "";
+            for(int i = 0; i < arreglo.length(); i++){
+                JSONObject js = arreglo.getJSONObject(i);
+                icon = js.getString("icon");
+            }
+            Glide.with(this).load("http://openweathermap.org/img/wn/"+icon+"@2x.png").into(imgcli);
+            String datos = clim.getString("main");
+            JSONObject temp2 = new JSONObject(datos);
+            String texto = temp2.getString("temp")+"° C";
+            textcli.setText(texto);
+        } catch (Exception e) {
+
+        }
+    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -147,6 +187,8 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
         Bundle bundle = intent.getBundleExtra("bundle");
         int choice = bundle.getInt("codigo");
         code = choice;
+        clims(bundle.getString("latitud"),bundle.getString("longitud"));
+
         switch (choice){
             case 1:
                 //TODO: seleccionar una ubicacion para evento o punto de encuentro
@@ -403,8 +445,10 @@ public class eventoMapa extends FragmentActivity implements OnMapReadyCallback {
             public void onSensorChanged(SensorEvent event) {
                 if (mMap != null) {
                     if (event.values[0] < 4000) {
+                        textcli.setTextColor(Color.parseColor("#FFFFFF"));
                         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(eventoMapa.this,R.raw.night));
                     } else {
+                        textcli.setTextColor(Color.parseColor("#000000"));
                         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(eventoMapa.this, R.raw.day));
                     }
                 }

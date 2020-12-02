@@ -33,4 +33,28 @@
         android:layout_gravity="bottom"
         android:background="@drawable/bot_mapa"
         android:layout_margin="10dp" />
+
+    <LinearLayout
+        android:id="@+id/climalayout"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp">
+
+        <ImageView
+            android:id="@+id/climai"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:scaleType="fitCenter" />
+        <TextView
+            android:id="@+id/climatext"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="HOLA"
+            android:textSize="18dp"
+            android:textColor="@color/pielBlanca"
+            android:textAlignment="center"
+            android:gravity="top"
+            tools:ignore="RtlCompat" />
+    </LinearLayout>
 </FrameLayout>
