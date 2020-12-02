@@ -94,7 +94,7 @@ public class crearEventoFiesta extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_evento_fiesta);
-
+        createNotificationChannel();
         fechaFiesta = findViewById(R.id.fechaFiesta);
         nomevento = findViewById(R.id.nomevento);
         final ColorStateList colorViejo = nomevento.getTextColors();

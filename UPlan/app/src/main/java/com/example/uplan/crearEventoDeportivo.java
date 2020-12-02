@@ -102,7 +102,7 @@ public class crearEventoDeportivo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_evento_deportivo);
-
+        createNotificationChannel();
         fechaDeportivo = findViewById(R.id.fechaDeportivo);
         nomevento = findViewById(R.id.nomevento);
         final ColorStateList colorViejo = nomevento.getTextColors();

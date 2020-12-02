@@ -106,6 +106,7 @@ public class crearEventoConcierto extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_evento_concierto);
+        createNotificationChannel();
 
         fechaConcierto = findViewById(R.id.fechaConcierto);
         nomevento = findViewById(R.id.nomevento);

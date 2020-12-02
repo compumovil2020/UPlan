@@ -101,7 +101,7 @@ public class crearEventoGamer extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_evento_gamer);
-
+        createNotificationChannel();
         fechaGamer = findViewById(R.id.fechaGamer);
         nomevento = findViewById(R.id.nomevento);
         final ColorStateList colorViejo = nomevento.getTextColors();
@@ -389,6 +389,7 @@ public class crearEventoGamer extends AppCompatActivity {
             String key = myRef.push().getKey();
             myRef=database.getReference(PATH_EVENTS+key);
             myRef.setValue(evento);
+
             Intent intentF = new Intent(this, FirebaseListenerJobSevice.class);
             FirebaseListenerJobSevice.enqueueWork(this, intentF);
 

@@ -96,7 +96,7 @@ public class crearEventoPublico extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_evento_publico);
-
+        createNotificationChannel();
         fechaPublico = findViewById(R.id.fechaPublico);
         nomevento = findViewById(R.id.nomevento);
         final ColorStateList colorViejo = nomevento.getTextColors();
@@ -361,6 +361,7 @@ public class crearEventoPublico extends AppCompatActivity {
             String key = myRef.push().getKey();
             myRef=database.getReference(PATH_EVENTS+key);
             myRef.setValue(evento);
+
             Intent intentF = new Intent(this, FirebaseListenerJobSevice.class);
             FirebaseListenerJobSevice.enqueueWork(this, intentF);
 

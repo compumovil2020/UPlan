@@ -83,16 +83,25 @@ public class FirebaseListenerJobSevice extends JobIntentService {
                 for(int i = 0; i < cambios.size(); i++){
                     if(cambios.get(i).getNombreEv() != eventos.get(cambios.get(i).getNombreEv()) && cambios.get(i).getNombreEv() != eventos.get(cambios.get(i).getNombreEv())){
                         if(cambios.get(i).getTipo()=="Gamer") {
+                            System.out.println("Entro");
                             Log.i("user", cambios.get(i).getUsuarioId());
                             email = cambios.get(i).getNombreEv();
                             buildAndShowNotificationG("Nuevo evento Gamer te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
                         }else if(cambios.get(i).getTipo()=="Concierto"){
+                            Log.i("user", cambios.get(i).getUsuarioId());
+                            email = cambios.get(i).getNombreEv();
                             buildAndShowNotificationC("Nuevo Concierto te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
                         }else if(cambios.get(i).getTipo()=="Deportivo"){
+                            Log.i("user", cambios.get(i).getUsuarioId());
+                            email = cambios.get(i).getNombreEv();
                             buildAndShowNotificationD("Nuevo evento Deportivo te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
                         }else if(cambios.get(i).getTipo()=="Fiesta"){
+                            Log.i("user", cambios.get(i).getUsuarioId());
+                            email = cambios.get(i).getNombreEv();
                             buildAndShowNotificationF("Nueva Fiesta te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
                         }else if(cambios.get(i).getTipo()=="Publico"){
+                            Log.i("user", cambios.get(i).getUsuarioId());
+                            email = cambios.get(i).getNombreEv();
                             buildAndShowNotificationP("Nuevo evento Publico te espera", cambios.get(i).getNombreEv() + " esta disponible el " + cambios.get(i).getNombreEv());
                         }
                         eventos.put(cambios.get(i).getNombreEv(), cambios.get(i).getUsuarioId());
